@@ -1202,32 +1202,54 @@
     box-shadow: 0 0 8px rgba(245, 158, 59, 0.5);
   }
 
-  .sim-wrap-dual {
-    display: grid;
-    grid-template-columns: 1fr 220px;
-    gap: 48px;
-    align-items: stretch;
-    margin-top: 24px;
-  }
-
-  /* ---------- Insight 05: city skyline ---------- */
+  /* Insights 4 & 5 layout: top toolbar (horizontal) + a two-column row
+     below (chart on the left, side-rail controls on the right). */
+  .sim-wrap-dual,
   .sim-wrap-skyline {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 36px;
-    align-items: start;
-    margin-top: 24px;
-  }
-  @media (max-width: 880px) {
-    .sim-wrap-skyline { grid-template-columns: 1fr; gap: 24px; }
-  }
-  .skyline-controls {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    position: sticky;
-    top: 16px;
-    align-self: start;
+    gap: 22px;
+    margin-top: 24px;
+  }
+  .controls-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 14px 22px;
+    padding: 12px 14px;
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+  }
+  .sim-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 28px;
+    align-items: start;
+  }
+  /* Skyline base lines up with the bottom of the right rail. */
+  .sim-wrap-skyline .sim-row {
+    align-items: end;
+  }
+  @media (max-width: 880px) {
+    .sim-row { grid-template-columns: 1fr; gap: 20px; }
+  }
+  /* Side rail: column of grouped controls, clock at the top. */
+  .sim-wrap-dual .sim-row > .sim-controls,
+  .sim-wrap-skyline .sim-row > .skyline-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 14px;
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+  }
+  .clock-with-emoji {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
   }
   .skyline-note {
     font-family: 'IBM Plex Mono', monospace;
@@ -1235,22 +1257,45 @@
     color: #6f6f6f;
     margin-top: 4px;
   }
+  /* Slim, tall Insight-4 buildings: the building itself is capped at a
+     narrow width and centered; windows use 1fr so they stretch edge to
+     edge inside that narrower frame — fewer columns means taller stacks. */
+  .sim-wrap-dual .dual-buildings .year-building.wide {
+    grid-template-columns: repeat(10, 1fr);
+    grid-auto-rows: 18px;
+    gap: 2px 1px;
+    padding: 12px 8px 10px;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  /* Clock emoji that updates with the hour. */
+  .clock-emoji {
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
   /* Skyline row: the buildings sit on a shared baseline (the ground strip),
-     so the x-axis stays put while windows grow/shrink upward.
-     The row is pushed down so the ground line lines up with the
-     Play / Pause button in the controls column to its left. */
+     so the x-axis stays put while windows grow/shrink upward. The wrapping
+     .sim-row uses align-items:end so the ground line meets the bottom of
+     the right-side control rail. */
   .skyline-row {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 6px 6px;
     align-items: end;
-    margin-top: 180px;
+    position: relative;
+    z-index: 2;
+    overflow: visible;
   }
   @media (max-width: 1100px) {
     .skyline-row {
       grid-template-columns: repeat(6, minmax(0, 1fr));
       row-gap: 48px;
-      margin-top: 24px;       /* on narrow screens controls stack on top */
     }
   }
   @media (max-width: 600px) {
@@ -1265,10 +1310,12 @@
     flex-direction: column;
     align-items: center;
     min-width: 0;
-    height: 360px;             /* fixed total height — anchors the baseline */
+    height: 460px;             /* fixed total height — anchors the baseline */
     justify-content: flex-end;
     padding-bottom: 84px;      /* room for ground + rotated label */
     position: relative;
+    overflow: visible;
+    z-index: 2;
   }
   .sky-count {
     font-family: 'IBM Plex Mono', monospace;
@@ -1297,11 +1344,20 @@
     border-radius: 2px 2px 0 0;
     width: 100%;
     align-content: end;        /* stack from the bottom edge */
+    overflow: visible;         /* let tall buildings render fully */
+    position: relative;
+    z-index: 2;                /* sit in front of any neighboring elements */
   }
   .sky-building .window {
     border: 1px solid #1a1a1a;
     background: transparent;
     transition: background 0.35s ease;
+  }
+  .sky-building .window.selected {
+    outline: 2px solid #ffcc00;
+    outline-offset: 0.5px;
+    z-index: 1;
+    position: relative;
   }
   /* Ground strip and label are absolutely positioned so they NEVER move when
      the building above them gets taller or shorter. */
@@ -1350,6 +1406,50 @@
     text-transform: uppercase;
     color: #6f6f6f;
     margin-bottom: 12px;
+  }
+
+  /* Insight 4 specifics: bigger 2000 / 2024 labels, tighter spacing
+     between the two columns, and a fixed bottom baseline. The building
+     itself is absolutely-positioned to the bottom of the column so its
+     base never moves — only its height changes when "Show only days of
+     stress" filters the windows. */
+  .sim-wrap-dual .dual-buildings {
+    gap: 12px;
+    align-items: end;          /* the two cols share a bottom edge */
+  }
+  .sim-wrap-dual .building-col {
+    position: relative;
+    height: 780px;             /* reserves room for the tallest tower */
+  }
+  .sim-wrap-dual .building-label {
+    position: absolute;
+    bottom: 0;                 /* JS bumps this up to sit just above the tower */
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #161616;
+    margin: 0;
+    z-index: 1;
+    white-space: nowrap;
+    transition: bottom .25s ease;
+  }
+  .sim-wrap-dual .building-col > .year-building.wide {
+    position: absolute;
+    bottom: 40px;              /* room for the caption strip below */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .sim-wrap-dual .building-caption {
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin-top: 0 !important;
   }
 
   .dual-buildings {
@@ -2349,28 +2449,7 @@
       <p>The left facade is 2000, the right is 2024 &mdash; same hour of the day, every day of the year. Pick a city, toggle between actual air temperature (T2M) and felt temperature (UTCI), or filter by UTCI heat-stress band to see how each metric has shifted.</p>
 
       <div class="sim-wrap-dual">
-        <div class="dual-buildings">
-          <div class="building-col">
-            <div class="building-label">2000</div>
-            <div class="year-building wide" id="yearBuilding2000"></div>
-            <div class="building-caption" id="blrCount2000" style="margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #525252; min-height: 18px;"></div>
-          </div>
-          <div class="building-col">
-            <div class="building-label">2024</div>
-            <div class="year-building wide" id="yearBuilding2024"></div>
-            <div class="building-caption" id="blrCount2024" style="margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #525252; min-height: 18px;"></div>
-          </div>
-        </div>
-
-        <div class="sim-controls">
-          <div class="clock" id="blrClock">
-            <div class="clock-hand hour" id="blrHourHand"></div>
-            <div class="clock-hand minute" id="blrMinuteHand"></div>
-            <div class="clock-center"></div>
-          </div>
-          <div class="clock-digital" id="blrClockDigital">12:30<span class="ampm">AM</span></div>
-          <div class="data-source" id="blrDataSource"></div>
-
+        <div class="controls-top">
           <div class="control-group">
             <span class="control-label">City</span>
             <div class="toggle-row" data-group="blrCity">
@@ -2388,91 +2467,125 @@
               <button data-value="darjeeling">Darjeeling</button>
             </div>
           </div>
-
           <div class="control-group">
             <button class="playpause" id="blrSummerBtn">Summer months</button>
           </div>
+        </div>
 
-          <div class="control-group">
-            <span class="control-label">Variable</span>
-            <div class="toggle-row" data-group="blrVar">
-              <button class="active" data-value="t2m">Actual · T2M</button>
-              <button data-value="utci">Feels · UTCI</button>
+        <div class="sim-row">
+          <div class="dual-buildings">
+            <div class="building-col">
+              <div class="building-label">2000</div>
+              <div class="year-building wide" id="yearBuilding2000"></div>
+              <div class="building-caption" id="blrCount2000" style="margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #525252; min-height: 18px;"></div>
+            </div>
+            <div class="building-col">
+              <div class="building-label">2024</div>
+              <div class="year-building wide" id="yearBuilding2024"></div>
+              <div class="building-caption" id="blrCount2024" style="margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #525252; min-height: 18px;"></div>
             </div>
           </div>
 
-          <div class="control-group">
-            <button class="playpause" id="blrPlayPause">Pause</button>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">Speed</span>
-            <div class="toggle-row" data-group="blrSpeed">
-              <button data-value="slow">Slow</button>
-              <button class="active" data-value="medium">Medium</button>
-              <button data-value="fast">Fast</button>
+          <div class="sim-controls">
+            <div class="clock-with-emoji">
+              <div class="clock" id="blrClock">
+                <div class="clock-hand hour" id="blrHourHand"></div>
+                <div class="clock-hand minute" id="blrMinuteHand"></div>
+                <div class="clock-center"></div>
+                <div class="clock-emoji" id="blrClockEmoji" aria-hidden="true">🌙</div>
+              </div>
+              <div class="clock-digital" id="blrClockDigital">12:30<span class="ampm">AM</span></div>
+              <div class="data-source" id="blrDataSource"></div>
             </div>
-          </div>
 
-          <div class="control-group">
-            <span class="control-label">Heat-stress bands</span>
-            <div id="blrBandChecks" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #161616;">
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" data-band="tropical">
-                <span style="display: inline-block; width: 14px; height: 14px; background: #f1c21b; border: 1px solid #0a0a0a;"></span>
-                Tropical nights (25–32°)
-              </label>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" data-band="strong">
-                <span style="display: inline-block; width: 14px; height: 14px; background: #ff832b; border: 1px solid #0a0a0a;"></span>
-                Strong (32–38°)
-              </label>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" data-band="very">
-                <span style="display: inline-block; width: 14px; height: 14px; background: #da1e28; border: 1px solid #0a0a0a;"></span>
-                Very strong (38–46°)
-              </label>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" data-band="extreme">
-                <span style="display: inline-block; width: 14px; height: 14px; background: #750e13; border: 1px solid #0a0a0a;"></span>
-                Extreme (46°+)
+            <div class="control-group">
+              <span class="control-label">Variable</span>
+              <div class="toggle-row" data-group="blrVar">
+                <button class="active" data-value="t2m">Actual · T2M</button>
+                <button data-value="utci">Feels · UTCI</button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <button class="playpause" id="blrPlayPause">Pause</button>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">Speed</span>
+              <div class="toggle-row" data-group="blrSpeed">
+                <button data-value="slow">Slow</button>
+                <button class="active" data-value="medium">Medium</button>
+                <button data-value="fast">Fast</button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">Heat-stress bands</span>
+              <div id="blrBandChecks" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #161616;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" data-band="tropical" checked>
+                  <span style="display: inline-block; width: 14px; height: 14px; background: #f1c21b; border: 1px solid #0a0a0a;"></span>
+                  Tropical nights (25–32°)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" data-band="strong" checked>
+                  <span style="display: inline-block; width: 14px; height: 14px; background: #ff832b; border: 1px solid #0a0a0a;"></span>
+                  Strong (32–38°)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" data-band="very" checked>
+                  <span style="display: inline-block; width: 14px; height: 14px; background: #da1e28; border: 1px solid #0a0a0a;"></span>
+                  Very strong (38–46°)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" data-band="extreme" checked>
+                  <span style="display: inline-block; width: 14px; height: 14px; background: #750e13; border: 1px solid #0a0a0a;"></span>
+                  Extreme (46°+)
+                </label>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; color: #161616;">
+                <input type="checkbox" id="blrStressOnly">
+                Show only days of stress
               </label>
             </div>
-          </div>
 
-          <div class="control-group">
-            <span class="control-label">Color mode</span>
-            <div class="toggle-row" data-group="blrColorMode">
-              <button class="active" data-value="single">Single</button>
-              <button data-value="scale">Scale</button>
+            <div class="control-group">
+              <span class="control-label">Color mode</span>
+              <div class="toggle-row" data-group="blrColorMode">
+                <button class="active" data-value="single">Single</button>
+                <button data-value="scale">Scale</button>
+              </div>
             </div>
-          </div>
 
-          <div class="inspect-card" id="blrInspectCard">
-            <div class="control-label" style="margin-bottom: 6px;">Selected day</div>
-            <div class="inspect-empty">Click a window to inspect.</div>
-            <div class="inspect-content" style="display: none;">
-              <div class="inspect-date" id="blrInspectDate"></div>
-              <div class="inspect-hour" id="blrInspectHour"></div>
-              <div class="inspect-row">
-                <span class="inspect-label">Feels · 2000</span>
-                <span class="inspect-val utci" id="blrInspectUTCI2000">—</span>
-              </div>
-              <div class="inspect-row">
-                <span class="inspect-label">Feels · 2024</span>
-                <span class="inspect-val utci" id="blrInspectUTCI2024">—</span>
-              </div>
-              <div class="inspect-row">
-                <span class="inspect-label">Δ Feels</span>
-                <span class="inspect-val" id="blrInspectUTCIDelta">—</span>
-              </div>
-              <div class="inspect-row">
-                <span class="inspect-label">Actual · 2000</span>
-                <span class="inspect-val t2m" id="blrInspectT2M2000">—</span>
-              </div>
-              <div class="inspect-row">
-                <span class="inspect-label">Actual · 2024</span>
-                <span class="inspect-val t2m" id="blrInspectT2M2024">—</span>
+            <div class="inspect-card" id="blrInspectCard">
+              <div class="control-label" style="margin-bottom: 6px;">Selected day</div>
+              <div class="inspect-empty">Click a window to inspect.</div>
+              <div class="inspect-content" style="display: none;">
+                <div class="inspect-date" id="blrInspectDate"></div>
+                <div class="inspect-hour" id="blrInspectHour"></div>
+                <div class="inspect-row">
+                  <span class="inspect-label">Feels · 2000</span>
+                  <span class="inspect-val utci" id="blrInspectUTCI2000">—</span>
+                </div>
+                <div class="inspect-row">
+                  <span class="inspect-label">Feels · 2024</span>
+                  <span class="inspect-val utci" id="blrInspectUTCI2024">—</span>
+                </div>
+                <div class="inspect-row">
+                  <span class="inspect-label">Δ Feels</span>
+                  <span class="inspect-val" id="blrInspectUTCIDelta">—</span>
+                </div>
+                <div class="inspect-row">
+                  <span class="inspect-label">Actual · 2000</span>
+                  <span class="inspect-val t2m" id="blrInspectT2M2000">—</span>
+                </div>
+                <div class="inspect-row">
+                  <span class="inspect-label">Actual · 2024</span>
+                  <span class="inspect-val t2m" id="blrInspectT2M2024">—</span>
+                </div>
               </div>
             </div>
           </div>
@@ -2486,73 +2599,99 @@
       <p>Twelve cities side by side. Each building is one city; each window is one day in 2024. As the clock ticks through the day, every window updates to show whether the temperature for <em>that hour</em> of <em>that day</em> fell into one of the heat-stress bands you've selected. Only days that match the current selection are shown &mdash; the number above each building is the count for that hour.</p>
 
       <div class="sim-wrap-skyline">
-        <div class="skyline-controls">
-          <div class="clock" id="skyClock">
-            <div class="clock-hand hour" id="skyHourHand"></div>
-            <div class="clock-hand minute" id="skyMinuteHand"></div>
-            <div class="clock-center"></div>
-          </div>
-          <div class="clock-digital" id="skyClockDigital">12:30<span class="ampm">AM</span></div>
+        <div class="sim-row">
+          <div class="skyline-row" id="skylineRow"></div>
 
-          <div class="control-group">
-            <span class="control-label">Variable</span>
-            <div class="toggle-row" data-sky-group="variable">
-              <button class="active" data-value="t2m">Actual &middot; T2M</button>
-              <button data-value="utci">Feels &middot; UTCI</button>
+          <div class="skyline-controls">
+            <div class="clock-with-emoji">
+              <div class="clock" id="skyClock">
+                <div class="clock-hand hour" id="skyHourHand"></div>
+                <div class="clock-hand minute" id="skyMinuteHand"></div>
+                <div class="clock-center"></div>
+                <div class="clock-emoji" id="skyClockEmoji" aria-hidden="true">🌙</div>
+              </div>
+              <div class="clock-digital" id="skyClockDigital">12:30<span class="ampm">AM</span></div>
             </div>
-          </div>
 
-          <div class="control-group">
-            <span class="control-label">Heat-stress bands</span>
-            <div id="skyBandChecks" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #161616;">
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" data-sky-band="tropical" checked>
-                <span style="display: inline-block; width: 14px; height: 14px; background: #f1c21b; border: 1px solid #0a0a0a;"></span>
-                Tropical nights (25&ndash;32&deg;)
-              </label>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" data-sky-band="strong" checked>
-                <span style="display: inline-block; width: 14px; height: 14px; background: #ff832b; border: 1px solid #0a0a0a;"></span>
-                Strong (32&ndash;38&deg;)
-              </label>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" data-sky-band="very" checked>
-                <span style="display: inline-block; width: 14px; height: 14px; background: #da1e28; border: 1px solid #0a0a0a;"></span>
-                Very strong (38&ndash;46&deg;)
-              </label>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" data-sky-band="extreme" checked>
-                <span style="display: inline-block; width: 14px; height: 14px; background: #750e13; border: 1px solid #0a0a0a;"></span>
-                Extreme (46&deg;+)
-              </label>
+            <div class="control-group">
+              <span class="control-label">Variable</span>
+              <div class="toggle-row" data-sky-group="variable">
+                <button class="active" data-value="t2m">Actual &middot; T2M</button>
+                <button data-value="utci">Feels &middot; UTCI</button>
+              </div>
             </div>
-          </div>
 
-          <div class="control-group">
-            <span class="control-label">Color mode</span>
-            <div class="toggle-row" data-sky-group="colorMode">
-              <button class="active" data-value="single">Absolute</button>
-              <button data-value="scale">Scale</button>
+            <div class="control-group">
+              <span class="control-label">Heat-stress bands</span>
+              <div id="skyBandChecks" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #161616;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" data-sky-band="tropical" checked>
+                  <span style="display: inline-block; width: 14px; height: 14px; background: #f1c21b; border: 1px solid #0a0a0a;"></span>
+                  Tropical nights (25&ndash;32&deg;)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" data-sky-band="strong" checked>
+                  <span style="display: inline-block; width: 14px; height: 14px; background: #ff832b; border: 1px solid #0a0a0a;"></span>
+                  Strong (32&ndash;38&deg;)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" data-sky-band="very" checked>
+                  <span style="display: inline-block; width: 14px; height: 14px; background: #da1e28; border: 1px solid #0a0a0a;"></span>
+                  Very strong (38&ndash;46&deg;)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" data-sky-band="extreme" checked>
+                  <span style="display: inline-block; width: 14px; height: 14px; background: #750e13; border: 1px solid #0a0a0a;"></span>
+                  Extreme (46&deg;+)
+                </label>
+              </div>
             </div>
-          </div>
 
-          <div class="control-group">
-            <button class="playpause" id="skyPlayPause">Pause</button>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">Speed</span>
-            <div class="toggle-row" data-sky-group="speed">
-              <button data-value="slow">Slow</button>
-              <button class="active" data-value="medium">Medium</button>
-              <button data-value="fast">Fast</button>
+            <div class="control-group">
+              <span class="control-label">Color mode</span>
+              <div class="toggle-row" data-sky-group="colorMode">
+                <button class="active" data-value="single">Absolute</button>
+                <button data-value="scale">Scale</button>
+              </div>
             </div>
-          </div>
 
-          <div class="skyline-note" id="skyDataNote"></div>
+            <div class="control-group">
+              <button class="playpause" id="skyPlayPause">Pause</button>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">Speed</span>
+              <div class="toggle-row" data-sky-group="speed">
+                <button data-value="slow">Slow</button>
+                <button class="active" data-value="medium">Medium</button>
+                <button data-value="fast">Fast</button>
+              </div>
+            </div>
+
+            <div class="inspect-card" id="skyInspectCard">
+              <div class="control-label" style="margin-bottom: 6px;">Selected day</div>
+              <div class="inspect-empty">Click a window to inspect.</div>
+              <div class="inspect-content" style="display: none;">
+                <div class="inspect-date" id="skyInspectDate"></div>
+                <div class="inspect-hour" id="skyInspectHour"></div>
+                <div class="inspect-row">
+                  <span class="inspect-label">Actual · T2M</span>
+                  <span class="inspect-val t2m" id="skyInspectT2M">—</span>
+                </div>
+                <div class="inspect-row">
+                  <span class="inspect-label">Feels · UTCI</span>
+                  <span class="inspect-val utci" id="skyInspectUTCI">—</span>
+                </div>
+                <div class="inspect-row">
+                  <span class="inspect-label">Gap</span>
+                  <span class="inspect-val" id="skyInspectGap">—</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="skyline-note" id="skyDataNote"></div>
+          </div>
         </div>
-
-        <div class="skyline-row" id="skylineRow"></div>
       </div>
     </section>
 
@@ -4057,11 +4196,12 @@
     // windows. Default is 1..365 (all year); flips to Apr–Sep (DOY 91..273) when
     // the Summer toggle is on. (Using 365-day calendar; 2024 leap day is implicit.)
     let summerMode = false;
+    let stressOnly = false;
     let activeDoys = [];
     const windows2000 = [];
     const windows2024 = [];
 
-    function computeActiveDoys() {
+    function computeBaseDoys() {
       if (!summerMode) {
         const arr = [];
         for (let d = 1; d <= DAYS; d++) arr.push(d);
@@ -4073,6 +4213,14 @@
       return arr;
     }
 
+    // Base DOY list (Summer toggle aware). The actual rendered windows are
+    // computed inside rebuildBuildings(), where stress-only filtering is
+    // applied independently per year (so 2000 and 2024 can show different
+    // numbers of windows / different days).
+    function computeActiveDoys() {
+      return computeBaseDoys();
+    }
+
     function rebuildBuildings() {
       activeDoys = computeActiveDoys();
       [b2000, b2024].forEach(b => { b.innerHTML = ''; });
@@ -4080,33 +4228,64 @@
       windows2024.length = 0;
       const frag2000 = document.createDocumentFragment();
       const frag2024 = document.createDocumentFragment();
-      activeDoys.forEach((doy, i) => {
-        const a = document.createElement('div');
-        a.className = 'window';
-        a.addEventListener('click', () => selectDay(doy));
-        frag2000.appendChild(a);
-        windows2000.push(a);
-        const b = document.createElement('div');
-        b.className = 'window';
-        b.addEventListener('click', () => selectDay(doy));
-        frag2024.appendChild(b);
-        windows2024.push(b);
+      const isNight = isNightHour(currentHour);
+      // In stress-only mode, only include days that match a selected band
+      // *for that particular year*. Each year is filtered independently —
+      // 2000's tower and 2024's tower may have different days and different
+      // heights as a result.
+      activeDoys.forEach(doy => {
+        let include00 = true, include24 = true;
+        if (stressOnly && loaded()) {
+          const v00 = valueAt(2000, doy, currentHour, variable);
+          const v24 = valueAt(2024, doy, currentHour, variable);
+          include00 = matchBand(v00, isNight) != null;
+          include24 = matchBand(v24, isNight) != null;
+        }
+        if (include00) {
+          const a = document.createElement('div');
+          a.className = 'window';
+          a.dataset.doy = String(doy);
+          a.addEventListener('click', () => selectDay(doy));
+          frag2000.appendChild(a);
+          windows2000.push(a);
+        }
+        if (include24) {
+          const b = document.createElement('div');
+          b.className = 'window';
+          b.dataset.doy = String(doy);
+          b.addEventListener('click', () => selectDay(doy));
+          frag2024.appendChild(b);
+          windows2024.push(b);
+        }
       });
       b2000.appendChild(frag2000);
       b2024.appendChild(frag2024);
-      // Reapply selection highlight if any
+      // Reapply selection highlight if any (look up by data-doy)
       if (selectedDoy != null) {
-        const idx = activeDoys.indexOf(selectedDoy);
-        if (idx >= 0) {
-          windows2000[idx].classList.add('selected');
-          windows2024[idx].classList.add('selected');
-        } else {
-          // Selected day no longer visible — clear inspect
+        const sel = String(selectedDoy);
+        let found = false;
+        windows2000.forEach(w => { if (w.dataset.doy === sel) { w.classList.add('selected'); found = true; } });
+        windows2024.forEach(w => { if (w.dataset.doy === sel) { w.classList.add('selected'); found = true; } });
+        if (!found) {
           selectedDoy = null;
           inspectEmpty.style.display = 'block';
           inspectContent.style.display = 'none';
         }
       }
+      // Slide each "2000" / "2024" label to sit just above its tower so the
+      // label tracks the top of the building (which changes with the filter).
+      requestAnimationFrame(() => {
+        [b2000, b2024].forEach(b => {
+          const col = b.parentElement;
+          if (!col) return;
+          const lbl = col.querySelector('.building-label');
+          if (!lbl) return;
+          const h = b.offsetHeight;
+          // building bottom = 40px (caption space). Label bottom = 40 + h + 8.
+          lbl.style.bottom = (40 + h + 8) + 'px';
+          lbl.style.top = 'auto';
+        });
+      });
     }
 
     const SPEEDS = { slow: 3500, medium: 1800, fast: 800 };
@@ -4119,7 +4298,7 @@
     // Multi-select band checkboxes. Each band is non-overlapping; a window can
     // match at most one band, but tropical+stress can be on at the same time and
     // each window picks whichever band its current-hour value falls into.
-    const bandsOn = { tropical: false, strong: false, very: false, extreme: false };
+    const bandsOn = { tropical: true, strong: true, very: true, extreme: true };
     let colorMode = 'single'; // 'single' or 'scale'
 
     // Inspect card refs
@@ -4239,17 +4418,25 @@
 
     function render(hour) {
       if (!loaded()) { updateCounts(0, 0); return; }
+      // In stress-only mode the set of visible days changes every hour, so we
+      // re-mount windows here. Cheap relative to the tick interval.
+      if (stressOnly) rebuildBuildings();
       if (anyBandOn()) { renderBands(); return; }
       const color = window.__tempColor;
       if (!color) return;
-      activeDoys.forEach((doy, i) => {
-        const v00 = valueAt(2000, doy, hour, variable);
-        const v24 = valueAt(2024, doy, hour, variable);
-        windows2000[i].style.background = (v00 == null) ? NIGHT_EMPTY : color(v00);
-        windows2024[i].style.background = (v24 == null) ? NIGHT_EMPTY : color(v24);
+      windows2000.forEach(w => {
+        const doy = +w.dataset.doy;
+        const v = valueAt(2000, doy, hour, variable);
+        w.style.background = (v == null) ? NIGHT_EMPTY : color(v);
       });
-      // Neutral count for plain hourly view
-      updateCounts(activeDoys.length, activeDoys.length, `${activeDoys.length} days shown`);
+      windows2024.forEach(w => {
+        const doy = +w.dataset.doy;
+        const v = valueAt(2024, doy, hour, variable);
+        w.style.background = (v == null) ? NIGHT_EMPTY : color(v);
+      });
+      // Neutral count for plain hourly view — use whichever building has more
+      const shown = Math.max(windows2000.length, windows2024.length);
+      updateCounts(shown, shown, `${shown} days shown`);
     }
 
     // Multi-band render. For each window, look up the band its current-hour
@@ -4260,15 +4447,19 @@
       const counts00 = {}; const counts24 = {};
       BAND_ORDER.forEach(k => { counts00[k] = 0; counts24[k] = 0; });
 
-      activeDoys.forEach((doy, i) => {
-        const v00 = valueAt(2000, doy, currentHour, variable);
-        const v24 = valueAt(2024, doy, currentHour, variable);
-        const k00 = matchBand(v00, isNight);
-        const k24 = matchBand(v24, isNight);
-        windows2000[i].style.background = k00 ? bandColor(k00, v00) : NIGHT_EMPTY;
-        windows2024[i].style.background = k24 ? bandColor(k24, v24) : NIGHT_EMPTY;
-        if (k00) counts00[k00]++;
-        if (k24) counts24[k24]++;
+      windows2000.forEach(w => {
+        const doy = +w.dataset.doy;
+        const v = valueAt(2000, doy, currentHour, variable);
+        const k = matchBand(v, isNight);
+        w.style.background = k ? bandColor(k, v) : NIGHT_EMPTY;
+        if (k) counts00[k]++;
+      });
+      windows2024.forEach(w => {
+        const doy = +w.dataset.doy;
+        const v = valueAt(2024, doy, currentHour, variable);
+        const k = matchBand(v, isNight);
+        w.style.background = k ? bandColor(k, v) : NIGHT_EMPTY;
+        if (k) counts24[k]++;
       });
 
       // Caption: one line per active band
@@ -4282,12 +4473,28 @@
       updateMultiCounts(parts00, parts24);
     }
 
+    const emojiEl = document.getElementById('blrClockEmoji');
+    function clockEmojiFor(h) {
+      // Hour h means h:30 IST (windows tick on the half-hour).
+      // 6:30–8:30 → sun rising; 8:30–11:30 → sun;
+      // 11:30–14:30 (12 noon to 3 PM) → peak sun;
+      // 14:30–17:30 → sun; 17:30–19:30 → sunset;
+      // 19:30–23:30 → moon; 23:30–6:30 → midnight stars.
+      if (h >= 6 && h < 8)   return '🌅';
+      if (h >= 8 && h < 11)  return '☀️';
+      if (h >= 11 && h < 14) return '🌞';
+      if (h >= 14 && h < 17) return '☀️';
+      if (h >= 17 && h < 19) return '🌇';
+      if (h >= 19 && h < 23) return '🌙';
+      return '✨';
+    }
     function setClockHour(h) {
       hourHand.style.transform = `rotate(${((h + 0.5) / 12) * 360}deg)`;
       minuteHand.style.transform = `rotate(180deg)`;
       const ampm = h < 12 ? 'AM' : 'PM';
       const h12 = ((h + 11) % 12) + 1;
       digital.innerHTML = `${String(h12).padStart(2, '0')}:30<span class="ampm">${ampm}</span>`;
+      if (emojiEl) emojiEl.textContent = clockEmojiFor(h);
     }
 
     function tickStep() {
@@ -4338,9 +4545,9 @@
 
     function selectDay(doy) {
       selectedDoy = doy;
-      const idx = activeDoys.indexOf(doy);
+      const sel = String(doy);
       [windows2000, windows2024].forEach(arr => {
-        arr.forEach((w, i) => w.classList.toggle('selected', i === idx));
+        arr.forEach(w => w.classList.toggle('selected', w.dataset.doy === sel));
       });
       inspectEmpty.style.display = 'none';
       inspectContent.style.display = 'block';
@@ -4421,6 +4628,15 @@
       rebuildBuildings();
       render(currentHour);
     });
+
+    const stressOnlyCb = document.getElementById('blrStressOnly');
+    if (stressOnlyCb) {
+      stressOnlyCb.addEventListener('change', () => {
+        stressOnly = stressOnlyCb.checked;
+        rebuildBuildings();
+        render(currentHour);
+      });
+    }
 
     // Band checkboxes (multi-select, independent)
     document.querySelectorAll('#blrBandChecks input[type="checkbox"]').forEach(cb => {
@@ -6244,9 +6460,59 @@
       colorMode: 'single',
       hour: 14,    // 2:30 PM IST start — usually a hot hour to make the skyline interesting
       playing: true,
-      speed: 'medium'
+      speed: 'medium',
+      selected: null    // { city, doy } when a window is clicked
     };
     const SPEEDS = { slow: 3500, medium: 1800, fast: 800 };
+
+    // ----- Inspect card refs -----
+    const inspectCard      = document.getElementById('skyInspectCard');
+    const inspectEmpty     = inspectCard ? inspectCard.querySelector('.inspect-empty') : null;
+    const inspectContent   = inspectCard ? inspectCard.querySelector('.inspect-content') : null;
+    const inspectDateEl    = document.getElementById('skyInspectDate');
+    const inspectHourEl    = document.getElementById('skyInspectHour');
+    const inspectT2MEl     = document.getElementById('skyInspectT2M');
+    const inspectUTCIEl    = document.getElementById('skyInspectUTCI');
+    const inspectGapEl     = document.getElementById('skyInspectGap');
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function doyToDate(doy) {
+      // 2024 leap year
+      const d = new Date(2024, 0, doy);
+      return `${d.getDate()} ${MONTHS[d.getMonth()]} 2024`;
+    }
+    function fmtHour(h) {
+      const ampm = h < 12 ? 'AM' : 'PM';
+      const h12 = ((h + 11) % 12) + 1;
+      return `${String(h12).padStart(2, '0')}:30 ${ampm}`;
+    }
+    function fmtVal(v) {
+      return (v == null) ? '—' : `${v.toFixed(1)}°C`;
+    }
+    function refreshInspect() {
+      if (!state.selected || !inspectCard) return;
+      const { city, doy } = state.selected;
+      const cityLabel = (CITIES.find(c => c.key === city) || {}).name || city;
+      const t = valueAt(city, doy, state.hour, 't2m');
+      const u = valueAt(city, doy, state.hour, 'utci');
+      inspectDateEl.textContent = `${cityLabel} · ${doyToDate(doy)}`;
+      inspectHourEl.textContent = `at ${fmtHour(state.hour)} IST`;
+      inspectT2MEl.textContent = fmtVal(t);
+      inspectUTCIEl.textContent = fmtVal(u);
+      if (t != null && u != null) {
+        const d = u - t;
+        inspectGapEl.textContent = `${d >= 0 ? '+' : ''}${d.toFixed(1)}°C`;
+      } else {
+        inspectGapEl.textContent = '—';
+      }
+    }
+    function selectDay(city, doy) {
+      state.selected = { city, doy };
+      if (inspectEmpty) inspectEmpty.style.display = 'none';
+      if (inspectContent) inspectContent.style.display = 'block';
+      refreshInspect();
+      // Re-render so the new selected window picks up its highlight ring.
+      render();
+    }
 
     // ----- Data cache: cache[city] = { t2m: [...8784 hourly values...], utci: [...] } -----
     const cache = {};
@@ -6299,12 +6565,23 @@
       clock.appendChild(el);
     });
 
+    const skyEmojiEl = document.getElementById('skyClockEmoji');
+    function clockEmojiFor(h) {
+      if (h >= 6 && h < 8)   return '🌅';
+      if (h >= 8 && h < 11)  return '☀️';
+      if (h >= 11 && h < 14) return '🌞';
+      if (h >= 14 && h < 17) return '☀️';
+      if (h >= 17 && h < 19) return '🌇';
+      if (h >= 19 && h < 23) return '🌙';
+      return '✨';
+    }
     function setClockHour(h) {
       hourHand.style.transform = `rotate(${((h + 0.5) / 12) * 360}deg)`;
       minuteHand.style.transform = `rotate(180deg)`;
       const ampm = h < 12 ? 'AM' : 'PM';
       const h12 = ((h + 11) % 12) + 1;
       digital.innerHTML = `${String(h12).padStart(2, '0')}:30<span class="ampm">${ampm}</span>`;
+      if (skyEmojiEl) skyEmojiEl.textContent = clockEmojiFor(h);
     }
 
     // ----- Data loading -----
@@ -6392,6 +6669,12 @@
           const w = document.createElement('div');
           w.className = 'window';
           w.style.background = bandColor(k, v);
+          w.style.cursor = 'pointer';
+          w.dataset.doy = String(doy);
+          if (state.selected && state.selected.city === c.key && state.selected.doy === doy) {
+            w.classList.add('selected');
+          }
+          w.addEventListener('click', () => selectDay(c.key, doy));
           frag.appendChild(w);
           n++;
         }
@@ -6400,6 +6683,7 @@
         node.count.innerHTML = `${n}<span class="days-suffix">${dayWord}</span>`;
         node.count.classList.toggle('zero', n === 0);
       });
+      if (state.selected) refreshInspect();
     }
 
     // ----- Timer / playback -----
