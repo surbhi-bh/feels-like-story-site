@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   * {
     box-sizing: border-box;
@@ -16,13 +17,14 @@
   }
 
   body {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     background: #ffffff;
     color: #161616;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  /* Preserve mono for explicitly-marked numeric/code bits; everything else inherits serif. */
 
   .container {
     max-width: 900px;
@@ -147,7 +149,7 @@
     width: 100%;
     height: auto;
     display: block;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
   }
 
   .chart-block .axis text,
@@ -295,7 +297,7 @@
   }
 
   .diurnal-city-title {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 14px;
     font-weight: 500;
     color: #161616;
@@ -314,7 +316,7 @@
   }
 
   .diurnal-panel-year {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 16px;
     font-weight: 700;
     color: #161616;
@@ -360,7 +362,7 @@
   }
 
   .diurnal-chart .end-label, .mc-chart .end-label {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 10px;
     fill: #525252;
   }
@@ -411,7 +413,7 @@
   }
 
   .toohot-cell {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
   }
 
   .toohot-year {
@@ -488,7 +490,7 @@
   }
 
   .heatmap-controls .toggle-row button {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 12px;
     padding: 6px 12px;
     background: #ffffff;
@@ -510,7 +512,7 @@
   }
 
   .heatmap-city-title {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 14px;
     font-weight: 500;
     color: #161616;
@@ -635,7 +637,7 @@
   }
 
   .panel-title {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 14px;
     font-weight: 500;
     color: #161616;
@@ -669,142 +671,6 @@
     border: 1px solid #e85a4f;
   }
 
-  /* ---------- Chatbot ---------- */
-  .chatbot {
-    margin-top: 16px;
-    border: 1px solid #e0e0e0;
-    background: #fafafa;
-    display: grid;
-    grid-template-rows: 1fr auto;
-    height: 560px;
-    max-width: 820px;
-  }
-
-  .chat-log {
-    overflow-y: auto;
-    padding: 24px 24px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .chat-msg {
-    max-width: 78%;
-    padding: 10px 14px;
-    font-size: 14px;
-    line-height: 1.5;
-    border-radius: 2px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-
-  .chat-msg.bot {
-    background: #ffffff;
-    color: #161616;
-    border: 1px solid #e0e0e0;
-    align-self: flex-start;
-  }
-
-  .chat-msg.user {
-    background: #161616;
-    color: #ffffff;
-    align-self: flex-end;
-  }
-
-  .chat-msg .chip-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 10px;
-  }
-
-  .chat-chip {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 12px;
-    background: #ffffff;
-    color: #393939;
-    border: 1px solid #c6c6c6;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: all 0.12s ease;
-  }
-
-  .chat-chip:hover {
-    background: #161616;
-    color: #ffffff;
-    border-color: #161616;
-  }
-
-  .chat-input-row {
-    display: flex;
-    gap: 8px;
-    padding: 14px;
-    border-top: 1px solid #e0e0e0;
-    background: #ffffff;
-  }
-
-  .chat-input {
-    flex: 1;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 14px;
-    padding: 10px 12px;
-    border: 1px solid #c6c6c6;
-    background: #ffffff;
-    color: #161616;
-    outline: none;
-  }
-
-  .chat-input:focus { border-color: #161616; }
-
-  .chat-send {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: #ffffff;
-    background: #161616;
-    border: 1px solid #161616;
-    padding: 0 18px;
-    cursor: pointer;
-  }
-
-  .chat-send:hover { background: #393939; }
-
-  .chat-result {
-    margin-top: 8px;
-    padding: 12px;
-    background: #f4f4f4;
-    border: 1px solid #e0e0e0;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    line-height: 1.6;
-    color: #262626;
-    overflow-x: auto;
-    max-height: 220px;
-    overflow-y: auto;
-  }
-
-  .chat-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-  }
-
-  .chat-chart {
-    margin-top: 10px;
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
-    padding: 12px;
-  }
-
-  .chat-chart svg { width: 100%; height: auto; display: block; }
-
-  .chat-summary {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: #6f6f6f;
-    letter-spacing: 0.04em;
-    margin-top: 6px;
-  }
 
   /* ---------- Calendar panel ---------- */
   .calendar-wrap {
@@ -842,7 +708,7 @@
   }
 
   .cal-city-title {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 14px;
     font-weight: 500;
     color: #161616;
@@ -945,7 +811,7 @@
   }
 
   .cal-summary {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 14px;
     color: #393939;
     margin-top: 20px;
@@ -968,7 +834,7 @@
   }
 
   .export-btn {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 12px;
     font-weight: 500;
     color: #393939;
@@ -1143,7 +1009,7 @@
 
   .toggle-row button,
   .sim-controls select {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 13px;
     font-weight: 400;
     color: #393939;
@@ -1378,14 +1244,14 @@
   }
 
   .inspect-empty {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 12px;
     color: #8d8d8d;
     line-height: 1.5;
   }
 
   .inspect-date {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 14px;
     font-weight: 500;
     color: #161616;
@@ -1567,7 +1433,7 @@
   .legend-swatch.hot { background: #f59e3b; }
 
   .playpause {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 13px;
     font-weight: 500;
     color: #ffffff;
@@ -1580,91 +1446,442 @@
 
   .playpause:hover { background: #393939; border-color: #393939; }
   .playpause.paused { background: #ffffff; color: #161616; }
+
+  /* ---------- Left nav (insights) ---------- */
+  .page-shell {
+    display: flex;
+    align-items: flex-start;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .side-nav {
+    position: sticky;
+    top: 40px;
+    flex: 0 0 200px;
+    padding: 80px 16px 0 0;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 13px;
+    align-self: flex-start;
+  }
+  .side-nav .nav-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8d8d8d;
+    margin-bottom: 14px;
+  }
+  .side-nav ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: navitem;
+  }
+  .side-nav li {
+    counter-increment: navitem;
+    margin-bottom: 12px;
+  }
+  .side-nav a {
+    display: block;
+    color: #525252;
+    text-decoration: none;
+    line-height: 1.4;
+    padding: 6px 10px 6px 12px;
+    border-left: 2px solid #e0e0e0;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  .side-nav a:hover { color: #161616; }
+  .side-nav a.active {
+    color: #161616;
+    border-left-color: #c0382f;
+    font-weight: 500;
+  }
+  .side-nav a::before {
+    content: counter(navitem, decimal-leading-zero) "  ";
+    color: #a8a8a8;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+  }
+  .side-nav a.active::before { color: #c0382f; }
+  .container.with-nav {
+    flex: 1 1 auto;
+    max-width: 900px;
+    margin: 0;
+    padding-top: 80px;
+    padding-bottom: 120px;
+    padding-left: 32px;
+    padding-right: 0;
+  }
+  @media (max-width: 880px) {
+    .page-shell { display: block; padding: 0; }
+    .side-nav { display: none; }
+    .container.with-nav { max-width: 900px; margin: 0 auto; padding: 80px 40px 120px; }
+  }
+
+  /* ---------- Insight 01: exposure step charts ---------- */
+  .exposure-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 18px;
+    margin: 4px 0 22px;
+  }
+  .exposure-controls .ctrl-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8d8d8d;
+    margin-right: 4px;
+  }
+  .city-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .city-pills button {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 12px;
+    padding: 5px 11px;
+    border: 1px solid #c6c6c6;
+    background: #fff;
+    color: #393939;
+    cursor: pointer;
+    transition: background .12s, color .12s, border-color .12s;
+  }
+  .city-pills button:hover { border-color: #8d8d8d; }
+  .city-pills button.active {
+    background: #161616;
+    color: #fff;
+    border-color: #161616;
+  }
+  .t2m-overlay-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #393939;
+    cursor: pointer;
+    user-select: none;
+  }
+  .t2m-overlay-toggle input { margin: 0; }
+  .panels-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px 56px;
+    margin-top: 8px;
+  }
+  @media (max-width: 720px) {
+    .panels-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  .exp-panel { min-width: 0; }
+  .exp-panel-title {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  .exp-panel svg {
+    width: 100%;
+    height: 220px;
+    display: block;
+    overflow: visible;
+  }
+  .exp-panel .y-tick {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 11px;
+    fill: #525252;
+  }
+  .exp-panel .x-tick {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 11px;
+    fill: #525252;
+  }
+  .exp-panel .gridline {
+    stroke: #e8e8e8;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+  }
+  .exp-panel .step-line {
+    fill: none;
+    stroke-width: 1.6;
+  }
+  .exp-panel .step-fill { opacity: 0.18; }
+  .exp-panel .t2m-overlay {
+    fill: none;
+    stroke-width: 1.4;
+    stroke-dasharray: 3 3;
+    opacity: 0.85;
+  }
+  .exp-panel .legend-row {
+    margin-top: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #525252;
+    display: flex;
+    gap: 14px;
+  }
+  .exp-status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #525252;
+    padding: 8px 0 0;
+  }
+  .exp-status.error { color: #c0382f; }
+  .exp-footnote {
+    margin-top: 32px;
+    padding-top: 18px;
+    border-top: 1px solid #e0e0e0;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #525252;
+    max-width: 760px;
+  }
+  .exp-footnote p { margin: 0 0 10px; }
+  .exp-footnote ul { margin: 0 0 12px; padding-left: 18px; }
+  .exp-footnote li { margin-bottom: 4px; }
+  .exp-footnote strong { color: #161616; font-weight: 600; }
+  .exp-footnote a { color: #c0382f; }
+  .exp-panel .y-axis-label {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    fill: #8d8d8d;
+  }
+  .exp-panel .hover-rect {
+    fill: transparent;
+    cursor: crosshair;
+  }
+  .exp-panel .hover-rect.hover { fill: rgba(0,0,0,0.04); }
+  .exp-tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: #161616;
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    padding: 8px 10px;
+    border-radius: 2px;
+    transform: translate(-50%, -100%);
+    transform-origin: center bottom;
+    margin-top: -8px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity .12s;
+    z-index: 10;
+  }
+  .exp-tooltip.show { opacity: 1; }
+  .exp-tooltip .yr { color: #f4f4f4; font-weight: 600; margin-bottom: 2px; }
+  .exp-tooltip .v   { color: #fff; }
+  .exp-tooltip .t   { color: #c6c6c6; }
+  .panels-grid { position: relative; }
+  .exp-summary {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid #e0e0e0;
+  }
+  .exp-summary-title {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+  }
+  .exp-summary-lede {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 15px;
+    color: #525252;
+    line-height: 1.55;
+    max-width: 760px;
+    margin: 0 0 18px;
+  }
+  .summary-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 36px;
+    margin-top: 8px;
+  }
+  @media (max-width: 720px) {
+    .summary-grid { grid-template-columns: 1fr; }
+  }
+  .sum-panel { min-width: 0; }
+  .sum-panel-title {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 6px;
+    color: #161616;
+  }
+  .sum-panel svg {
+    width: 100%;
+    height: 260px;
+    display: block;
+    overflow: visible;
+  }
+  .sum-legend {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #525252;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .sum-legend .sw {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+    vertical-align: -2px;
+  }
 </style>
 </head>
 <body>
-  <div class="container">
+  <div class="page-shell">
+    <nav class="side-nav" aria-label="Insights">
+      <div class="nav-title">Insights</div>
+      <ol id="insightNav">
+        <li><a href="#insight-01" data-target="insight-01">The number of days with heat stress across cities has gone up</a></li>
+        <li><a href="#insight-02" data-target="insight-02">Hours too hot to step out by day, too hot to sleep at night</a></li>
+        <li><a href="#insight-03" data-target="insight-03">The hottest day has only become hotter</a></li>
+        <li><a href="#insight-04" data-target="insight-04">Counting days — actual vs felt above 40&nbsp;°C</a></li>
+        <li><a href="#insight-05" data-target="insight-05">Tropical nights in cold, elevated, hilly areas</a></li>
+        <li><a href="#insight-06" data-target="insight-06">Two points in time for different cities</a></li>
+        <li><a href="#insight-07" data-target="insight-07">365 days, one hour at a time</a></li>
+        <li><a href="#insight-08" data-target="insight-08">One day, two decades apart</a></li>
+        <li><a href="#insight-09" data-target="insight-09">Hour-by-hour heatmap</a></li>
+      </ol>
+    </nav>
+  <div class="container with-nav">
     <header>
-      <h1>Felt heat</h1>
-      <p class="subtitle">How heat is experienced versus how it is measured — three insights drawn from feels-like temperature data across India's major cities.</p>
+      <h1>Living through rising heat</h1>
+      <p class="subtitle">India's cities are getting hotter. But what thermometers record is often very different from what human bodies feel through the day and during nights.</p>
     </header>
 
     <section class="intro">
-      <p>The numbers are in. 2024 was the hottest year on record — globally and in India — according to the World Meteorological Organization and NASA. But the actual experience of heat is very different from the temperatures recorded on our thermometers.</p>
+      <p>2024 was the hottest year on record, globally and in India, according to the World Meteorological Organization and NASA. But the temperatures recorded on thermometers tell only part of the story. The heat people actually experience is shaped not just by air temperature, but also by humidity, wind, sunlight, and how little relief arrives after sunset. Across India's cities, days are becoming more stressful, nights are staying warmer for longer, and the body is increasingly exposed to heat that feels far more intense than the numbers alone suggest.</p>
     </section>
 
-    <section class="insight">
+    <section class="insight" id="insight-01">
       <div class="insight-number">Insight 01</div>
-      <h2>The same year, two different climates</h2>
-      <p>Counting the days in 2024 when conditions crossed thresholds for heat stress (above 40°C) and cold stress (below 5°C) — first using the air temperature on the thermometer, then using the felt temperature that accounts for humidity, wind and radiation. The same calendar year produces sharply different totals depending on which one you measure.</p>
+      <h2>The number of days with heat stress across cities has gone up</h2>
+      <p>Counting how many day-equivalents per year a city crosses each heat-stress threshold — and how often nights stay tropical. Hourly exposure is summed across the year and expressed in &ldquo;days&rdquo; (hours&nbsp;&divide;&nbsp;24), so 10 means a cumulative 10 × 24 hours above the threshold.</p>
 
-      <div class="table-block">
-        <div class="table-title">Parameters</div>
-        <table class="data params">
-          <tbody>
-            <tr><td>Period</td><td>Calendar year 2024 · 365 days</td></tr>
-            <tr><td>Cities</td><td>Delhi, Mumbai, Chennai, Kolkata</td></tr>
-            <tr><td>Unit of analysis</td><td>Number of days crossing threshold</td></tr>
-            <tr><td>Heat stress threshold</td><td>Daily max &gt; 40 °C</td></tr>
-            <tr><td>Cold stress threshold</td><td>Daily min &lt; 5 °C</td></tr>
-            <tr><td>Actual temperature</td><td>T2M — air temperature at 2 m</td></tr>
-            <tr><td>Felt temperature</td><td>UTCI — Universal Thermal Climate Index</td></tr>
-          </tbody>
-        </table>
+      <div class="exposure-controls">
+        <span class="ctrl-label">City</span>
+        <div class="city-pills" id="expCityPills"></div>
+        <label class="t2m-overlay-toggle">
+          <input type="checkbox" id="expT2mToggle" checked>
+          Add days of actual temperature (T2M, dotted)
+        </label>
+        <button class="export-btn" id="expExportBtn">Export CSV</button>
+      </div>
+      <div class="exposure-controls exposure-alts">
+        <span class="ctrl-label">Alt thresholds</span>
+        <label class="t2m-overlay-toggle">
+          <input type="checkbox" id="altExtreme40">
+          Use UTCI&nbsp;&gt;&nbsp;40&nbsp;°C in extreme panel
+        </label>
+        <label class="t2m-overlay-toggle">
+          <input type="checkbox" id="altTrop20">
+          Use T2M&nbsp;&gt;&nbsp;20&nbsp;°C in tropical-nights panel
+        </label>
       </div>
 
-      <div class="table-block">
-        <div class="table-title">Days crossing threshold · 2024</div>
-        <table class="data">
-          <thead>
-            <tr>
-              <th>City</th>
-              <th class="num">Heat &gt; 40°C (Actual)</th>
-              <th class="num">Heat &gt; 40°C (Felt)</th>
-              <th class="num">Cold &lt; 5°C (Actual)</th>
-              <th class="num">Cold &lt; 5°C (Felt)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="city">Delhi</td>
-              <td class="num">42</td>
-              <td class="num"><span class="delta-up">98</span></td>
-              <td class="num">8</td>
-              <td class="num"><span class="delta-down">31</span></td>
-            </tr>
-            <tr>
-              <td class="city">Mumbai</td>
-              <td class="num">3</td>
-              <td class="num"><span class="delta-up">76</span></td>
-              <td class="num">0</td>
-              <td class="num">0</td>
-            </tr>
-            <tr>
-              <td class="city">Chennai</td>
-              <td class="num">11</td>
-              <td class="num"><span class="delta-up">112</span></td>
-              <td class="num">0</td>
-              <td class="num">0</td>
-            </tr>
-            <tr>
-              <td class="city">Kolkata</td>
-              <td class="num">9</td>
-              <td class="num"><span class="delta-up">94</span></td>
-              <td class="num">0</td>
-              <td class="num"><span class="delta-down">4</span></td>
-            </tr>
-          </tbody>
-        </table>
+      <div id="expStatus" class="exp-status"></div>
+      <div class="panels-grid" id="expPanels"></div>
+
+      <div class="exp-footnote">
+        <p><strong>How to read:</strong> the y-axis is &ldquo;days&rdquo; — total hours in the year above the threshold, divided by 24. So a value of 10 means a cumulative 10&nbsp;&times;&nbsp;24&nbsp;hours of exposure across the year, regardless of which days or hours those came from.</p>
+        <p><strong>Thresholds (UTCI &mdash; felt temperature, solid line):</strong></p>
+        <ul>
+          <li><span style="color:#e07a5f">Strong heat stress</span> — UTCI&nbsp;&gt;&nbsp;32&nbsp;&deg;C</li>
+          <li><span style="color:#b94a3d">Very strong heat stress</span> — UTCI&nbsp;&gt;&nbsp;38&nbsp;&deg;C</li>
+          <li><span style="color:#7a1f2b">Extreme heat stress</span> — UTCI&nbsp;&gt;&nbsp;46&nbsp;&deg;C</li>
+          <li><span style="color:#5b2a4a">Tropical nights</span> — T2M&nbsp;&gt;&nbsp;25&nbsp;&deg;C during IST night hours (7:30&nbsp;PM&nbsp;&ndash;&nbsp;7:30&nbsp;AM). <em>This panel is based on actual air temperature, not UTCI.</em></li>
+        </ul>
+        <p><strong>Dotted overlay:</strong> &ldquo;days of actual temperature&rdquo; counts hours where T2M (air temperature at&nbsp;2&nbsp;m) crossed the same threshold, divided by 24. The gap between solid and dotted is the heat amplification from humidity, wind and radiation.</p>
+        <p>Source: Copernicus Thermal Trace (ERA5 hourly T2M and derived UTCI). Hourly UTC samples re-interpreted to IST during computation. See <a href="INSIGHT-METHOD.pdf">INSIGHT-METHOD.pdf</a> for full definitions and formulas.</p>
       </div>
-      <div class="export-row">
-        <button class="export-btn" data-export="insight01">Export CSV</button>
+
+      <!-- At a glance — stacked bars (heat-stress bands) + tropical nights -->
+      <div class="exp-summary">
+        <h3 class="exp-summary-title">At a glance — heat-stress days and tropical nights</h3>
+        <p class="exp-summary-lede">One bar per year. The left panel stacks days with at least &ldquo;strong&rdquo; heat stress into disjoint UTCI bands: <span style="color:#e07a5f">strong only</span> (32&ndash;38&nbsp;°C), <span style="color:#b94a3d">very strong</span> (38&ndash;46&nbsp;°C), and <span style="color:#7a1f2b">extreme</span> (&gt;&nbsp;46&nbsp;°C). The right panel counts tropical-night day-equivalents (T2M&nbsp;&gt;&nbsp;25&nbsp;°C during IST night hours).</p>
+        <div class="exposure-controls" style="margin-top:8px">
+          <span class="ctrl-label">City</span>
+          <div class="city-pills" id="sumCityPills"></div>
+        </div>
+        <div class="exposure-controls">
+          <span class="ctrl-label">Alt thresholds</span>
+          <label class="t2m-overlay-toggle">
+            <input type="checkbox" id="sumAltExtreme40">
+            Treat extreme as UTCI&nbsp;&gt;&nbsp;40&nbsp;°C
+          </label>
+          <label class="t2m-overlay-toggle">
+            <input type="checkbox" id="sumAltTrop20">
+            Tropical nights at T2M&nbsp;&gt;&nbsp;20&nbsp;°C
+          </label>
+        </div>
+        <div class="summary-grid" id="expSummary"></div>
       </div>
     </section>
 
-    <section class="insight">
+    <section class="insight" id="insight-02">
       <div class="insight-number">Insight 02</div>
-      <h2>The same June day, every year — how far the felt heat ran ahead</h2>
+      <h2>No. of hours too hot to step out at day, too hot to sleep at night</h2>
+      <p>The peak-month average day, hour by hour in IST, in 2000 and again in 2024. The solid line is air temperature (Actual); the dashed line is felt temperature (Feels-like). The dotted line marks the period threshold &mdash; daytime UTCI&nbsp;&gt;&nbsp;40&nbsp;°C (7:30&nbsp;AM&nbsp;&ndash;&nbsp;7:30&nbsp;PM) or tropical-night UTCI&nbsp;&gt;&nbsp;26&nbsp;°C (7:30&nbsp;PM&nbsp;&ndash;&nbsp;7:30&nbsp;AM). Counts below each chart show the hours that crossed the threshold.</p>
+
+      <div class="chart-block">
+        <div class="exposure-controls" style="margin-bottom: 14px;">
+          <span class="ctrl-label">City</span>
+          <div class="city-pills" id="i2CityPills"></div>
+        </div>
+        <div class="heatmap-controls" style="margin-bottom: 16px;">
+          <div class="control-group">
+            <span class="control-label">Period</span>
+            <div class="toggle-row" data-i2-group="period">
+              <button class="active" data-value="day">Day · UTCI &gt; 40 °C (7:30 AM &ndash; 7:30 PM)</button>
+              <button data-value="night">Tropical Night · UTCI &gt; 26 °C (7:30 PM &ndash; 7:30 AM)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="diurnal-city" id="i2City">
+          <div class="diurnal-city-title" id="i2CityTitle">Delhi <span class="diurnal-city-date" id="i2CityDate">June average</span></div>
+          <div class="diurnal-grid">
+            <div>
+              <div class="diurnal-panel-year">2000</div>
+              <svg class="mc-chart" id="i2Chart2000" data-i2-year="2000" viewBox="0 0 420 260" preserveAspectRatio="xMidYMid meet"></svg>
+            </div>
+            <div>
+              <div class="diurnal-panel-year">2024</div>
+              <svg class="mc-chart" id="i2Chart2024" data-i2-year="2024" viewBox="0 0 420 260" preserveAspectRatio="xMidYMid meet"></svg>
+            </div>
+          </div>
+          <div class="toohot-row">
+            <div class="toohot-cell">
+              <div class="toohot-year" id="i2TooHotLabel2000">2000 · too hot to step out</div>
+              <div class="toohot-count" id="i2TooHotCount2000"></div>
+              <div class="toohot-hours" id="i2TooHotHours2000"></div>
+            </div>
+            <div class="toohot-cell">
+              <div class="toohot-year" id="i2TooHotLabel2024">2024 · too hot to step out</div>
+              <div class="toohot-count" id="i2TooHotCount2024"></div>
+              <div class="toohot-hours" id="i2TooHotHours2024"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="insight" id="insight-03">
+      <div class="insight-number">Insight 03</div>
+      <h2>The hottest day has only become hotter</h2>
       <p>Looking at one calendar date — June 12 — across 2000 to 2025 in Delhi, the air temperature (T2M) and the felt temperature (UTCI) tell two different stories. The dumbbell plot shows the gap year-by-year; the time series shows both lines climbing, but with the felt heat pulling consistently higher.</p>
 
       <div class="chart-block">
@@ -1698,8 +1915,8 @@
       </div>
     </section>
 
-    <section class="insight">
-      <div class="insight-number">Insight 03</div>
+    <section class="insight" id="insight-04">
+      <div class="insight-number">Insight 04</div>
       <h2>Counting the days — actual versus felt heat above 40°C</h2>
       <p>For each city, year-by-year tallies of days where the air temperature crossed 40°C, set side-by-side against days where the felt temperature did. The two columns rarely tell the same story.</p>
 
@@ -1778,26 +1995,22 @@
       </div>
     </section>
 
-    <section class="insight">
-      <div class="insight-number">Insight 04</div>
-      <h2>Tropical nights going up - time series/clock one day hours of heat day and night</h2>
+    <section class="insight" id="insight-05">
+      <div class="insight-number">Insight 05</div>
+      <h2>Tropical nights in cold, elevated, hilly areas have become hotter</h2>
       <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-      <div class="building-chart">
-        <div class="building" id="building"></div>
-        <div class="building-caption">52 weeks · one window per week</div>
-      </div>
     </section>
 
-    <section class="insight">
-      <div class="insight-number">Insight 05</div>
-      <h2>Two points in time for different cities - No. of dasys 4 cities x  2</h2>
+    <section class="insight" id="insight-06">
+      <div class="insight-number">Insight 06</div>
+      <h2>Two points in time for different cities — No. of days, 4 cities × 2</h2>
       <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt.</p>
       <div class="chart-placeholder">[ Chart 03 ]</div>
     </section>
 
-    <section class="insight">
-      <div class="insight-number">Insight 06</div>
-      <h2>365 days, one hour at a time — actual versus felt heat</h2>
+    <section class="insight" id="insight-07">
+      <div class="insight-number">Insight 07</div>
+      <h2>Hours too hot to step out by day, too hot to sleep at night</h2>
       <p>Each window is one day of the year. As the clock advances one hour, every window updates to show the temperature for that hour of that day. The left facade is air temperature (T2M); the right is felt temperature (UTCI). The peak day for the selected city is outlined.</p>
 
       <div class="sim-wrap-dual">
@@ -1818,7 +2031,7 @@
             <div class="clock-hand minute" id="minuteHand"></div>
             <div class="clock-center"></div>
           </div>
-          <div class="clock-digital" id="clockDigital">12:00<span class="ampm">AM</span></div>
+          <div class="clock-digital" id="clockDigital">12:30<span class="ampm">AM</span></div>
           <div class="peak-date" id="peakDate"></div>
           <div class="data-source" id="dataSource"></div>
 
@@ -1900,10 +2113,147 @@
       <div class="export-row">
         <button class="export-btn" data-export="insight06">Export current view CSV</button>
       </div>
+
+      <!-- Same hour, 24 years apart — 2000 vs 2024 for a selectable city -->
+      <div style="margin-top: 72px; margin-bottom: 18px;">
+        <h3 style="font-family: 'IBM Plex Serif', serif; font-weight: 500; font-size: 22px; margin-bottom: 8px;">Same hour, 24 years apart</h3>
+        <p style="color: #525252; max-width: 680px;">The left facade is 2000, the right is 2024 — same hour of the day, every day of the year. Pick a city, toggle between actual air temperature (T2M) and felt temperature (UTCI), or filter by UTCI heat-stress band to see how each metric has shifted.</p>
+      </div>
+
+      <div class="sim-wrap-dual">
+        <div class="dual-buildings">
+          <div class="building-col">
+            <div class="building-label">2000</div>
+            <div class="year-building wide" id="yearBuilding2000"></div>
+            <div class="building-caption" id="blrCount2000" style="margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #525252; min-height: 18px;"></div>
+          </div>
+          <div class="building-col">
+            <div class="building-label">2024</div>
+            <div class="year-building wide" id="yearBuilding2024"></div>
+            <div class="building-caption" id="blrCount2024" style="margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #525252; min-height: 18px;"></div>
+          </div>
+        </div>
+
+        <div class="sim-controls">
+          <div class="clock" id="blrClock">
+            <div class="clock-hand hour" id="blrHourHand"></div>
+            <div class="clock-hand minute" id="blrMinuteHand"></div>
+            <div class="clock-center"></div>
+          </div>
+          <div class="clock-digital" id="blrClockDigital">12:30<span class="ampm">AM</span></div>
+          <div class="data-source" id="blrDataSource"></div>
+
+          <div class="control-group">
+            <span class="control-label">City</span>
+            <div class="toggle-row" data-group="blrCity">
+              <button data-value="delhi">Delhi</button>
+              <button data-value="mumbai">Mumbai</button>
+              <button data-value="chennai">Chennai</button>
+              <button class="active" data-value="bangalore">Bangalore</button>
+              <button data-value="ahmedabad">Ahmedabad</button>
+              <button data-value="guwahati">Guwahati</button>
+              <button data-value="ajmer">Ajmer</button>
+              <button data-value="shimla">Shimla</button>
+              <button data-value="ooty">Ooty</button>
+              <button data-value="kodai">Kodai</button>
+              <button data-value="munnar">Munnar</button>
+              <button data-value="darjeeling">Darjeeling</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <button class="playpause" id="blrSummerBtn">Summer months</button>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">Variable</span>
+            <div class="toggle-row" data-group="blrVar">
+              <button class="active" data-value="t2m">Actual · T2M</button>
+              <button data-value="utci">Feels · UTCI</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <button class="playpause" id="blrPlayPause">Pause</button>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">Speed</span>
+            <div class="toggle-row" data-group="blrSpeed">
+              <button data-value="slow">Slow</button>
+              <button class="active" data-value="medium">Medium</button>
+              <button data-value="fast">Fast</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">Heat-stress bands</span>
+            <div id="blrBandChecks" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #161616;">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" data-band="tropical">
+                <span style="display: inline-block; width: 14px; height: 14px; background: #f1c21b; border: 1px solid #0a0a0a;"></span>
+                Tropical nights (25–32°)
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" data-band="strong">
+                <span style="display: inline-block; width: 14px; height: 14px; background: #ff832b; border: 1px solid #0a0a0a;"></span>
+                Strong (32–38°)
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" data-band="very">
+                <span style="display: inline-block; width: 14px; height: 14px; background: #da1e28; border: 1px solid #0a0a0a;"></span>
+                Very strong (38–46°)
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" data-band="extreme">
+                <span style="display: inline-block; width: 14px; height: 14px; background: #750e13; border: 1px solid #0a0a0a;"></span>
+                Extreme (46°+)
+              </label>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">Color mode</span>
+            <div class="toggle-row" data-group="blrColorMode">
+              <button class="active" data-value="single">Single</button>
+              <button data-value="scale">Scale</button>
+            </div>
+          </div>
+
+          <div class="inspect-card" id="blrInspectCard">
+            <div class="control-label" style="margin-bottom: 6px;">Selected day</div>
+            <div class="inspect-empty">Click a window to inspect.</div>
+            <div class="inspect-content" style="display: none;">
+              <div class="inspect-date" id="blrInspectDate"></div>
+              <div class="inspect-hour" id="blrInspectHour"></div>
+              <div class="inspect-row">
+                <span class="inspect-label">Feels · 2000</span>
+                <span class="inspect-val utci" id="blrInspectUTCI2000">—</span>
+              </div>
+              <div class="inspect-row">
+                <span class="inspect-label">Feels · 2024</span>
+                <span class="inspect-val utci" id="blrInspectUTCI2024">—</span>
+              </div>
+              <div class="inspect-row">
+                <span class="inspect-label">Δ Feels</span>
+                <span class="inspect-val" id="blrInspectUTCIDelta">—</span>
+              </div>
+              <div class="inspect-row">
+                <span class="inspect-label">Actual · 2000</span>
+                <span class="inspect-val t2m" id="blrInspectT2M2000">—</span>
+              </div>
+              <div class="inspect-row">
+                <span class="inspect-label">Actual · 2024</span>
+                <span class="inspect-val t2m" id="blrInspectT2M2024">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="insight">
-      <div class="insight-number">Insight 07</div>
+    <section class="insight" id="insight-08">
+      <div class="insight-number">Insight 08</div>
       <h2>One day, two decades apart — how the felt heat shifted hour by hour</h2>
       <p>The peak day for each city — June 12 in Delhi, May 23 in Mumbai, June 8 in Chennai, May 11 in Kolkata — read hour by hour in IST, in 2000 and again in 2024. The solid line is air temperature (Actual); the dashed line is felt temperature (Feels-like). The orange band is the gap between them. Below each chart, the hours when stepping out would have been unsafe.</p>
 
@@ -2033,8 +2383,8 @@
       </div>
     </section>
 
-    <section class="insight">
-      <div class="insight-number">Insight 07B</div>
+    <section class="insight" id="insight-08b">
+      <div class="insight-number">Insight 08B</div>
       <h2>The typical day, two decades apart — month-average hour by hour</h2>
       <p>The same hour-by-hour read, but averaged across every day in the peak month — June for Delhi and Chennai, May for Mumbai and Kolkata — in 2000 and 2024. Single-day peaks get smoothed away; what's left is the <em>typical</em> shape of a day in that month.</p>
 
@@ -2164,8 +2514,8 @@
       </div>
     </section>
 
-    <section class="insight">
-      <div class="insight-number">Insight 08</div>
+    <section class="insight" id="insight-09">
+      <div class="insight-number">Insight 09</div>
       <h2>Hour-by-hour heatmap — daytime danger versus tropical nights</h2>
       <p>Each row is a single peak day, hour-by-hour in IST. Toggle between <em>Day</em> (08:00–20:00, hours above 40 °C lit in red) and <em>Tropical Nights</em> (20:00–08:00, hours above 26 °C lit in orange). Switch the metric between felt temperature (UTCI) and air temperature (T2M).</p>
 
@@ -2220,32 +2570,18 @@
       </div>
     </section>
 
-    <section class="insight">
-      <div class="insight-number">Insight 09</div>
-      <h2>Ask the data — a query assistant</h2>
-      <p>Tell the assistant a city, a date or date range (2000 or 2024), and which temperature you want (actual, felt, or both). It returns a downloadable CSV of hourly ERA5/UTCI readings.</p>
-
-      <div class="chatbot">
-        <div class="chat-log" id="chatLog"></div>
-        <div class="chat-input-row">
-          <input id="chatInput" class="chat-input" type="text" placeholder="e.g. Delhi May 2024 actual, or Surat 12 jun 2024 both" autocomplete="off">
-          <button id="chatSend" class="chat-send">Send</button>
-        </div>
-      </div>
-    </section>
+  </div>
   </div>
 <script>
-  // 52-week building
+  // ---------- Markdown renderer ----------
+  // Any element with class "md" has its text content parsed as markdown
+  // and replaced with the rendered HTML. Runs synchronously before the
+  // D3 IIFEs below so chart mount points exist before charts try to render.
   (function () {
-    const building = document.getElementById('building');
-    if (!building) return;
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < 52; i++) {
-      const w = document.createElement('div');
-      w.className = 'window';
-      frag.appendChild(w);
-    }
-    building.appendChild(frag);
+    if (typeof marked === 'undefined') return;
+    document.querySelectorAll('.md').forEach(el => {
+      el.innerHTML = marked.parse(el.textContent.trim());
+    });
   })();
 
   // Insight 02 — UTCI vs T2M annual peak day, 4 cities (D3)
@@ -3015,35 +3351,57 @@
       if (u == null || t == null) return null;
       return { utci: u, t2m: t };
     }
+    function applyRealRecord(city, year, key, d) {
+      if (d && d.utci && d.t2m) {
+        realHourly[key] = d;
+        recomputeCityDomain(city, year);
+        // Compute peak day for cities we don't have hardcoded
+        if (year === 2024 && !(city in PEAK_LABEL && PEAK_DOY[city])) {
+          computePeakFromData(city);
+        } else if (year === 2024 && (city === 'bangalore' || city === 'surat')) {
+          computePeakFromData(city);
+        }
+        // Re-render in case currently displayed
+        if (state.city === city && state.year === String(year)) {
+          if (typeof updateDataSource === 'function') updateDataSource();
+          if (typeof updatePeakLabel === 'function') updatePeakLabel();
+          if (typeof updateScaleLegend === 'function') updateScaleLegend();
+          if (typeof markPeak === 'function') markPeak();
+          render(currentHour);
+          if (selectedDoy != null) refreshInspect();
+        }
+      } else {
+        realHourly[key] = null;
+      }
+    }
+
     function loadReal(city, year) {
       const key = realKey(city, year);
       if (realHourly[key] || realHourly[key] === false) return;
       realHourly[key] = false; // in-flight sentinel
+
+      // Bangalore comes from final-data/ as two separate Copernicus files per year
+      // (one per variable). Reshape into the { start, hours, utci, t2m } form the
+      // chart expects. UTC timestamps are preserved — IST conversion happens at
+      // read time in getRealAt().
+      if (city === 'bangalore' && (year === 2000 || year === 2024)) {
+        Promise.all([
+          fetch(`final-data/bangalore-${year}-hourly-t2m.json`).then(r => r.ok ? r.json() : null),
+          fetch(`final-data/bangalore-${year}-hourly-utci.json`).then(r => r.ok ? r.json() : null)
+        ]).then(([t2mDoc, utciDoc]) => {
+          if (!t2mDoc || !utciDoc) { realHourly[key] = null; return; }
+          const t2m = t2mDoc.values_max_daily;
+          const utci = utciDoc.values_max_daily;
+          const start = (t2mDoc.time_daily && t2mDoc.time_daily[0]) || `${year}-01-01T00:00Z`;
+          const hours = Math.min(t2m.length, utci.length);
+          applyRealRecord(city, year, key, { start, hours, utci, t2m });
+        }).catch(() => { realHourly[key] = null; });
+        return;
+      }
+
       fetch(`data/${city}-${year}-hourly.json`)
         .then(r => r.ok ? r.json() : null)
-        .then(d => {
-          if (d && d.utci && d.t2m) {
-            realHourly[key] = d;
-            recomputeCityDomain(city, year);
-            // Compute peak day for cities we don't have hardcoded
-            if (year === 2024 && !(city in PEAK_LABEL && PEAK_DOY[city])) {
-              computePeakFromData(city);
-            } else if (year === 2024 && (city === 'bangalore' || city === 'surat')) {
-              computePeakFromData(city);
-            }
-            // Re-render in case currently displayed
-            if (state.city === city && state.year === String(year)) {
-              if (typeof updateDataSource === 'function') updateDataSource();
-              if (typeof updatePeakLabel === 'function') updatePeakLabel();
-              if (typeof updateScaleLegend === 'function') updateScaleLegend();
-              if (typeof markPeak === 'function') markPeak();
-              render(currentHour);
-              if (selectedDoy != null) refreshInspect();
-            }
-          } else {
-            realHourly[key] = null;
-          }
-        })
+        .then(d => applyRealRecord(city, year, key, d))
         .catch(() => { realHourly[key] = null; });
     }
     // Kick off background loads for both years of all cities
@@ -3159,6 +3517,7 @@
       }
       return '#888';
     }
+    window.__tempColor = tempColor;
 
     function tempColorScaled(t) {
       if (state.scale === 'city') {
@@ -3202,12 +3561,13 @@
     let lastTickAt = performance.now();
 
     function setClockHour(h) {
-      hourHand.style.transform = `rotate(${(h / 12) * 360}deg)`;
-      // Park the minute hand at 12 o'clock (top) since we tick on the hour
-      minuteHand.style.transform = `rotate(0deg)`;
+      // Data is UTC hourly; the chart maps each hour to its IST half-hour
+      // (UTC + 5:30), so the clock displays :30 past the hour.
+      hourHand.style.transform = `rotate(${((h + 0.5) / 12) * 360}deg)`;
+      minuteHand.style.transform = `rotate(180deg)`;
       const ampm = h < 12 ? 'AM' : 'PM';
       const h12 = ((h + 11) % 12) + 1;
-      digital.innerHTML = `${String(h12).padStart(2, '0')}:00<span class="ampm">${ampm}</span>`;
+      digital.innerHTML = `${String(h12).padStart(2, '0')}:30<span class="ampm">${ampm}</span>`;
     }
 
     function tickStep() {
@@ -3282,7 +3642,7 @@
     function fmtHour(h) {
       const ampm = h < 12 ? 'AM' : 'PM';
       const h12 = ((h + 11) % 12) + 1;
-      return `${String(h12).padStart(2, '0')}:00 ${ampm}`;
+      return `${String(h12).padStart(2, '0')}:30 ${ampm}`;
     }
 
     function refreshInspect() {
@@ -3332,7 +3692,10 @@
       lastTickAt = performance.now();
     });
 
-    document.querySelectorAll('.sim-wrap-dual [data-group]').forEach(row => {
+    // Scope to this chart's own wrapper so toggles in the Bangalore chart below
+    // don't get double-handled here.
+    const ownWrap = bT2M.closest('.sim-wrap-dual');
+    ownWrap.querySelectorAll('[data-group]').forEach(row => {
       row.addEventListener('click', e => {
         const btn = e.target.closest('button');
         if (!btn) return;
@@ -3369,6 +3732,433 @@
       }
       return { name: `insight06_${state.city}_${yr}_hourly_ist.csv`, rows };
     };
+  })();
+
+  // Insight 06b — Bangalore 2000 vs 2024 (single variable)
+  // Mirrors the chart above: dual buildings + own clock, hourly tick on :30 IST.
+  (function () {
+    const b2000 = document.getElementById('yearBuilding2000');
+    const b2024 = document.getElementById('yearBuilding2024');
+    const hourHand = document.getElementById('blrHourHand');
+    const minuteHand = document.getElementById('blrMinuteHand');
+    const digital = document.getElementById('blrClockDigital');
+    const playBtn = document.getElementById('blrPlayPause');
+    const noteEl = document.getElementById('blrDataSource');
+    if (!b2000 || !b2024) return;
+
+    const DAYS = 365;
+    // activeDoys is the ordered list of day-of-year values currently rendered as
+    // windows. Default is 1..365 (all year); flips to Apr–Sep (DOY 91..273) when
+    // the Summer toggle is on. (Using 365-day calendar; 2024 leap day is implicit.)
+    let summerMode = false;
+    let activeDoys = [];
+    const windows2000 = [];
+    const windows2024 = [];
+
+    function computeActiveDoys() {
+      if (!summerMode) {
+        const arr = [];
+        for (let d = 1; d <= DAYS; d++) arr.push(d);
+        return arr;
+      }
+      // Apr 1 .. Sep 30 in a non-leap calendar: DOY 91..273 (183 days)
+      const arr = [];
+      for (let d = 91; d <= 273; d++) arr.push(d);
+      return arr;
+    }
+
+    function rebuildBuildings() {
+      activeDoys = computeActiveDoys();
+      [b2000, b2024].forEach(b => { b.innerHTML = ''; });
+      windows2000.length = 0;
+      windows2024.length = 0;
+      const frag2000 = document.createDocumentFragment();
+      const frag2024 = document.createDocumentFragment();
+      activeDoys.forEach((doy, i) => {
+        const a = document.createElement('div');
+        a.className = 'window';
+        a.addEventListener('click', () => selectDay(doy));
+        frag2000.appendChild(a);
+        windows2000.push(a);
+        const b = document.createElement('div');
+        b.className = 'window';
+        b.addEventListener('click', () => selectDay(doy));
+        frag2024.appendChild(b);
+        windows2024.push(b);
+      });
+      b2000.appendChild(frag2000);
+      b2024.appendChild(frag2024);
+      // Reapply selection highlight if any
+      if (selectedDoy != null) {
+        const idx = activeDoys.indexOf(selectedDoy);
+        if (idx >= 0) {
+          windows2000[idx].classList.add('selected');
+          windows2024[idx].classList.add('selected');
+        } else {
+          // Selected day no longer visible — clear inspect
+          selectedDoy = null;
+          inspectEmpty.style.display = 'block';
+          inspectContent.style.display = 'none';
+        }
+      }
+    }
+
+    const SPEEDS = { slow: 3500, medium: 1800, fast: 800 };
+    let variable = 't2m';
+    let speed = 'medium';
+    let playing = true;
+    let currentHour = 6;
+    let timer = null;
+    let selectedDoy = null;
+    // Multi-select band checkboxes. Each band is non-overlapping; a window can
+    // match at most one band, but tropical+stress can be on at the same time and
+    // each window picks whichever band its current-hour value falls into.
+    const bandsOn = { tropical: false, strong: false, very: false, extreme: false };
+    let colorMode = 'single'; // 'single' or 'scale'
+
+    // Inspect card refs
+    const inspectCard = document.getElementById('blrInspectCard');
+    const inspectEmpty = inspectCard.querySelector('.inspect-empty');
+    const inspectContent = inspectCard.querySelector('.inspect-content');
+    const inspectDate = document.getElementById('blrInspectDate');
+    const inspectHour = document.getElementById('blrInspectHour');
+    const inspectUTCI2000 = document.getElementById('blrInspectUTCI2000');
+    const inspectUTCI2024 = document.getElementById('blrInspectUTCI2024');
+    const inspectUTCIDelta = document.getElementById('blrInspectUTCIDelta');
+    const inspectT2M2000 = document.getElementById('blrInspectT2M2000');
+    const inspectT2M2024 = document.getElementById('blrInspectT2M2024');
+
+    // cache[city][year] = { t2m: [...], utci: [...] } — 8784 UTC-stamped hourly samples.
+    // 'loading' sentinel guards against duplicate in-flight fetches.
+    const CITIES = ['delhi','mumbai','chennai','bangalore','ahmedabad','guwahati','ajmer','shimla','ooty','kodai','munnar','darjeeling'];
+    const cache = {};
+    CITIES.forEach(c => { cache[c] = { 2000: null, 2024: null }; });
+    let city = 'bangalore';
+
+    function getRec(year) {
+      const e = cache[city] && cache[city][year];
+      return (e && e !== 'loading') ? e : null;
+    }
+    function loaded() { return getRec(2000) && getRec(2024); }
+    function setNote(text) { if (noteEl) noteEl.textContent = text; }
+
+    const count2000El = document.getElementById('blrCount2000');
+    const count2024El = document.getElementById('blrCount2024');
+    function updateCounts(c00, c24, suffix) {
+      if (!count2000El || !count2024El) return;
+      if (suffix) {
+        count2000El.textContent = `${c00} ${suffix}`;
+        count2024El.textContent = `${c24} ${suffix}`;
+      } else {
+        count2000El.textContent = '';
+        count2024El.textContent = '';
+      }
+    }
+    // Stack multiple band lines under each building
+    function updateMultiCounts(parts00, parts24) {
+      if (!count2000El || !count2024El) return;
+      const fmt = parts => parts.length ? parts.join(' · ') : '0 in any selected band';
+      count2000El.textContent = fmt(parts00);
+      count2024El.textContent = fmt(parts24);
+    }
+
+    // IST hour h on day-of-year (1-based) doy => UTC sample index (doy-1)*24 + h - 5
+    // (UTC + 5:30 = IST, hourly data, :30 on the clock face)
+    function valueAt(year, doy, hour, kind) {
+      const rec = getRec(year);
+      if (!rec) return null;
+      const istIdx = (doy - 1) * 24 + hour;
+      const utcIdx = istIdx - 5;
+      if (utcIdx < 0 || utcIdx >= rec[kind].length) return null;
+      const v = rec[kind][utcIdx];
+      return (v == null) ? null : v;
+    }
+
+    // Non-overlapping bands. Each has a base color (used in 'single' mode) and
+    // light/dark endpoints (used in 'scale' mode, interpolated by where the
+    // value sits in [lo, hi]). hi=Infinity for extreme uses a 46–55 effective
+    // range for the gradient so anything ≥55 saturates at darkest.
+    const BANDS = {
+      tropical: { lo: 25, hi: 32, color: '#f1c21b', light: '#fdf6b2', dark: '#a67c00', nightOnly: true,  label: 'nights too hot to sleep' },
+      strong:   { lo: 32, hi: 38, color: '#ff832b', light: '#ffd4b3', dark: '#a64500', nightOnly: false, label: 'days strong stress' },
+      very:     { lo: 38, hi: 46, color: '#da1e28', light: '#f6a5a9', dark: '#8a0000', nightOnly: false, label: 'days very strong' },
+      extreme:  { lo: 46, hi: Infinity, gradHi: 55, color: '#750e13', light: '#a72020', dark: '#3a0507', nightOnly: false, label: 'days extreme' }
+    };
+    const BAND_ORDER = ['tropical', 'strong', 'very', 'extreme'];
+    const NIGHT_EMPTY = '#2a2a2a';
+
+    // Clock hour falls inside the IST night window 7:30 PM → 7:30 AM.
+    function isNightHour(h) {
+      return h >= 19 || h <= 7;
+    }
+
+    // Linear interpolate between two hex colors. t clamped to [0,1].
+    function hexToRgb(h) {
+      return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+    }
+    function lerpHex(a, b, t) {
+      t = Math.max(0, Math.min(1, t));
+      const A = hexToRgb(a), B = hexToRgb(b);
+      const r = Math.round(A[0] + (B[0]-A[0])*t);
+      const g = Math.round(A[1] + (B[1]-A[1])*t);
+      const bl = Math.round(A[2] + (B[2]-A[2])*t);
+      return `rgb(${r},${g},${bl})`;
+    }
+
+    // Return which band a value falls into (or null), considering only the
+    // bands currently checked on and whether the clock hour qualifies as night.
+    function matchBand(v, isNight) {
+      if (v == null) return null;
+      for (const key of BAND_ORDER) {
+        if (!bandsOn[key]) continue;
+        const b = BANDS[key];
+        if (b.nightOnly && !isNight) continue;
+        if (v >= b.lo && v < b.hi) return key;
+      }
+      return null;
+    }
+
+    // Color for a value inside a given band.
+    function bandColor(bandKey, v) {
+      const b = BANDS[bandKey];
+      if (colorMode === 'single') return b.color;
+      const hi = (b.hi === Infinity) ? b.gradHi : b.hi;
+      const t = (v - b.lo) / (hi - b.lo);
+      return lerpHex(b.light, b.dark, t);
+    }
+
+    function anyBandOn() {
+      return BAND_ORDER.some(k => bandsOn[k]);
+    }
+
+    function render(hour) {
+      if (!loaded()) { updateCounts(0, 0); return; }
+      if (anyBandOn()) { renderBands(); return; }
+      const color = window.__tempColor;
+      if (!color) return;
+      activeDoys.forEach((doy, i) => {
+        const v00 = valueAt(2000, doy, hour, variable);
+        const v24 = valueAt(2024, doy, hour, variable);
+        windows2000[i].style.background = (v00 == null) ? NIGHT_EMPTY : color(v00);
+        windows2024[i].style.background = (v24 == null) ? NIGHT_EMPTY : color(v24);
+      });
+      // Neutral count for plain hourly view
+      updateCounts(activeDoys.length, activeDoys.length, `${activeDoys.length} days shown`);
+    }
+
+    // Multi-band render. For each window, look up the band its current-hour
+    // value falls into (if any on). Fill with that band's color (single or
+    // gradient). Each band gets a count in the caption.
+    function renderBands() {
+      const isNight = isNightHour(currentHour);
+      const counts00 = {}; const counts24 = {};
+      BAND_ORDER.forEach(k => { counts00[k] = 0; counts24[k] = 0; });
+
+      activeDoys.forEach((doy, i) => {
+        const v00 = valueAt(2000, doy, currentHour, variable);
+        const v24 = valueAt(2024, doy, currentHour, variable);
+        const k00 = matchBand(v00, isNight);
+        const k24 = matchBand(v24, isNight);
+        windows2000[i].style.background = k00 ? bandColor(k00, v00) : NIGHT_EMPTY;
+        windows2024[i].style.background = k24 ? bandColor(k24, v24) : NIGHT_EMPTY;
+        if (k00) counts00[k00]++;
+        if (k24) counts24[k24]++;
+      });
+
+      // Caption: one line per active band
+      const parts00 = [];
+      const parts24 = [];
+      BAND_ORDER.forEach(k => {
+        if (!bandsOn[k]) return;
+        parts00.push(`${counts00[k]} ${BANDS[k].label}`);
+        parts24.push(`${counts24[k]} ${BANDS[k].label}`);
+      });
+      updateMultiCounts(parts00, parts24);
+    }
+
+    function setClockHour(h) {
+      hourHand.style.transform = `rotate(${((h + 0.5) / 12) * 360}deg)`;
+      minuteHand.style.transform = `rotate(180deg)`;
+      const ampm = h < 12 ? 'AM' : 'PM';
+      const h12 = ((h + 11) % 12) + 1;
+      digital.innerHTML = `${String(h12).padStart(2, '0')}:30<span class="ampm">${ampm}</span>`;
+    }
+
+    function tickStep() {
+      currentHour = (currentHour + 1) % 24;
+      setClockHour(currentHour);
+      render(currentHour);
+      if (selectedDoy != null) refreshInspect();
+    }
+
+    function restartTimer() {
+      if (timer) clearInterval(timer);
+      if (playing) timer = setInterval(tickStep, SPEEDS[speed]);
+    }
+
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function doyToDate(doy, year) {
+      const d = new Date(year, 0, doy);
+      return `${d.getDate()} ${MONTHS[d.getMonth()]}`;
+    }
+    function fmtHour(h) {
+      const ampm = h < 12 ? 'AM' : 'PM';
+      const h12 = ((h + 11) % 12) + 1;
+      return `${String(h12).padStart(2, '0')}:30 ${ampm}`;
+    }
+    function fmtVal(v) {
+      return (v == null) ? '—' : `${v.toFixed(1)}°C`;
+    }
+
+    function refreshInspect() {
+      if (selectedDoy == null) return;
+      const u00 = valueAt(2000, selectedDoy, currentHour, 'utci');
+      const u24 = valueAt(2024, selectedDoy, currentHour, 'utci');
+      const t00 = valueAt(2000, selectedDoy, currentHour, 't2m');
+      const t24 = valueAt(2024, selectedDoy, currentHour, 't2m');
+      inspectDate.textContent = doyToDate(selectedDoy, 2024);
+      inspectHour.textContent = `at ${fmtHour(currentHour)}`;
+      inspectUTCI2000.textContent = fmtVal(u00);
+      inspectUTCI2024.textContent = fmtVal(u24);
+      if (u00 != null && u24 != null) {
+        const d = u24 - u00;
+        inspectUTCIDelta.textContent = `${d >= 0 ? '+' : ''}${d.toFixed(1)}°C`;
+      } else {
+        inspectUTCIDelta.textContent = '—';
+      }
+      inspectT2M2000.textContent = fmtVal(t00);
+      inspectT2M2024.textContent = fmtVal(t24);
+    }
+
+    function selectDay(doy) {
+      selectedDoy = doy;
+      const idx = activeDoys.indexOf(doy);
+      [windows2000, windows2024].forEach(arr => {
+        arr.forEach((w, i) => w.classList.toggle('selected', i === idx));
+      });
+      inspectEmpty.style.display = 'none';
+      inspectContent.style.display = 'block';
+      refreshInspect();
+    }
+
+    // Initial build (called now that selectDay and inspect refs above are in scope)
+    rebuildBuildings();
+
+    function fetchYear(cityKey, year) {
+      return Promise.all([
+        fetch(`final-data/${cityKey}-${year}-hourly-t2m.json`).then(r => r.ok ? r.json() : null),
+        fetch(`final-data/${cityKey}-${year}-hourly-utci.json`).then(r => r.ok ? r.json() : null)
+      ]).then(([t2mDoc, utciDoc]) => {
+        if (!t2mDoc || !utciDoc) return null;
+        return { t2m: t2mDoc.values_max_daily, utci: utciDoc.values_max_daily };
+      });
+    }
+
+    const CITY_LABEL = {
+      delhi: 'Delhi', mumbai: 'Mumbai', chennai: 'Chennai', bangalore: 'Bangalore',
+      ahmedabad: 'Ahmedabad', guwahati: 'Guwahati', ajmer: 'Ajmer',
+      shimla: 'Shimla', ooty: 'Ooty', kodai: 'Kodai',
+      munnar: 'Munnar', darjeeling: 'Darjeeling'
+    };
+
+    function loadCity(cityKey) {
+      const e2000 = cache[cityKey][2000];
+      const e2024 = cache[cityKey][2024];
+      // Already loaded — just re-render if it's the current city
+      if (e2000 && e2024 && e2000 !== 'loading' && e2024 !== 'loading') {
+        if (cityKey === city) {
+          setNote(`${CITY_LABEL[cityKey]} · IST display`);
+          render(currentHour);
+          if (selectedDoy != null) refreshInspect();
+        }
+        return;
+      }
+      if (e2000 === 'loading' || e2024 === 'loading') return; // in flight
+      cache[cityKey][2000] = 'loading';
+      cache[cityKey][2024] = 'loading';
+      setNote(`Loading ${CITY_LABEL[cityKey]}…`);
+      Promise.all([fetchYear(cityKey, 2000), fetchYear(cityKey, 2024)]).then(([d00, d24]) => {
+        if (!d00 || !d24) {
+          cache[cityKey][2000] = null;
+          cache[cityKey][2024] = null;
+          if (cityKey === city) setNote(`Failed to load ${CITY_LABEL[cityKey]}.`);
+          return;
+        }
+        cache[cityKey][2000] = d00;
+        cache[cityKey][2024] = d24;
+        // Re-render only if the user hasn't switched away mid-fetch
+        if (cityKey === city) {
+          setNote(`${CITY_LABEL[cityKey]} · IST display`);
+          render(currentHour);
+          if (selectedDoy != null) refreshInspect();
+        }
+      });
+    }
+
+    loadCity(city);
+
+    setClockHour(currentHour);
+    restartTimer();
+
+    playBtn.addEventListener('click', () => {
+      playing = !playing;
+      playBtn.textContent = playing ? 'Pause' : 'Play';
+      playBtn.classList.toggle('paused', !playing);
+      restartTimer();
+    });
+
+    const summerBtn = document.getElementById('blrSummerBtn');
+    summerBtn.addEventListener('click', () => {
+      summerMode = !summerMode;
+      summerBtn.classList.toggle('paused', summerMode);
+      summerBtn.textContent = summerMode ? 'All months' : 'Summer months';
+      rebuildBuildings();
+      render(currentHour);
+    });
+
+    // Band checkboxes (multi-select, independent)
+    document.querySelectorAll('#blrBandChecks input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const k = cb.dataset.band;
+        bandsOn[k] = cb.checked;
+        render(currentHour);
+      });
+    });
+
+    // Scope toggle handler to this chart's wrapper only
+    const ownWrap = b2000.closest('.sim-wrap-dual');
+    ownWrap.querySelectorAll('[data-group]').forEach(row => {
+      row.addEventListener('click', e => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        row.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const group = row.dataset.group;
+        const value = btn.dataset.value;
+        if (group === 'blrCity') {
+          city = value;
+          // Clear any existing day selection — its values now belong to a different city
+          selectedDoy = null;
+          [windows2000, windows2024].forEach(arr => {
+            arr.forEach(w => w.classList.remove('selected'));
+          });
+          inspectEmpty.style.display = 'block';
+          inspectContent.style.display = 'none';
+          loadCity(city);
+          // Show something immediately if cached; loadCity re-renders on completion otherwise
+          render(currentHour);
+        } else if (group === 'blrVar') {
+          variable = value;
+          render(currentHour);
+        } else if (group === 'blrSpeed') {
+          speed = value;
+          restartTimer();
+        } else if (group === 'blrColorMode') {
+          colorMode = value;
+          render(currentHour);
+        }
+      });
+    });
   })();
 
   // Insight 07 + 08 — IST hourly diurnal charts, "too hot" panels, and heatmaps (D3)
@@ -3905,403 +4695,6 @@
     };
   })();
 
-  // Insight 09 — Data query chatbot
-  (function () {
-    const log = document.getElementById('chatLog');
-    const input = document.getElementById('chatInput');
-    const send = document.getElementById('chatSend');
-    if (!log || !input || !send) return;
-
-    const CITIES = ['delhi', 'mumbai', 'chennai', 'kolkata', 'bangalore', 'surat'];
-    const CITY_DISPLAY = {
-      delhi: 'Delhi', mumbai: 'Mumbai', chennai: 'Chennai', kolkata: 'Kolkata',
-      bangalore: 'Bangalore', surat: 'Surat'
-    };
-    const METRICS = ['t2m', 'utci', 'both'];
-    const METRIC_DISPLAY = { t2m: 'Actual (T2M)', utci: 'Feels-like (UTCI)', both: 'Both T2M & UTCI' };
-    const MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
-    const MONTH_NAMES = ['January','February','March','April','May','June',
-                         'July','August','September','October','November','December'];
-
-    // Conversation state
-    const query = { city: null, from: null, to: null, metric: null };
-    let pending = null; // which slot we're asking for
-
-    // Cache of fetched hourly JSON: { "city-year": data | null | "loading" }
-    const hourlyCache = {};
-    function loadHourlyYear(city, year) {
-      const key = `${city}-${year}`;
-      if (hourlyCache[key] && hourlyCache[key] !== 'loading') return Promise.resolve(hourlyCache[key]);
-      if (hourlyCache[key] === 'loading') {
-        // Poll until it resolves
-        return new Promise(resolve => {
-          const iv = setInterval(() => {
-            if (hourlyCache[key] !== 'loading') {
-              clearInterval(iv);
-              resolve(hourlyCache[key]);
-            }
-          }, 100);
-        });
-      }
-      hourlyCache[key] = 'loading';
-      return fetch(`data/${city}-${year}-hourly.json`)
-        .then(r => r.ok ? r.json() : null)
-        .then(d => { hourlyCache[key] = d; return d; })
-        .catch(() => { hourlyCache[key] = null; return null; });
-    }
-
-    function addMsg(text, who = 'bot', chips = null, extraNode = null) {
-      const msg = document.createElement('div');
-      msg.className = 'chat-msg ' + who;
-      msg.textContent = text;
-      if (chips && chips.length) {
-        const row = document.createElement('div');
-        row.className = 'chip-row';
-        chips.forEach(c => {
-          const b = document.createElement('button');
-          b.className = 'chat-chip';
-          b.textContent = c.label;
-          b.addEventListener('click', () => handleUserInput(c.value));
-          row.appendChild(b);
-        });
-        msg.appendChild(row);
-      }
-      if (extraNode) msg.appendChild(extraNode);
-      log.appendChild(msg);
-      log.scrollTop = log.scrollHeight;
-      return msg;
-    }
-
-    function parseDate(str) {
-      if (!str) return null;
-      const s = str.trim().toLowerCase();
-      // YYYY-MM-DD
-      let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
-      if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
-      // DD/MM/YYYY or DD-MM-YYYY
-      m = s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
-      if (m) return new Date(+m[3], +m[2] - 1, +m[1]);
-      // "May 1 2024" or "1 May 2024"
-      m = s.match(/^([a-z]+)\s+(\d{1,2})(?:[,\s]+(\d{4}))?$/);
-      if (m && MONTHS.includes(m[1].slice(0, 3))) {
-        const mo = MONTHS.indexOf(m[1].slice(0, 3));
-        const y = m[3] ? +m[3] : new Date().getFullYear();
-        return new Date(y, mo, +m[2]);
-      }
-      m = s.match(/^(\d{1,2})\s+([a-z]+)(?:[,\s]+(\d{4}))?$/);
-      if (m && MONTHS.includes(m[2].slice(0, 3))) {
-        const mo = MONTHS.indexOf(m[2].slice(0, 3));
-        const y = m[3] ? +m[3] : new Date().getFullYear();
-        return new Date(y, mo, +m[1]);
-      }
-      // Year only "2024"
-      m = s.match(/^(\d{4})$/);
-      if (m) return { wholeYear: +m[1] };
-      // Month name only — "May 2024" or "May"
-      m = s.match(/^([a-z]+)(?:\s+(\d{4}))?$/);
-      if (m && MONTHS.includes(m[1].slice(0, 3))) {
-        const mo = MONTHS.indexOf(m[1].slice(0, 3));
-        const y = m[2] ? +m[2] : new Date().getFullYear();
-        return { wholeMonth: { year: y, month: mo } };
-      }
-      return null;
-    }
-
-    function fmtDate(d) {
-      if (!d) return '—';
-      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    }
-
-    function parseQuery(text) {
-      const s = text.toLowerCase();
-      // City
-      for (const c of CITIES) if (s.includes(c)) query.city = c;
-      // Metric
-      if (/feels[\s-]?like|utci/.test(s)) query.metric = 'utci';
-      else if (/\bactual\b|t2m|air temp/.test(s)) query.metric = 't2m';
-      else if (/\bboth\b/.test(s)) query.metric = 'both';
-      // Chart
-      if (/\bline\b/.test(s)) query.chart = 'line';
-      else if (/\bbar\b/.test(s)) query.chart = 'bar';
-      else if (/export|csv|download/.test(s)) query.chart = 'export';
-
-      // Date range — "from X to Y" or "X to Y" or "between X and Y"
-      let m = s.match(/(?:from|between)\s+(.+?)\s+(?:to|and|-|until)\s+(.+?)(?:[,.]|$)/);
-      if (!m) m = s.match(/(.+?)\s+(?:to|-)\s+(.+?)(?:[,.]|$)/);
-      if (m) {
-        const f = parseDate(m[1].replace(/^(?:in|for)\s+/, ''));
-        const t = parseDate(m[2]);
-        if (f && t) {
-          assignDates(f, t);
-          return;
-        }
-      }
-      // Single date
-      m = s.match(/\b(\d{4}-\d{1,2}-\d{1,2}|\d{1,2}[\/-]\d{1,2}[\/-]\d{4})\b/);
-      if (m) {
-        const d = parseDate(m[1]);
-        if (d) { query.from = d; query.to = d; return; }
-      }
-      // Month + year   "may 2024"
-      m = s.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*(?:\s+(\d{4}))?\b/);
-      if (m) {
-        const mo = MONTHS.indexOf(m[1]);
-        const yr = m[2] ? +m[2] : 2024;
-        query.from = new Date(yr, mo, 1);
-        query.to = new Date(yr, mo + 1, 0);
-        return;
-      }
-      // Whole year
-      m = s.match(/\b(20\d{2})\b/);
-      if (m) {
-        const yr = +m[1];
-        query.from = new Date(yr, 0, 1);
-        query.to = new Date(yr, 11, 31);
-      }
-    }
-
-    function assignDates(a, b) {
-      const toReal = v => v.wholeYear
-        ? { from: new Date(v.wholeYear, 0, 1), to: new Date(v.wholeYear, 11, 31) }
-        : v.wholeMonth
-          ? { from: new Date(v.wholeMonth.year, v.wholeMonth.month, 1),
-              to: new Date(v.wholeMonth.year, v.wholeMonth.month + 1, 0) }
-          : { from: v, to: v };
-      const A = toReal(a), B = toReal(b);
-      query.from = A.from < B.from ? A.from : B.from;
-      query.to = A.to > B.to ? A.to : B.to;
-    }
-
-    function nextMissing() {
-      if (!query.city) return 'city';
-      if (!query.from || !query.to) return 'dates';
-      if (!query.metric) return 'metric';
-      return null;
-    }
-
-    function askNext() {
-      const slot = nextMissing();
-      if (slot === 'city') {
-        addMsg('Which city would you like data for?', 'bot',
-          CITIES.map(c => ({ label: CITY_DISPLAY[c], value: c })));
-      } else if (slot === 'dates') {
-        addMsg('What date range? We have hourly data for 2000 and 2024. Try "12 Jun 2024", "May 2024", or pick below.', 'bot', [
-          { label: 'Full year 2024', value: '2024' },
-          { label: 'Full year 2000', value: '2000' },
-          { label: 'May 2024', value: 'may 2024' },
-          { label: 'Peak day 2024 (12 Jun Delhi)', value: '12 jun 2024' }
-        ]);
-      } else if (slot === 'metric') {
-        addMsg('Which temperature do you want — actual, felt, or both?', 'bot',
-          METRICS.map(m => ({ label: METRIC_DISPLAY[m], value: m })));
-      } else {
-        runQuery();
-      }
-      pending = slot;
-    }
-
-    function handleUserInput(text) {
-      if (!text) return;
-      const trimmed = String(text).trim();
-      addMsg(trimmed, 'user');
-
-      if (pending === 'city' && CITIES.includes(trimmed.toLowerCase())) {
-        query.city = trimmed.toLowerCase();
-      } else if (pending === 'metric' && METRICS.includes(trimmed.toLowerCase())) {
-        query.metric = trimmed.toLowerCase();
-      } else {
-        parseQuery(trimmed);
-      }
-      askNext();
-    }
-
-    // ---------- Build hourly series from real fetched JSON ----------
-    function pad2(n) { return String(n).padStart(2, '0'); }
-    function fmtISTHour(d) {
-      // d is a Date in local time used as IST hour stamp
-      return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())} ` +
-             `${pad2(d.getHours())}:00 IST`;
-    }
-    function dayOfYearLocal(d) {
-      const start = new Date(d.getFullYear(), 0, 1);
-      return Math.floor((d - start) / 86400000) + 1;
-    }
-
-    async function fetchSeriesReal(city, from, to) {
-      // Walk hour-by-hour from `from` 00:00 IST to `to` 23:00 IST.
-      // Map each IST hour back to UTC index in the year's hourly JSON.
-      const out = [];
-      const years = new Set();
-      for (let y = from.getFullYear(); y <= to.getFullYear(); y++) years.add(y);
-      // Pre-load all needed years
-      const cache = {};
-      for (const y of years) {
-        cache[y] = await loadHourlyYear(city, y);
-      }
-
-      const cur = new Date(from.getFullYear(), from.getMonth(), from.getDate(), 0, 0, 0);
-      const stop = new Date(to.getFullYear(), to.getMonth(), to.getDate(), 23, 0, 0);
-      while (cur <= stop) {
-        const y = cur.getFullYear();
-        const rec = cache[y];
-        let t2m = null, utci = null;
-        if (rec && rec.utci && rec.t2m) {
-          const istDoy = dayOfYearLocal(cur);
-          const istIdx = (istDoy - 1) * 24 + cur.getHours();
-          const utcIdx = istIdx - 5;
-          if (utcIdx >= 0 && utcIdx < rec.hours) {
-            t2m = rec.t2m[utcIdx];
-            utci = rec.utci[utcIdx];
-          }
-        }
-        out.push({ date: new Date(cur), t2m, utci });
-        cur.setHours(cur.getHours() + 1);
-      }
-      return out;
-    }
-
-    // ---------- Output rendering ----------
-    async function runQuery() {
-      // Constrain to years we have (2000, 2024)
-      const supportedYears = new Set([2000, 2024]);
-      const requestedYears = new Set();
-      for (let y = query.from.getFullYear(); y <= query.to.getFullYear(); y++) requestedYears.add(y);
-      const missingYears = [...requestedYears].filter(y => !supportedYears.has(y));
-      if (missingYears.length === requestedYears.size) {
-        addMsg(`Sorry — hourly data is only available for 2000 and 2024. Try one of those years.`,
-          'bot', [{ label: 'Reset', value: '__reset__' }]);
-        return;
-      }
-      let noteMissing = '';
-      if (missingYears.length) {
-        noteMissing = ` (skipping ${missingYears.join(', ')} — no hourly data)`;
-      }
-
-      addMsg('Fetching hourly data…', 'bot');
-      const series = await fetchSeriesReal(query.city, query.from, query.to);
-      const valid = series.filter(d => d.t2m != null && d.utci != null);
-
-      if (!valid.length) {
-        addMsg(`No hourly data returned for that range.`, 'bot',
-          [{ label: 'Reset', value: '__reset__' }]);
-        return;
-      }
-
-      const hot40t2m  = valid.filter(d => d.t2m  > 40).length;
-      const hot40utci = valid.filter(d => d.utci > 40).length;
-
-      const summary = document.createElement('div');
-      summary.className = 'chat-summary';
-      summary.textContent =
-        `${CITY_DISPLAY[query.city]} · ${fmtDate(query.from)} – ${fmtDate(query.to)} · ` +
-        `${valid.length} hourly readings · actual>40°C: ${hot40t2m}h · feels>40°C: ${hot40utci}h${noteMissing}`;
-
-      const wrap = document.createDocumentFragment();
-      wrap.appendChild(summary);
-      wrap.appendChild(buildExport(valid));
-
-      addMsg(
-        `Here's ${CITY_DISPLAY[query.city]} from ${fmtDate(query.from)} to ${fmtDate(query.to)} — ` +
-        `${METRIC_DISPLAY[query.metric]}, hourly.`,
-        'bot', null, wrap
-      );
-
-      addMsg('Try another? e.g. "Surat May 2024" or "Bangalore 12 jun 2024".', 'bot', [
-        { label: 'Reset', value: '__reset__' }
-      ]);
-    }
-
-    function buildExport(series) {
-      // Build CSV with hourly rows. Respect chosen metric: drop columns
-      // not asked for, but always include date.
-      const cols = ['timestamp_ist'];
-      if (query.metric === 't2m'  || query.metric === 'both') cols.push('t2m');
-      if (query.metric === 'utci' || query.metric === 'both') cols.push('utci');
-      const rows = [cols];
-      series.forEach(d => {
-        const row = [
-          `${d.date.getFullYear()}-${pad2(d.date.getMonth()+1)}-${pad2(d.date.getDate())}T${pad2(d.date.getHours())}:00+05:30`
-        ];
-        if (cols.includes('t2m'))  row.push(d.t2m  != null ? d.t2m  : '');
-        if (cols.includes('utci')) row.push(d.utci != null ? d.utci : '');
-        rows.push(row);
-      });
-      const csv = rows.map(r => r.join(',')).join('\n');
-
-      const box = document.createElement('div');
-      box.className = 'chat-result';
-      box.textContent = csv.split('\n').slice(0, 10).join('\n') +
-        (rows.length > 10 ? `\n…\n(${rows.length - 1} rows total)` : '');
-
-      const actions = document.createElement('div');
-      actions.className = 'chat-actions';
-      const dlBtn = document.createElement('button');
-      dlBtn.className = 'chat-chip';
-      dlBtn.textContent = 'Download CSV';
-      dlBtn.addEventListener('click', () => {
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        const fromStr = `${query.from.getFullYear()}-${pad2(query.from.getMonth()+1)}-${pad2(query.from.getDate())}`;
-        const toStr = `${query.to.getFullYear()}-${pad2(query.to.getMonth()+1)}-${pad2(query.to.getDate())}`;
-        a.href = url;
-        a.download = `${query.city}_${query.metric}_hourly_${fromStr}_to_${toStr}.csv`;
-        a.click();
-        URL.revokeObjectURL(url);
-      });
-      actions.appendChild(dlBtn);
-
-      const container = document.createElement('div');
-      container.appendChild(box);
-      container.appendChild(actions);
-      return container;
-    }
-
-    // ---------- Wire up ----------
-    function reset() {
-      query.city = null; query.from = null; query.to = null;
-      query.metric = null;
-      pending = null;
-    }
-
-    function submitInput() {
-      const v = input.value.trim();
-      if (!v) return;
-      input.value = '';
-      if (v.toLowerCase() === 'reset' || v === '__reset__') {
-        reset();
-        addMsg('Reset. Let\'s start fresh.', 'bot');
-        askNext();
-        return;
-      }
-      handleUserInput(v);
-    }
-
-    send.addEventListener('click', submitInput);
-    input.addEventListener('keydown', e => {
-      if (e.key === 'Enter') submitInput();
-    });
-
-    // Wrap handleUserInput to intercept reset chip
-    const origHandle = handleUserInput;
-    handleUserInput = function (text) {
-      if (text === '__reset__') {
-        reset();
-        addMsg('Reset. Let\'s start fresh.', 'bot');
-        askNext();
-        return;
-      }
-      origHandle(text);
-    };
-
-    // Kickoff
-    addMsg(
-      'Hi — I can pull hourly temperature data (real ERA5/UTCI) for 6 Indian cities. ' +
-      'Hourly data is available for 2000 and 2024. Tell me city, date range, and metric — I\'ll return a CSV.',
-      'bot'
-    );
-    askNext();
-  })();
 
   // ---------- Global CSV export dispatcher ----------
   (function () {
@@ -4358,6 +4751,1004 @@
     });
   })();
 
+</script>
+
+<script>
+  // ============ Insight 01: exposure step-charts ============
+  (function () {
+    const CITIES = [
+      "delhi","mumbai","chennai","bangalore","ahmedabad","ajmer","guwahati",
+      "shimla","ooty","kodai","munnar","darjeeling"
+    ];
+    const CITY_LABEL = {
+      delhi:"Delhi", mumbai:"Mumbai", chennai:"Chennai", bangalore:"Bangalore",
+      ahmedabad:"Ahmedabad", ajmer:"Ajmer", guwahati:"Guwahati",
+      shimla:"Shimla", ooty:"Ooty", kodai:"Kodai", munnar:"Munnar", darjeeling:"Darjeeling"
+    };
+    // Panel specs are functions of alt-threshold state so we can swap keys/titles.
+    function buildPanelSpec() {
+      const extKey = altExtreme40 ? "extreme_40_dayeq" : "extreme_dayeq";
+      const extTitle = altExtreme40
+        ? "Days with 'extreme heat stress' (UTCI > 40 °C)"
+        : "Days with 'extreme heat stress'";
+      const tropKey = altTrop20 ? "tropical_night_20_dayeq" : "tropical_night_dayeq";
+      const tropTitle = altTrop20
+        ? "Tropical nights (T2M > 20 °C)"
+        : "Tropical nights";
+      return [
+        { key: "strong_dayeq",      overlayKey: "strong_t2m_dayeq",      title: "Days with at least 'strong heat stress'",      color: "#e07a5f" },
+        { key: "very_strong_dayeq", overlayKey: "very_strong_t2m_dayeq", title: "Days with at least 'very strong heat stress'", color: "#b94a3d" },
+        { key: extKey,              overlayKey: "extreme_t2m_dayeq",     title: extTitle,                                       color: "#7a1f2b" },
+        { key: tropKey,             overlayKey: null,                    title: tropTitle,                                      color: "#5b2a4a" }
+      ];
+    }
+
+    const cache = {};
+    let currentCity = "delhi";
+    let showT2m = true;
+    let altExtreme40 = false;
+    let altTrop20 = false;
+
+    const pillsEl = document.getElementById("expCityPills");
+    const statusEl = document.getElementById("expStatus");
+    const panelsEl = document.getElementById("expPanels");
+    const t2mToggle = document.getElementById("expT2mToggle");
+    const exportBtn = document.getElementById("expExportBtn");
+
+    // single shared tooltip overlay — appended to panels-grid AFTER each render so
+    // panelsEl.innerHTML="" doesn't blow it away.
+    const tooltipEl = document.createElement("div");
+    tooltipEl.className = "exp-tooltip";
+
+    function renderPills() {
+      pillsEl.innerHTML = "";
+      CITIES.forEach(c => {
+        const b = document.createElement("button");
+        b.textContent = CITY_LABEL[c];
+        b.dataset.city = c;
+        if (c === currentCity) b.classList.add("active");
+        b.addEventListener("click", () => { selectCity(c); });
+        pillsEl.appendChild(b);
+      });
+    }
+
+    function setStatus(msg, isError) {
+      statusEl.textContent = msg || "";
+      statusEl.classList.toggle("error", !!isError);
+    }
+
+    function parseCSV(text) {
+      const lines = text.trim().split(/\r?\n/);
+      const header = lines.shift().split(",");
+      return lines.map(line => {
+        const cols = line.split(",");
+        const r = {};
+        header.forEach((h, i) => { r[h] = +cols[i]; });
+        return r;
+      });
+    }
+
+    function loadCity(city) {
+      if (cache[city]) return Promise.resolve(cache[city]);
+      return fetch(`exposure-data/${city}-exposure-by-year.csv`)
+        .then(r => {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.text();
+        })
+        .then(text => {
+          const rows = parseCSV(text);
+          cache[city] = rows;
+          return rows;
+        });
+    }
+
+    function selectCity(city) {
+      currentCity = city;
+      renderPills();
+      setStatus("");
+      loadCity(city)
+        .then(rows => render(rows))
+        .catch(err => {
+          panelsEl.innerHTML = "";
+          setStatus(`Could not load ${CITY_LABEL[city]} — ${err.message}. Run python3 compute_exposure_csvs.py ${city}.`, true);
+        });
+    }
+
+    function render(rows) {
+      panelsEl.innerHTML = "";
+      if (!rows.length) { setStatus("No data."); return; }
+      const panels = buildPanelSpec();
+      panels.forEach(p => panelsEl.appendChild(buildPanel(p, rows)));
+      panelsEl.appendChild(tooltipEl);
+    }
+
+
+    function buildPanel(spec, rows) {
+      const wrap = document.createElement("div");
+      wrap.className = "exp-panel";
+      const title = document.createElement("div");
+      title.className = "exp-panel-title";
+      title.style.color = spec.color;
+      title.textContent = spec.title;
+      wrap.appendChild(title);
+
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 560 220");
+      svg.setAttribute("preserveAspectRatio", "none");
+      wrap.appendChild(svg);
+      drawChart(svg, rows, spec);
+      return wrap;
+    }
+
+    function niceCeil(v) {
+      if (v <= 0.001) return 0.001;
+      const mag = Math.pow(10, Math.floor(Math.log10(v)));
+      const n = v / mag;
+      let nice;
+      if (n <= 1) nice = 1;
+      else if (n <= 1.5) nice = 1.5;
+      else if (n <= 2) nice = 2;
+      else if (n <= 3) nice = 3;
+      else if (n <= 5) nice = 5;
+      else nice = 10;
+      return nice * mag;
+    }
+    function fmtTick(v) {
+      if (v === 0) return "0";
+      if (v >= 100) return v.toFixed(0);
+      if (v >= 10) return v.toFixed(0);
+      if (v >= 1) return v.toFixed(1);
+      return v.toFixed(2);
+    }
+
+    function drawChart(svg, rows, spec) {
+      const W = 560, H = 220;
+      const M = { top: 18, right: 14, bottom: 30, left: 38 };
+      const innerW = W - M.left - M.right;
+      const innerH = H - M.top - M.bottom;
+      const ns = "http://www.w3.org/2000/svg";
+
+      const years = rows.map(r => r.year);
+      const vals  = rows.map(r => r[spec.key] || 0);
+      const overlayVals = spec.overlayKey ? rows.map(r => r[spec.overlayKey] || 0) : null;
+
+      const xMin = Math.min(...years);
+      const xMax = Math.max(...years);
+      const xSpan = Math.max(1, xMax - xMin + 1);  // include trailing step
+
+      let yMaxRaw = Math.max(...vals);
+      if (showT2m && overlayVals) yMaxRaw = Math.max(yMaxRaw, ...overlayVals);
+      const yMax = niceCeil(yMaxRaw || 1);
+
+      const x = yr => M.left + ((yr - xMin) / xSpan) * innerW;
+      const xEnd = M.left + innerW;
+      const ys = v => M.top + innerH - (v / yMax) * innerH;
+
+      // gridlines + y ticks (5 evenly spaced)
+      const NUM_TICKS = 5;
+      const yTicks = Array.from({length: NUM_TICKS}, (_, i) => (yMax * i) / (NUM_TICKS - 1));
+      yTicks.forEach(t => {
+        const yy = ys(t);
+        const line = document.createElementNS(ns, "line");
+        line.setAttribute("class", "gridline");
+        line.setAttribute("x1", M.left);
+        line.setAttribute("x2", W - M.right);
+        line.setAttribute("y1", yy);
+        line.setAttribute("y2", yy);
+        svg.appendChild(line);
+        const lbl = document.createElementNS(ns, "text");
+        lbl.setAttribute("class", "y-tick");
+        lbl.setAttribute("x", M.left - 6);
+        lbl.setAttribute("y", yy + 4);
+        lbl.setAttribute("text-anchor", "end");
+        lbl.textContent = fmtTick(t);
+        svg.appendChild(lbl);
+      });
+
+      // x-axis labels: 1950, 1970, 1990, 2010, last
+      const xLabels = new Set([xMin]);
+      [1970, 1990, 2010].forEach(y => { if (y >= xMin && y <= xMax) xLabels.add(y); });
+      xLabels.add(xMax);
+      [...xLabels].sort((a,b)=>a-b).forEach(yr => {
+        const lbl = document.createElementNS(ns, "text");
+        lbl.setAttribute("class", "x-tick");
+        lbl.setAttribute("x", x(yr));
+        lbl.setAttribute("y", H - M.bottom + 16);
+        lbl.setAttribute("text-anchor", yr === xMin ? "start" : yr === xMax ? "end" : "middle");
+        lbl.textContent = yr;
+        svg.appendChild(lbl);
+      });
+
+      // build step path: for each year i draw horizontal at val from x(year_i) to x(year_{i+1})
+      function stepPath(values, fill) {
+        let d = "", fd = "";
+        for (let i = 0; i < rows.length; i++) {
+          const yr = years[i];
+          const v = values[i];
+          const x0 = x(yr);
+          const x1 = (i < rows.length - 1) ? x(years[i + 1]) : xEnd;
+          const yy = ys(v);
+          if (i === 0) {
+            d  += `M ${x0} ${yy} L ${x1} ${yy}`;
+            fd += `M ${x0} ${H - M.bottom} L ${x0} ${yy} L ${x1} ${yy}`;
+          } else {
+            d  += ` L ${x0} ${yy} L ${x1} ${yy}`;
+            fd += ` L ${x0} ${yy} L ${x1} ${yy}`;
+          }
+        }
+        fd += ` L ${xEnd} ${H - M.bottom} Z`;
+        return { d, fd };
+      }
+
+      const main = stepPath(vals);
+
+      // fill underneath
+      const fillEl = document.createElementNS(ns, "path");
+      fillEl.setAttribute("class", "step-fill");
+      fillEl.setAttribute("d", main.fd);
+      fillEl.setAttribute("fill", spec.color);
+      svg.appendChild(fillEl);
+
+      // main step line
+      const lineEl = document.createElementNS(ns, "path");
+      lineEl.setAttribute("class", "step-line");
+      lineEl.setAttribute("d", main.d);
+      lineEl.setAttribute("stroke", spec.color);
+      svg.appendChild(lineEl);
+
+      // last point dot
+      const lastIdx = rows.length - 1;
+      const dot = document.createElementNS(ns, "circle");
+      dot.setAttribute("cx", x(years[lastIdx]));
+      dot.setAttribute("cy", ys(vals[lastIdx]));
+      dot.setAttribute("r", 3.5);
+      dot.setAttribute("fill", spec.color);
+      svg.appendChild(dot);
+
+      // T2M overlay (dotted) if toggled & applicable
+      if (showT2m && overlayVals) {
+        const over = stepPath(overlayVals);
+        const oEl = document.createElementNS(ns, "path");
+        oEl.setAttribute("class", "t2m-overlay");
+        oEl.setAttribute("d", over.d);
+        oEl.setAttribute("stroke", spec.color);
+        svg.appendChild(oEl);
+      }
+
+      // y-axis label ("days") rotated, sitting in the left margin
+      const yLbl = document.createElementNS(ns, "text");
+      yLbl.setAttribute("class", "y-axis-label");
+      yLbl.setAttribute("transform", `translate(${M.left - 28}, ${M.top + innerH / 2}) rotate(-90)`);
+      yLbl.setAttribute("text-anchor", "middle");
+      yLbl.textContent = "days";
+      svg.appendChild(yLbl);
+
+      // Hover overlay: invisible rect per year-step that triggers tooltip.
+      for (let i = 0; i < rows.length; i++) {
+        const x0 = x(years[i]);
+        const x1 = (i < rows.length - 1) ? x(years[i + 1]) : xEnd;
+        const rect = document.createElementNS(ns, "rect");
+        rect.setAttribute("class", "hover-rect");
+        rect.setAttribute("x", x0);
+        rect.setAttribute("y", M.top);
+        rect.setAttribute("width", Math.max(1, x1 - x0));
+        rect.setAttribute("height", innerH);
+        rect.addEventListener("mouseenter", () => {
+          rect.classList.add("hover");
+          const yr = years[i];
+          const v = vals[i];
+          const ov = overlayVals ? overlayVals[i] : null;
+          const utciLbl = (spec.key === "tropical_night_dayeq") ? "T2M nights" : "UTCI";
+          const rd = n => Math.round(n);
+          let html = `<div class="yr">${yr}</div>` +
+                     `<div class="v">${utciLbl}: ${rd(v)} days</div>`;
+          if (ov != null && showT2m) {
+            html += `<div class="t">T2M: ${rd(ov)} days</div>`;
+          }
+          tooltipEl.innerHTML = html;
+          // Position relative to panels-grid container.
+          const r = rect.getBoundingClientRect();
+          const host = panelsEl.getBoundingClientRect();
+          tooltipEl.style.left = (r.left + r.width / 2 - host.left) + "px";
+          tooltipEl.style.top = (r.top - host.top) + "px";
+          tooltipEl.classList.add("show");
+        });
+        rect.addEventListener("mouseleave", () => {
+          rect.classList.remove("hover");
+          tooltipEl.classList.remove("show");
+        });
+        svg.appendChild(rect);
+      }
+    }
+
+    t2mToggle.addEventListener("change", () => {
+      showT2m = t2mToggle.checked;
+      if (cache[currentCity]) render(cache[currentCity]);
+    });
+    document.getElementById("altExtreme40").addEventListener("change", e => {
+      altExtreme40 = e.target.checked;
+      if (cache[currentCity]) render(cache[currentCity]);
+    });
+    document.getElementById("altTrop20").addEventListener("change", e => {
+      altTrop20 = e.target.checked;
+      if (cache[currentCity]) render(cache[currentCity]);
+    });
+
+    exportBtn.addEventListener("click", () => {
+      const rows = cache[currentCity];
+      if (!rows) return;
+      const header = ["year","strong_dayeq","very_strong_dayeq","extreme_dayeq",
+                      "tropical_night_dayeq","strong_t2m_dayeq",
+                      "very_strong_t2m_dayeq","extreme_t2m_dayeq"];
+      const lines = [header.join(",")];
+      rows.forEach(r => lines.push(header.map(h => r[h]).join(",")));
+      const blob = new Blob([lines.join("\n")], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${currentCity}-exposure-by-year.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    renderPills();
+    selectCity(currentCity);
+
+  })();
+
+  // ============ Insight 02: typical-day, city-toggleable ============
+  (function () {
+    const CITIES = [
+      "delhi","mumbai","chennai","bangalore","ahmedabad","ajmer","guwahati",
+      "shimla","ooty","kodai","munnar","darjeeling"
+    ];
+    const CITY_LABEL = {
+      delhi:"Delhi", mumbai:"Mumbai", chennai:"Chennai", bangalore:"Bangalore",
+      ahmedabad:"Ahmedabad", ajmer:"Ajmer", guwahati:"Guwahati",
+      shimla:"Shimla", ooty:"Ooty", kodai:"Kodai", munnar:"Munnar", darjeeling:"Darjeeling"
+    };
+    const PERIOD = {
+      day:   { threshold: 40, color: "#e85a4f", label: "too hot to step out",
+               inWindow: h => h >= 8 && h < 20 },
+      night: { threshold: 26, color: "#3b6e9c", label: "too hot to sleep",
+               inWindow: h => h >= 20 || h < 8 },
+    };
+    // IST clock hour positions: 7:30 AM is "morning start"; the line in this
+    // chart anchors x to "hours since 7:30 AM" so the day window draws left-to-right.
+    const POS_START = 8; // hour after which the daytime curve begins (positions 0..23)
+    function posOf(h) { return (h - POS_START + 24) % 24; }
+
+    const TICK_HOURS = [8, 12, 16, 20, 0, 4, 8].map(h => posOf(h));
+    const TICK_LABELS = ["8 AM","Noon","4 PM","8 PM","Mid","4 AM","8 AM"];
+
+    let city = "delhi";
+    let period = "day";
+    const cache = {};   // city -> { rows: [{h,utci_2000,utci_2024,t2m_2000,t2m_2024}], meta: {...} }
+
+    const pillsEl = document.getElementById("i2CityPills");
+    const cityTitle = document.getElementById("i2CityTitle");
+    const cityDate = document.getElementById("i2CityDate");
+    const svg2000 = document.getElementById("i2Chart2000");
+    const svg2024 = document.getElementById("i2Chart2024");
+    const periodRow = document.querySelector('[data-i2-group="period"]');
+
+    // Shared floating tooltip — positioned over whichever chart the cursor is in.
+    const i2Section = document.getElementById("i2City");
+    i2Section.style.position = "relative";
+    const tooltipEl = document.createElement("div");
+    tooltipEl.className = "exp-tooltip";
+    i2Section.appendChild(tooltipEl);
+
+    function renderPills() {
+      pillsEl.innerHTML = "";
+      CITIES.forEach(c => {
+        const b = document.createElement("button");
+        b.textContent = CITY_LABEL[c];
+        b.dataset.city = c;
+        if (c === city) b.classList.add("active");
+        b.addEventListener("click", () => selectCity(c));
+        pillsEl.appendChild(b);
+      });
+    }
+
+    function parseCSV(text) {
+      const lines = text.trim().split(/\r?\n/);
+      const header = lines.shift().split(",");
+      return lines.map(line => {
+        const cols = line.split(",");
+        const o = {};
+        header.forEach((h, i) => { o[h] = cols[i] === "" ? null : +cols[i]; });
+        return o;
+      });
+    }
+
+    function loadCity(c) {
+      if (cache[c]) return Promise.resolve(cache[c]);
+      return Promise.all([
+        fetch(`typical-day-data/${c}-typical-day.csv`).then(r => r.ok ? r.text() : null),
+        fetch(`typical-day-data/${c}-meta.json`).then(r => r.ok ? r.json() : null),
+      ]).then(([text, meta]) => {
+        if (!text) throw new Error("CSV missing");
+        cache[c] = { rows: parseCSV(text), meta: meta || {} };
+        return cache[c];
+      });
+    }
+
+    function selectCity(c) {
+      city = c;
+      renderPills();
+      loadCity(c).then(rec => {
+        const m = rec.meta.peak_month_name || "";
+        cityTitle.firstChild.textContent = `${CITY_LABEL[c]} `;
+        cityDate.textContent = m ? `${m} average` : "";
+        drawAll(rec);
+      }).catch(err => {
+        cityTitle.firstChild.textContent = `${CITY_LABEL[c]} `;
+        cityDate.textContent = "(data missing)";
+        svg2000.innerHTML = "";
+        svg2024.innerHTML = "";
+      });
+    }
+
+    function drawAll(rec) {
+      drawChart(svg2000, rec.rows, "2000");
+      drawChart(svg2024, rec.rows, "2024");
+      updateTooHot(rec.rows);
+    }
+
+    function drawChart(svgNode, rows, yr) {
+      const ns = "http://www.w3.org/2000/svg";
+      while (svgNode.firstChild) svgNode.removeChild(svgNode.firstChild);
+      const W = 420, H = 260;
+      const M = { top: 14, right: 56, bottom: 28, left: 36 };
+      const innerW = W - M.left - M.right;
+      const innerH = H - M.top - M.bottom;
+
+      // data sorted by display position
+      const utciKey = `utci_${yr}`;
+      const t2mKey  = `t2m_${yr}`;
+      const data = rows
+        .map(r => ({ h: r.hour, pos: posOf(r.hour), utci: r[utciKey], t2m: r[t2mKey] }))
+        .sort((a,b) => a.pos - b.pos);
+
+      // y-domain dynamic with floor 20, ceiling at max+2 rounded up to 5
+      const allVals = data.flatMap(d => [d.utci, d.t2m].filter(v => v != null));
+      const yMaxRaw = Math.max(...allVals);
+      const yMinRaw = Math.min(...allVals);
+      const yMax = Math.ceil((yMaxRaw + 2) / 5) * 5;
+      const yMin = Math.floor((yMinRaw - 2) / 5) * 5;
+
+      const x = p => M.left + (p / 23) * innerW;
+      const y = v => M.top + innerH - ((v - yMin) / (yMax - yMin)) * innerH;
+
+      // gridlines + ticks
+      const yTicks = [];
+      for (let v = yMin; v <= yMax; v += 5) yTicks.push(v);
+      yTicks.forEach(v => {
+        const line = document.createElementNS(ns, "line");
+        line.setAttribute("x1", M.left); line.setAttribute("x2", W - M.right);
+        line.setAttribute("y1", y(v)); line.setAttribute("y2", y(v));
+        line.setAttribute("stroke", "#eee"); line.setAttribute("stroke-width", "1");
+        svgNode.appendChild(line);
+        const lbl = document.createElementNS(ns, "text");
+        lbl.setAttribute("x", M.left - 6); lbl.setAttribute("y", y(v) + 3);
+        lbl.setAttribute("text-anchor", "end");
+        lbl.setAttribute("font-family", "'IBM Plex Mono', monospace");
+        lbl.setAttribute("font-size", "10");
+        lbl.setAttribute("fill", "#8d8d8d");
+        lbl.textContent = v;
+        svgNode.appendChild(lbl);
+      });
+
+      // x-axis ticks
+      TICK_HOURS.forEach((p, i) => {
+        const t = document.createElementNS(ns, "text");
+        t.setAttribute("x", x(p));
+        t.setAttribute("y", H - M.bottom + 14);
+        t.setAttribute("text-anchor", "middle");
+        t.setAttribute("font-family", "'IBM Plex Mono', monospace");
+        t.setAttribute("font-size", "10");
+        t.setAttribute("fill", "#8d8d8d");
+        t.textContent = TICK_LABELS[i];
+        svgNode.appendChild(t);
+      });
+
+      // gap area between t2m and utci
+      let areaD = "";
+      data.forEach((d,i) => { areaD += (i===0?"M ":" L ") + x(d.pos) + " " + y(d.utci); });
+      for (let i = data.length - 1; i >= 0; i--) areaD += " L " + x(data[i].pos) + " " + y(data[i].t2m);
+      areaD += " Z";
+      const area = document.createElementNS(ns, "path");
+      area.setAttribute("d", areaD);
+      area.setAttribute("fill", "#fbb"); area.setAttribute("opacity", "0.25");
+      svgNode.appendChild(area);
+
+      // threshold line
+      const cfg = PERIOD[period];
+      const thr = document.createElementNS(ns, "line");
+      thr.setAttribute("x1", M.left); thr.setAttribute("x2", W - M.right);
+      thr.setAttribute("y1", y(cfg.threshold)); thr.setAttribute("y2", y(cfg.threshold));
+      thr.setAttribute("stroke", cfg.color); thr.setAttribute("stroke-width", "1.25");
+      thr.setAttribute("stroke-dasharray", "4 4");
+      svgNode.appendChild(thr);
+
+      // T2M solid line
+      const lineT2m = document.createElementNS(ns, "path");
+      let dT2m = "";
+      data.forEach((d,i) => { dT2m += (i===0?"M ":" L ") + x(d.pos) + " " + y(d.t2m); });
+      lineT2m.setAttribute("d", dT2m);
+      lineT2m.setAttribute("fill", "none");
+      lineT2m.setAttribute("stroke", "#161616");
+      lineT2m.setAttribute("stroke-width", "1.5");
+      svgNode.appendChild(lineT2m);
+
+      // UTCI dashed line
+      const lineU = document.createElementNS(ns, "path");
+      let dU = "";
+      data.forEach((d,i) => { dU += (i===0?"M ":" L ") + x(d.pos) + " " + y(d.utci); });
+      lineU.setAttribute("d", dU);
+      lineU.setAttribute("fill", "none");
+      lineU.setAttribute("stroke", "#c0382f");
+      lineU.setAttribute("stroke-width", "1.5");
+      lineU.setAttribute("stroke-dasharray", "5 3");
+      svgNode.appendChild(lineU);
+
+      // end labels
+      const last = data[data.length - 1];
+      [["Actual", last.t2m, "#161616"], ["Feels-like", last.utci, "#c0382f"]].forEach(([lab, v, col]) => {
+        const tx = document.createElementNS(ns, "text");
+        tx.setAttribute("x", x(last.pos) + 4);
+        tx.setAttribute("y", y(v) + 3);
+        tx.setAttribute("font-family", "'IBM Plex Mono', monospace");
+        tx.setAttribute("font-size", "10");
+        tx.setAttribute("fill", col);
+        tx.textContent = lab;
+        svgNode.appendChild(tx);
+      });
+
+      // Hover line + dots (initially hidden, shown on mouseenter)
+      const hoverLine = document.createElementNS(ns, "line");
+      hoverLine.setAttribute("y1", M.top);
+      hoverLine.setAttribute("y2", H - M.bottom);
+      hoverLine.setAttribute("stroke", "#8d8d8d");
+      hoverLine.setAttribute("stroke-width", "1");
+      hoverLine.setAttribute("stroke-dasharray", "3 3");
+      hoverLine.setAttribute("opacity", "0");
+      svgNode.appendChild(hoverLine);
+      const dotT2m = document.createElementNS(ns, "circle");
+      dotT2m.setAttribute("r", "3.5");
+      dotT2m.setAttribute("fill", "#161616");
+      dotT2m.setAttribute("opacity", "0");
+      svgNode.appendChild(dotT2m);
+      const dotU = document.createElementNS(ns, "circle");
+      dotU.setAttribute("r", "3.5");
+      dotU.setAttribute("fill", "#c0382f");
+      dotU.setAttribute("opacity", "0");
+      svgNode.appendChild(dotU);
+
+      // Hit area: one wide rect spanning the plot interior
+      const hit = document.createElementNS(ns, "rect");
+      hit.setAttribute("x", M.left);
+      hit.setAttribute("y", M.top);
+      hit.setAttribute("width", innerW);
+      hit.setAttribute("height", innerH);
+      hit.setAttribute("fill", "transparent");
+      hit.style.cursor = "crosshair";
+      svgNode.appendChild(hit);
+
+      hit.addEventListener("mousemove", (event) => {
+        const r = svgNode.getBoundingClientRect();
+        // Convert mouse-x → SVG viewBox-x (preserveAspectRatio xMidYMid meet keeps aspect)
+        const scale = r.width / W; // assumes width-limited fit, which it is here
+        const xVbox = (event.clientX - r.left) / scale;
+        // Closest data point by display position
+        const xRel = (xVbox - M.left) / innerW; // 0..1 → pos in 0..23
+        const pos = Math.max(0, Math.min(23, Math.round(xRel * 23)));
+        const d = data.find(p => p.pos === pos);
+        if (!d) return;
+        const xx = x(d.pos);
+        hoverLine.setAttribute("x1", xx);
+        hoverLine.setAttribute("x2", xx);
+        hoverLine.setAttribute("opacity", "1");
+        dotT2m.setAttribute("cx", xx);
+        dotT2m.setAttribute("cy", y(d.t2m));
+        dotT2m.setAttribute("opacity", "1");
+        dotU.setAttribute("cx", xx);
+        dotU.setAttribute("cy", y(d.utci));
+        dotU.setAttribute("opacity", "1");
+        const gap = d.utci - d.t2m;
+        const gapStr = (gap >= 0 ? "+" : "") + gap.toFixed(1) + "°";
+        tooltipEl.innerHTML =
+          `<div class="yr">${yr} · ${hourLabel12(d.h)}</div>` +
+          `<div class="v">Actual: ${d.t2m.toFixed(1)}°C</div>` +
+          `<div class="v">Feels-like: ${d.utci.toFixed(1)}°C</div>` +
+          `<div class="t">Gap: ${gapStr}</div>`;
+        const hostRect = i2Section.getBoundingClientRect();
+        const tipX = r.left + xx * scale - hostRect.left;
+        const tipY = r.top + Math.min(y(d.utci), y(d.t2m)) * scale - hostRect.top;
+        tooltipEl.style.left = tipX + "px";
+        tooltipEl.style.top = tipY + "px";
+        tooltipEl.classList.add("show");
+      });
+      hit.addEventListener("mouseleave", () => {
+        hoverLine.setAttribute("opacity", "0");
+        dotT2m.setAttribute("opacity", "0");
+        dotU.setAttribute("opacity", "0");
+        tooltipEl.classList.remove("show");
+      });
+    }
+
+    function hourLabel12(h) {
+      if (h === 0) return "12 AM";
+      if (h < 12) return `${h} AM`;
+      if (h === 12) return "Noon";
+      return `${h - 12} PM`;
+    }
+    function fmtHourRange(h) {
+      return `${hourLabel12(h)} – ${hourLabel12((h + 1) % 24)}`;
+    }
+
+    function updateTooHot(rows) {
+      const cfg = PERIOD[period];
+      ["2000","2024"].forEach(yr => {
+        const utciKey = `utci_${yr}`;
+        const hot = rows.filter(r =>
+          cfg.inWindow(r.hour) && r[utciKey] != null && r[utciKey] > cfg.threshold
+        );
+        const labelEl = document.getElementById(`i2TooHotLabel${yr}`);
+        const countEl = document.getElementById(`i2TooHotCount${yr}`);
+        const hoursEl = document.getElementById(`i2TooHotHours${yr}`);
+        labelEl.textContent = `${yr} · ${cfg.label}`;
+        countEl.style.color = cfg.color;
+        countEl.innerHTML = `${hot.length}<span class="toohot-count-suffix">hour${hot.length===1?"":"s"}</span>`;
+        if (hot.length === 0) {
+          const emptyMsg = period === "day"
+            ? "no average daytime hours above 40 °C UTCI"
+            : "no average nighttime hours above 26 °C UTCI";
+          hoursEl.innerHTML = `<span class="toohot-empty">${emptyMsg}</span>`;
+        } else {
+          hoursEl.textContent = hot.map(r => fmtHourRange(r.hour)).join(" · ");
+        }
+      });
+    }
+
+    periodRow.addEventListener("click", e => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      periodRow.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      period = btn.dataset.value;
+      const rec = cache[city];
+      if (rec) drawAll(rec);
+    });
+
+    renderPills();
+    selectCity(city);
+  })();
+
+  // ============ At a glance — D3 stacked bars + tropical nights ============
+  (function () {
+    if (typeof d3 === 'undefined') return;
+
+    const root = d3.select('#expSummary');
+    if (root.empty()) return;
+
+    const CITIES = [
+      "delhi","mumbai","chennai","bangalore","ahmedabad","ajmer","guwahati",
+      "shimla","ooty","kodai","munnar","darjeeling"
+    ];
+    const CITY_LABEL = {
+      delhi:"Delhi", mumbai:"Mumbai", chennai:"Chennai", bangalore:"Bangalore",
+      ahmedabad:"Ahmedabad", ajmer:"Ajmer", guwahati:"Guwahati",
+      shimla:"Shimla", ooty:"Ooty", kodai:"Kodai", munnar:"Munnar", darjeeling:"Darjeeling"
+    };
+
+    const BAND = {
+      strongOnly: '#e07a5f', // 32–38
+      veryOnly:   '#b94a3d', // 38–46 (or 38–40 with alt)
+      extreme:    '#7a1f2b', // >46 (or >40 with alt)
+      trop:       '#5b2a4a',
+    };
+
+    let city = 'delhi';
+    let altExtreme40 = false;
+    let altTrop20 = false;
+    const cache = {};
+
+    const pillsHost = d3.select('#sumCityPills');
+    function renderPills() {
+      const sel = pillsHost.selectAll('button').data(CITIES, d => d);
+      sel.exit().remove();
+      const enter = sel.enter().append('button')
+        .attr('data-city', d => d)
+        .text(d => CITY_LABEL[d])
+        .on('click', (_, d) => selectCity(d));
+      enter.merge(sel).classed('active', d => d === city);
+    }
+
+    function selectCity(c) {
+      city = c;
+      renderPills();
+      loadCity(c).then(rows => render(rows)).catch(err => {
+        root.html(`<div class="exp-status error">Could not load ${CITY_LABEL[c]} — ${err.message}</div>`);
+      });
+    }
+
+    function loadCity(c) {
+      if (cache[c]) return Promise.resolve(cache[c]);
+      return d3.csv(`exposure-data/${c}-exposure-by-year.csv`, d3.autoType)
+        .then(rows => { cache[c] = rows; return rows; });
+    }
+
+    // Floating tooltip shared between both charts.
+    root.style('position', 'relative');
+    const tip = root.append('div').attr('class', 'exp-tooltip');
+
+    function bandsForRow(r) {
+      // Disjoint bands stacked bottom-up. Total height = strong_dayeq.
+      // Alt OFF: 3 bands — extreme(>46) + very(38-46) + strongOnly(32-38)
+      // Alt ON:  2 bands — extreme(>40) + strongOnly(32-40), no middle band
+      const strongAll = r.strong_dayeq || 0;
+      if (altExtreme40) {
+        const ext = r.extreme_40_dayeq || 0;
+        const str = Math.max(0, strongAll - ext);
+        return { ext, very: 0, str, total: strongAll };
+      }
+      const ext = r.extreme_dayeq || 0;
+      const veryRaw = r.very_strong_dayeq || 0;
+      const very = Math.max(0, veryRaw - ext);
+      const str  = Math.max(0, strongAll - veryRaw);
+      return { ext, very, str, total: strongAll };
+    }
+
+    function tropForRow(r) {
+      return altTrop20 ? (r.tropical_night_20_dayeq || 0) : (r.tropical_night_dayeq || 0);
+    }
+
+    function leftTitle() {
+      return altExtreme40
+        ? "Days with at least 'strong heat stress' — stacked (extreme = UTCI&nbsp;&gt;&nbsp;40&nbsp;°C)"
+        : "Days with at least 'strong heat stress' — stacked";
+    }
+    function rightTitle() {
+      return altTrop20
+        ? "Tropical nights — T2M&nbsp;&gt;&nbsp;20&nbsp;°C during IST night hours"
+        : "Tropical nights — T2M&nbsp;&gt;&nbsp;25&nbsp;°C during IST night hours";
+    }
+    function leftLegend() {
+      if (altExtreme40) {
+        return `<span><span class="sw" style="background:${BAND.strongOnly}"></span>Strong (32–40&nbsp;°C)</span>` +
+               `<span><span class="sw" style="background:${BAND.extreme}"></span>Extreme (&gt;&nbsp;40&nbsp;°C)</span>`;
+      }
+      return `<span><span class="sw" style="background:${BAND.strongOnly}"></span>Strong only (32–38&nbsp;°C)</span>` +
+             `<span><span class="sw" style="background:${BAND.veryOnly}"></span>Very strong (38–46&nbsp;°C)</span>` +
+             `<span><span class="sw" style="background:${BAND.extreme}"></span>Extreme (&gt;&nbsp;46&nbsp;°C)</span>`;
+    }
+
+    function render(rows) {
+      root.selectAll('.sum-panel').remove();
+
+      // LEFT — stacked
+      const panelL = root.append('div').attr('class','sum-panel');
+      panelL.append('div').attr('class','sum-panel-title').html(leftTitle());
+      const svgL = panelL.append('svg').attr('viewBox','0 0 720 280').attr('preserveAspectRatio','xMidYMid meet');
+      panelL.append('div').attr('class','sum-legend').html(leftLegend());
+      drawStacked(svgL, rows);
+
+      // RIGHT — tropical
+      const panelR = root.append('div').attr('class','sum-panel');
+      panelR.append('div').attr('class','sum-panel-title').html(rightTitle());
+      const svgR = panelR.append('svg').attr('viewBox','0 0 720 280').attr('preserveAspectRatio','xMidYMid meet');
+      panelR.append('div').attr('class','sum-legend')
+        .html(`<span><span class="sw" style="background:${BAND.trop}"></span>Tropical-night days</span>`);
+      drawSingle(svgR, rows);
+
+      tip.raise();
+    }
+
+    function axesAndLabels(g, rows, x, y, innerW, innerH) {
+      const yTicks = y.ticks(5);
+      g.append('g').selectAll('line').data(yTicks).enter().append('line')
+        .attr('x1', 0).attr('x2', innerW)
+        .attr('y1', d => y(d)).attr('y2', d => y(d))
+        .attr('stroke', '#e8e8e8').attr('stroke-width', 1);
+      g.append('g').selectAll('text').data(yTicks).enter().append('text')
+        .attr('x', -6).attr('y', d => y(d) + 4)
+        .attr('text-anchor', 'end')
+        .attr('font-family', "'IBM Plex Mono', monospace")
+        .attr('font-size', 10).attr('fill', '#525252')
+        .text(d => d);
+
+      const years = rows.map(r => r.year);
+      const xLabels = [years[0]];
+      [1970, 1990, 2010].forEach(yr => { if (years.includes(yr)) xLabels.push(yr); });
+      xLabels.push(years[years.length - 1]);
+      g.append('g').selectAll('text').data(xLabels).enter().append('text')
+        .attr('x', d => x(d) + x.bandwidth() / 2)
+        .attr('y', innerH + 16)
+        .attr('text-anchor', (d, i) => i === 0 ? 'start' : i === xLabels.length - 1 ? 'end' : 'middle')
+        .attr('font-family', "'IBM Plex Mono', monospace")
+        .attr('font-size', 10).attr('fill', '#525252')
+        .text(d => d);
+
+      g.append('text')
+        .attr('transform', `translate(-32, ${innerH/2}) rotate(-90)`)
+        .attr('text-anchor', 'middle')
+        .attr('font-family', "'IBM Plex Sans', sans-serif")
+        .attr('font-size', 10).attr('fill', '#8d8d8d')
+        .attr('letter-spacing', '0.06em')
+        .style('text-transform', 'uppercase')
+        .text('days');
+    }
+
+    function drawStacked(svg, rows) {
+      svg.selectAll('*').remove();
+      const W = 720, H = 280;
+      const margin = { top: 14, right: 14, bottom: 30, left: 44 };
+      const innerW = W - margin.left - margin.right;
+      const innerH = H - margin.top - margin.bottom;
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      const x = d3.scaleBand().domain(rows.map(r => r.year)).range([0, innerW]).paddingInner(0.25);
+      const yMaxRaw = d3.max(rows, r => bandsForRow(r).total) || 1;
+      const y = d3.scaleLinear().domain([0, Math.ceil(yMaxRaw / 10) * 10]).range([innerH, 0]).nice();
+
+      axesAndLabels(g, rows, x, y, innerW, innerH);
+
+      // Bars: 3 segments per year, drawn bottom-up.
+      const bg = g.append('g').attr('class','bars');
+      rows.forEach(r => {
+        const b = bandsForRow(r);
+        const xx = x(r.year);
+        const w = x.bandwidth();
+        let cum = 0;
+        // extreme (bottom)
+        if (b.ext > 0) {
+          bg.append('rect')
+            .attr('x', xx).attr('width', w)
+            .attr('y', y(b.ext)).attr('height', y(0) - y(b.ext))
+            .attr('fill', BAND.extreme);
+        }
+        cum = b.ext;
+        // very strong
+        if (b.very > 0) {
+          bg.append('rect')
+            .attr('x', xx).attr('width', w)
+            .attr('y', y(cum + b.very)).attr('height', y(cum) - y(cum + b.very))
+            .attr('fill', BAND.veryOnly);
+        }
+        cum += b.very;
+        // strong only (top)
+        if (b.str > 0) {
+          bg.append('rect')
+            .attr('x', xx).attr('width', w)
+            .attr('y', y(cum + b.str)).attr('height', y(cum) - y(cum + b.str))
+            .attr('fill', BAND.strongOnly);
+        }
+      });
+
+      // Hover overlay
+      g.append('g').selectAll('rect').data(rows).enter().append('rect')
+        .attr('x', r => x(r.year)).attr('y', 0)
+        .attr('width', x.bandwidth()).attr('height', innerH)
+        .attr('fill', 'transparent')
+        .on('mouseenter', function (event, r) {
+          d3.select(this).attr('fill', 'rgba(0,0,0,0.05)');
+          const b = bandsForRow(r);
+          const rd = Math.round;
+          let body;
+          if (altExtreme40) {
+            body = `<div class="t">Strong (32–40°C): ${rd(b.str)}</div>` +
+                   `<div class="t">Extreme (&gt;40°C): ${rd(b.ext)}</div>`;
+          } else {
+            body = `<div class="t">Strong only: ${rd(b.str)}</div>` +
+                   `<div class="t">Very strong: ${rd(b.very)}</div>` +
+                   `<div class="t">Extreme (&gt;46°C): ${rd(b.ext)}</div>`;
+          }
+          tip.html(
+            `<div class="yr">${r.year}</div>` +
+            `<div class="v">Total ≥ strong: ${rd(b.total)} days</div>` +
+            body
+          );
+          const rect = this.getBoundingClientRect();
+          const host = root.node().getBoundingClientRect();
+          tip.style('left', (rect.left + rect.width/2 - host.left) + 'px')
+             .style('top',  (rect.top - host.top) + 'px')
+             .classed('show', true);
+        })
+        .on('mouseleave', function () {
+          d3.select(this).attr('fill', 'transparent');
+          tip.classed('show', false);
+        });
+    }
+
+    function drawSingle(svg, rows) {
+      svg.selectAll('*').remove();
+      const W = 720, H = 280;
+      const margin = { top: 14, right: 14, bottom: 30, left: 44 };
+      const innerW = W - margin.left - margin.right;
+      const innerH = H - margin.top - margin.bottom;
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      const x = d3.scaleBand().domain(rows.map(r => r.year)).range([0, innerW]).paddingInner(0.25);
+      const yMaxRaw = d3.max(rows, r => tropForRow(r)) || 1;
+      const y = d3.scaleLinear().domain([0, Math.ceil(yMaxRaw / 10) * 10]).range([innerH, 0]).nice();
+
+      axesAndLabels(g, rows, x, y, innerW, innerH);
+
+      g.append('g').selectAll('rect').data(rows).enter().append('rect')
+        .attr('x', r => x(r.year))
+        .attr('y', r => y(tropForRow(r)))
+        .attr('width', x.bandwidth())
+        .attr('height', r => innerH - y(tropForRow(r)))
+        .attr('fill', BAND.trop);
+
+      // Hover
+      const tropLabel = altTrop20 ? 'Tropical nights (T2M>20°C)' : 'Tropical nights (T2M>25°C)';
+      g.append('g').selectAll('rect').data(rows).enter().append('rect')
+        .attr('x', r => x(r.year)).attr('y', 0)
+        .attr('width', x.bandwidth()).attr('height', innerH)
+        .attr('fill', 'transparent')
+        .on('mouseenter', function (event, r) {
+          d3.select(this).attr('fill', 'rgba(0,0,0,0.05)');
+          tip.html(
+            `<div class="yr">${r.year}</div>` +
+            `<div class="v">${tropLabel}: ${Math.round(tropForRow(r))} days</div>`
+          );
+          const rect = this.getBoundingClientRect();
+          const host = root.node().getBoundingClientRect();
+          tip.style('left', (rect.left + rect.width/2 - host.left) + 'px')
+             .style('top',  (rect.top - host.top) + 'px')
+             .classed('show', true);
+        })
+        .on('mouseleave', function () {
+          d3.select(this).attr('fill', 'transparent');
+          tip.classed('show', false);
+        });
+    }
+
+    // Checkbox wires (independent — scoped to At-a-glance only)
+    document.getElementById('sumAltExtreme40').addEventListener('change', e => {
+      altExtreme40 = e.target.checked;
+      if (cache[city]) render(cache[city]);
+    });
+    document.getElementById('sumAltTrop20').addEventListener('change', e => {
+      altTrop20 = e.target.checked;
+      if (cache[city]) render(cache[city]);
+    });
+
+    renderPills();
+    selectCity(city);
+  })();
+
+  // ============ Left nav scrollspy ============
+  (function () {
+    const links = Array.from(document.querySelectorAll(".side-nav a[data-target]"));
+    if (!links.length) return;
+    const targets = links
+      .map(a => ({ a, el: document.getElementById(a.dataset.target) }))
+      .filter(t => t.el);
+
+    // Smooth scroll on click — let native anchor handle it; just close any
+    // momentary blur and set immediate active state for UX snappiness.
+    links.forEach(a => a.addEventListener("click", () => {
+      links.forEach(x => x.classList.remove("active"));
+      a.classList.add("active");
+    }));
+
+    function onScroll() {
+      const probe = window.scrollY + window.innerHeight * 0.35;
+      let active = targets[0];
+      for (const t of targets) {
+        if (t.el.offsetTop <= probe) active = t;
+      }
+      links.forEach(a => a.classList.toggle("active", a === active.a));
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  })();
 </script>
 </body>
 </html>
