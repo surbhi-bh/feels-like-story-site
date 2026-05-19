@@ -6,8 +6,10 @@
 <title>Feels-Like Temperature</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@300;400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   * {
@@ -17,14 +19,14 @@
   }
 
   body {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     background: #ffffff;
     color: #161616;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  /* Preserve mono for explicitly-marked numeric/code bits; everything else inherits serif. */
+  /* Preserve mono for explicitly-marked numeric/code bits; everything else inherits Poppins. */
 
   .container {
     max-width: 900px;
@@ -33,13 +35,12 @@
   }
 
   header {
-    margin-bottom: 80px;
-    padding-bottom: 40px;
-    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 60px;
+    padding-bottom: 0;
   }
 
   h1 {
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 48px;
     font-weight: 500;
     letter-spacing: -0.02em;
@@ -62,7 +63,7 @@
   }
 
   .intro p {
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 22px;
     font-weight: 400;
     line-height: 1.5;
@@ -72,6 +73,38 @@
 
   .insight {
     margin-bottom: 80px;
+  }
+
+  /* Collapsible insights — hide everything after the intro paragraph
+     until the user clicks the expand toggle. The toggle button is
+     inserted by JS as the last child of .insight-number's row. */
+  .insight.collapsible.is-collapsed > *:not(.insight-number):not(h2):not(p):not(.expand-toggle) {
+    display: none !important;
+  }
+  .expand-toggle {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #161616;
+    background: transparent;
+    border: 1px solid #161616;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background .12s, color .12s;
+  }
+  .expand-toggle:hover {
+    background: #161616;
+    color: #ffffff;
+  }
+  .expand-toggle::before {
+    content: '▸ ';
+    display: inline-block;
+    transition: transform .15s;
+  }
+  .insight.collapsible:not(.is-collapsed) .expand-toggle::before {
+    content: '▾ ';
   }
 
   /* ---------- Parameters & results tables ---------- */
@@ -149,7 +182,7 @@
     width: 100%;
     height: auto;
     display: block;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
   }
 
   .chart-block .axis text,
@@ -297,7 +330,7 @@
   }
 
   .diurnal-city-title {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #161616;
@@ -316,7 +349,7 @@
   }
 
   .diurnal-panel-year {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 700;
     color: #161616;
@@ -362,7 +395,7 @@
   }
 
   .diurnal-chart .end-label, .mc-chart .end-label {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 10px;
     fill: #525252;
   }
@@ -413,7 +446,7 @@
   }
 
   .toohot-cell {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
   }
 
   .toohot-year {
@@ -490,7 +523,7 @@
   }
 
   .heatmap-controls .toggle-row button {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 12px;
     padding: 6px 12px;
     background: #ffffff;
@@ -512,7 +545,7 @@
   }
 
   .heatmap-city-title {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #161616;
@@ -637,7 +670,7 @@
   }
 
   .panel-title {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #161616;
@@ -708,7 +741,7 @@
   }
 
   .cal-city-title {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #161616;
@@ -811,7 +844,7 @@
   }
 
   .cal-summary {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     color: #393939;
     margin-top: 20px;
@@ -834,7 +867,7 @@
   }
 
   .export-btn {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 12px;
     font-weight: 500;
     color: #393939;
@@ -864,7 +897,7 @@
   }
 
   .insight h2 {
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 28px;
     font-weight: 500;
     line-height: 1.3;
@@ -1009,7 +1042,7 @@
 
   .toggle-row button,
   .sim-controls select {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 13px;
     font-weight: 400;
     color: #393939;
@@ -1177,6 +1210,127 @@
     margin-top: 24px;
   }
 
+  /* ---------- Insight 05: city skyline ---------- */
+  .sim-wrap-skyline {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 36px;
+    align-items: start;
+    margin-top: 24px;
+  }
+  @media (max-width: 880px) {
+    .sim-wrap-skyline { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .skyline-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: sticky;
+    top: 16px;
+    align-self: start;
+  }
+  .skyline-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #6f6f6f;
+    margin-top: 4px;
+  }
+  /* Skyline row: the buildings sit on a shared baseline (the ground strip),
+     so the x-axis stays put while windows grow/shrink upward.
+     The row is pushed down so the ground line lines up with the
+     Play / Pause button in the controls column to its left. */
+  .skyline-row {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 6px 6px;
+    align-items: end;
+    margin-top: 180px;
+  }
+  @media (max-width: 1100px) {
+    .skyline-row {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      row-gap: 48px;
+      margin-top: 24px;       /* on narrow screens controls stack on top */
+    }
+  }
+  @media (max-width: 600px) {
+    .skyline-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  /* Reserve room for the rotated label *below* every city, plus headroom
+     for the building. The building+ground always sit at the same vertical
+     position; only the building's stacked windows extend upward. */
+  .sky-city {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    height: 360px;             /* fixed total height — anchors the baseline */
+    justify-content: flex-end;
+    padding-bottom: 84px;      /* room for ground + rotated label */
+    position: relative;
+  }
+  .sky-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: #161616;
+    line-height: 1.1;
+    margin-bottom: 4px;
+    min-height: 28px;          /* fits the two-line "N days" without jumping */
+    text-align: center;
+    white-space: nowrap;
+  }
+  .sky-count.zero { color: #c6c6c6; font-weight: 400; }
+  .sky-count .days-suffix {
+    font-weight: 400;
+    color: #525252;
+    margin-left: 3px;
+  }
+  .sky-building {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 8px;
+    gap: 2px;
+    padding: 6px 6px 8px;
+    background: #0f0f12;
+    border-radius: 2px 2px 0 0;
+    width: 100%;
+    align-content: end;        /* stack from the bottom edge */
+  }
+  .sky-building .window {
+    border: 1px solid #1a1a1a;
+    background: transparent;
+    transition: background 0.35s ease;
+  }
+  /* Ground strip and label are absolutely positioned so they NEVER move when
+     the building above them gets taller or shorter. */
+  .sky-ground {
+    position: absolute;
+    bottom: 78px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #161616;
+    border-radius: 0 0 2px 2px;
+  }
+  .sky-label {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-90deg);
+    transform-origin: center center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #161616;
+    text-align: center;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
   .dual-buildings {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1244,14 +1398,14 @@
   }
 
   .inspect-empty {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 12px;
     color: #8d8d8d;
     line-height: 1.5;
   }
 
   .inspect-date {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #161616;
@@ -1433,7 +1587,7 @@
   .legend-swatch.hot { background: #f59e3b; }
 
   .playpause {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 13px;
     font-weight: 500;
     color: #ffffff;
@@ -1460,7 +1614,7 @@
     top: 40px;
     flex: 0 0 200px;
     padding: 80px 16px 0 0;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 13px;
     align-self: flex-start;
   }
@@ -1519,6 +1673,216 @@
     .container.with-nav { max-width: 900px; margin: 0 auto; padding: 80px 40px 120px; }
   }
 
+  /* ---------- Global warming bar chart ---------- */
+  .warming-section {
+    margin-bottom: 80px;
+  }
+  .warming-section .warming-lede,
+  .warming-section .warming-body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #393939;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    max-width: 720px;
+  }
+  .warming-chart-wrap {
+    margin-top: 18px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  #warmingChart {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+  #warmingChart .axis-tick {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    fill: #525252;
+  }
+  #warmingChart .axis-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    fill: #6f6f6f;
+  }
+  #warmingChart .gridline {
+    stroke: #ececec;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+  }
+  #warmingChart .bar {
+    transition: opacity .15s;
+  }
+  #warmingChart .bar:hover { opacity: 0.78; }
+  .warming-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    color: #393939;
+  }
+  .wl-item { display: inline-flex; align-items: center; gap: 8px; }
+  .wl-swatch {
+    display: inline-block;
+    width: 64px;
+    height: 10px;
+    border-radius: 2px;
+  }
+  .warming-source {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #6f6f6f;
+  }
+  .warming-source code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    background: #f4f4f4;
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+  .warming-tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: #161616;
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 6px 9px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity .12s;
+    white-space: nowrap;
+    z-index: 10;
+  }
+  .wl-swatch-line {
+    position: relative;
+    background: transparent !important;
+  }
+  .wl-swatch-line::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 0;
+    border-top: 2.5px dashed #c0382f;
+    transform: translateY(-50%);
+  }
+
+  /* ---------- Heatwave table ---------- */
+  .heatwave-table-wrap {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    overflow-x: auto;
+  }
+  .heatwave-table {
+    width: 100%;
+    max-width: 720px;
+    border-collapse: collapse;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #262626;
+  }
+  .heatwave-table thead th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6f6f6f;
+    font-weight: 500;
+    text-align: left;
+    padding: 8px 12px 8px 0;
+    border-bottom: 1px solid #161616;
+  }
+  .heatwave-table tbody td {
+    padding: 10px 12px 10px 0;
+    border-bottom: 1px solid #ececec;
+    vertical-align: top;
+  }
+  .heatwave-table tbody tr:last-child td {
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .heatwave-table tbody td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #161616;
+  }
+  .heatwave-table sup {
+    font-size: 9px;
+    color: #6f6f6f;
+  }
+
+  /* ---------- India map ---------- */
+  .india-map-wrap {
+    margin: 28px 0 32px;
+    position: relative;
+    max-width: 760px;
+  }
+  .india-map-caption {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #525252;
+    margin-bottom: 12px;
+    max-width: 660px;
+  }
+  #indiaMap {
+    width: 100%;
+    height: 560px;
+    display: block;
+    background: #fafafa;
+    border: 1px solid #ececec;
+  }
+  .leaflet-container {
+    font-family: 'Poppins', sans-serif;
+  }
+  .city-popup {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #161616;
+  }
+  .city-popup .cp-rank {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #6f6f6f;
+    letter-spacing: 0.04em;
+  }
+  .city-popup .cp-name {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+  .city-popup .cp-temp {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #393939;
+  }
+  .india-map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    color: #393939;
+  }
+  .im-dot {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  .im-dot-max { background: #c0392b; border: 1px solid #7f1010; }
+
   /* ---------- Insight 01: exposure step charts ---------- */
   .exposure-controls {
     display: flex;
@@ -1541,7 +1905,7 @@
     gap: 4px;
   }
   .city-pills button {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 12px;
     padding: 5px 11px;
     border: 1px solid #c6c6c6;
@@ -1577,7 +1941,7 @@
   }
   .exp-panel { min-width: 0; }
   .exp-panel-title {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 15px;
     font-weight: 700;
     margin: 0 0 10px;
@@ -1589,12 +1953,12 @@
     overflow: visible;
   }
   .exp-panel .y-tick {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 11px;
     fill: #525252;
   }
   .exp-panel .x-tick {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 11px;
     fill: #525252;
   }
@@ -1633,7 +1997,7 @@
     margin-top: 32px;
     padding-top: 18px;
     border-top: 1px solid #e0e0e0;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 13px;
     line-height: 1.55;
     color: #525252;
@@ -1645,7 +2009,7 @@
   .exp-footnote strong { color: #161616; font-weight: 600; }
   .exp-footnote a { color: #c0382f; }
   .exp-panel .y-axis-label {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 10px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -1685,14 +2049,14 @@
     border-top: 1px solid #e0e0e0;
   }
   .exp-summary-title {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 22px;
     font-weight: 500;
     letter-spacing: -0.01em;
     margin: 0 0 8px;
   }
   .exp-summary-lede {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 15px;
     color: #525252;
     line-height: 1.55;
@@ -1711,7 +2075,7 @@
   }
   .sum-panel { min-width: 0; }
   .sum-panel-title {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 600;
     margin: 0 0 6px;
@@ -1746,14 +2110,12 @@
       <div class="nav-title">Insights</div>
       <ol id="insightNav">
         <li><a href="#insight-01" data-target="insight-01">The number of days with heat stress across cities has gone up</a></li>
-        <li><a href="#insight-02" data-target="insight-02">Hours too hot to step out by day, too hot to sleep at night</a></li>
-        <li><a href="#insight-03" data-target="insight-03">The hottest day has only become hotter</a></li>
-        <li><a href="#insight-04" data-target="insight-04">Counting days — actual vs felt above 40&nbsp;°C</a></li>
-        <li><a href="#insight-05" data-target="insight-05">Tropical nights in cold, elevated, hilly areas</a></li>
-        <li><a href="#insight-06" data-target="insight-06">Two points in time for different cities</a></li>
-        <li><a href="#insight-07" data-target="insight-07">365 days, one hour at a time</a></li>
-        <li><a href="#insight-08" data-target="insight-08">One day, two decades apart</a></li>
-        <li><a href="#insight-09" data-target="insight-09">Hour-by-hour heatmap</a></li>
+        <li><a href="#insight-02" data-target="insight-02">Number of days with heat stress: 2000 vs 2024</a></li>
+        <li><a href="#insight-03" data-target="insight-03">Hours too hot to step out by day, too hot to sleep at night</a></li>
+        <li><a href="#insight-04" data-target="insight-04">Same hour, 24 years apart</a></li>
+        <li><a href="#insight-05" data-target="insight-05">City skylines — 2024 heat-stress days across India</a></li>
+        <li><a href="#insight-06" data-target="insight-06">One day, two decades apart</a></li>
+        <li><a href="#insight-07" data-target="insight-07">Hour-by-hour heatmap</a></li>
       </ol>
     </nav>
   <div class="container with-nav">
@@ -1762,8 +2124,62 @@
       <p class="subtitle">India's cities are getting hotter. But what thermometers record is often very different from what human bodies feel through the day and during nights.</p>
     </header>
 
-    <section class="intro">
-      <p>2024 was the hottest year on record, globally and in India, according to the World Meteorological Organization and NASA. But the temperatures recorded on thermometers tell only part of the story. The heat people actually experience is shaped not just by air temperature, but also by humidity, wind, sunlight, and how little relief arrives after sunset. Across India's cities, days are becoming more stressful, nights are staying warmer for longer, and the body is increasingly exposed to heat that feels far more intense than the numbers alone suggest.</p>
+    <section class="warming-section" id="warming-chart">
+      <p class="warming-lede">The year 2024 was the hottest ever recorded, and 2025 followed close behind as the third warmest year on Earth since 1850, data from the World Meteorological Organization shows.<br><br>In fact, years since 2015 form the hottest decade on record, with temperatures remaining dangerously high. In the three-year period from 2023&ndash;2025, for the first time, the average global temperature crossed 1.5&nbsp;°C above pre-industrial levels &mdash; a key climate threshold scientists have long warned about.</p>
+
+      <div id="warmingChartWrap" class="warming-chart-wrap">
+        <div class="warming-tooltip" id="warmingTooltip"></div>
+        <svg id="warmingChart" viewBox="0 0 900 420" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="warming-legend">
+          <span class="wl-item"><span class="wl-swatch" style="background: linear-gradient(90deg, #fff2b0, #fde047, #f59e0b, #c2410c);"></span>Hotter overall &rarr; deeper orange</span>
+          <span class="wl-item"><span class="wl-swatch wl-swatch-line"></span>1.5&nbsp;°C threshold</span>
+        </div>
+        <p class="warming-source">Source: ERA5 annual mean, anomaly vs 1850&ndash;1900 baseline (<code>build_min_xlsx.csv</code>).</p>
+      </div>
+
+      <p class="warming-body">On April 26, 2026, all of the world's top 50 hottest cities were in India. Across the 50 cities, the average peak temperature that day was 44.7&nbsp;°C. Even the coolest maximum on the list &mdash; Solapur at 41.9&nbsp;°C &mdash; &ldquo;would be considered a public health emergency anywhere in Europe&rdquo;. At 46.2&nbsp;°C, Banda in the northern state of Uttar Pradesh recorded the world's highest temperature that day.</p>
+
+      <div id="indiaMapWrap" class="india-map-wrap">
+        <div class="india-map-caption">April 26, 2026 &mdash; the day's 50 hottest cities on Earth, all in India. Each circle is sized by the city's <em>maximum</em> temperature that day. Drag to pan, scroll or pinch to zoom.</div>
+        <div id="indiaMap"></div>
+        <div class="india-map-legend">
+          <span class="wl-item"><span class="im-dot im-dot-max"></span>Max temperature</span>
+        </div>
+      </div>
+
+      <p class="warming-body">India's heatwaves have grown more severe and more deadly over the past decade. The table below lists the worst recorded heatwaves of recent memory.</p>
+
+      <div class="heatwave-table-wrap">
+        <table class="heatwave-table">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Duration</th>
+              <th>Max. temperature</th>
+              <th>Deaths</th>
+              <th>Ref</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1956</td><td>&mdash;</td><td>50.6&nbsp;°C (123.1&nbsp;°F)</td><td>&mdash;</td><td>[1]</td></tr>
+            <tr><td>1995</td><td>June</td><td>45.5&nbsp;°C (113.9&nbsp;°F)</td><td>&gt;350</td><td>[2]</td></tr>
+            <tr><td>1998</td><td>May&ndash;June</td><td>49.5&nbsp;°C (121.1&nbsp;°F)</td><td>2,500</td><td>[1]</td></tr>
+            <tr><td>2002</td><td>April&ndash;May</td><td>49&nbsp;°C (120&nbsp;°F)</td><td>1,030</td><td>&mdash;</td></tr>
+            <tr><td>2015</td><td>May&ndash;June</td><td>49.4&nbsp;°C (120.9&nbsp;°F)</td><td>2,500</td><td>&mdash;</td></tr>
+            <tr><td>2016</td><td>April&ndash;May</td><td>51.0&nbsp;°C (123.8&nbsp;°F)</td><td>160</td><td>&mdash;</td></tr>
+            <tr><td>2019</td><td>May&ndash;June</td><td>50.8&nbsp;°C (123.4&nbsp;°F)</td><td>184<sup>[note 1]</sup></td><td>&mdash;</td></tr>
+            <tr><td>2022</td><td>March&ndash;June</td><td>49.2&nbsp;°C (120.6&nbsp;°F)</td><td>90</td><td>&mdash;</td></tr>
+            <tr><td>2023</td><td>April&ndash;June</td><td>46.2&nbsp;°C (115.2&nbsp;°F)</td><td>111</td><td>[3]</td></tr>
+            <tr><td>2024</td><td>April&ndash;June</td><td>50.5&nbsp;°C (122.9&nbsp;°F)</td><td>411</td><td>&mdash;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="warming-body">A report by Harvard University found just 8% of households in India have access to air conditioning. Others rely on passive cooling &mdash; shade, reflective roofs, cross-ventilation. Around three-fourths of the country's workforce is engaged in agriculture and construction. Informal and gig workers constitute as much as 90% of the labour force, leaving many without contracts and protections, according to the paper from the Salata Institute's Climate Adaptation in South Asia research cluster.</p>
+
+      <p class="warming-body">The Indian Meteorological Department officially declares a heatwave when the maximum temperature crosses 40&nbsp;°C in the plains, 37&nbsp;°C along the coast, or 30&nbsp;°C in the hills, <em>and</em> is at least 4.5&nbsp;°C above the seasonal normal. But the lived experience of heat-stress runs far ahead of these thresholds. Once humidity, low wind, and direct sun are factored in, what a body actually feels at 40&nbsp;°C can sit closer to 48&ndash;52&nbsp;°C on the UTCI &ldquo;felt&rdquo; scale &mdash; the point at which the body can no longer shed heat fast enough to keep its core temperature stable.</p>
+
+      <p class="warming-body">The consequences show up across the day. Outdoor labour &mdash; on farms, construction sites, delivery routes, brick kilns &mdash; slows or stops in the afternoon hours; productivity drops sharply once felt-temperature crosses the &ldquo;strong heat stress&rdquo; band (UTCI&nbsp;&gt;&nbsp;32&nbsp;°C), and becomes hazardous beyond 38&nbsp;°C. Children miss school. Pregnancies are higher-risk. Hospital admissions for cardiac and renal stress climb. And at night, when cities once cooled enough for the body to recover, &ldquo;tropical nights&rdquo; (T2M&nbsp;&gt;&nbsp;25&nbsp;°C through the night) cut sleep short, raise resting heart rate, and compound the next day's exposure. The thermometer says &ldquo;heatwave&rdquo; only some of the time. The body is in heat-stress for a lot longer.</p>
     </section>
 
     <section class="insight" id="insight-01">
@@ -1833,6 +2249,54 @@
 
     <section class="insight" id="insight-02">
       <div class="insight-number">Insight 02</div>
+      <h2>Number of days with heat stress have gone up: 2000 vs 2024</h2>
+      <p>For each month, how many days the daily-max temperature crossed the &ldquo;strong heat stress&rdquo; threshold (32&nbsp;°C) &mdash; in 2000 (lighter bar) versus 2024 (darker bar). Switch metric to see how often the lived &ldquo;feels-like&rdquo; (UTCI) crossed the line versus the thermometer alone (T2M). Switch city to compare across India &mdash; including hill stations that historically barely registered heat stress at all.</p>
+
+      <div class="chart-block insight2-block">
+        <div class="heatmap-controls" style="margin-bottom: 14px;">
+          <div class="control-group">
+            <span class="control-label">City</span>
+            <div class="toggle-row" data-i2new-group="city">
+              <button class="active" data-value="delhi">Delhi</button>
+              <button data-value="mumbai">Mumbai</button>
+              <button data-value="chennai">Chennai</button>
+              <button data-value="ahmedabad">Ahmedabad</button>
+              <button data-value="bangalore">Bangalore</button>
+              <button data-value="guwahati">Guwahati</button>
+              <button data-value="ajmer">Ajmer</button>
+              <button data-value="shimla">Shimla</button>
+              <button data-value="darjeeling">Darjeeling</button>
+              <button data-value="ooty">Ooty</button>
+              <button data-value="kodai">Kodaikanal</button>
+              <button data-value="munnar">Munnar</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <span class="control-label">Metric</span>
+            <div class="toggle-row" data-i2new-group="metric">
+              <button data-value="t2m">Actual (T2M)</button>
+              <button class="active" data-value="utci">Feels-like (UTCI)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="max-width: 820px;">
+          <div class="panel-title">
+            <span id="i2new-title">Delhi &mdash; days per month &gt; 32&nbsp;°C (Feels-like)</span>
+            <span class="panel-date" id="i2new-totals"></span>
+          </div>
+          <svg id="i2newChart" class="i2new-chart" viewBox="0 0 760 320" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#f4a361"></span>2000</span>
+          <span><span class="legend-dot" style="background:#a30b0b"></span>2024</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="insight" id="insight-03">
+      <div class="insight-number">Insight 03</div>
       <h2>No. of hours too hot to step out at day, too hot to sleep at night</h2>
       <p>The peak-month average day, hour by hour in IST, in 2000 and again in 2024. The solid line is air temperature (Actual); the dashed line is felt temperature (Feels-like). The dotted line marks the period threshold &mdash; daytime UTCI&nbsp;&gt;&nbsp;40&nbsp;°C (7:30&nbsp;AM&nbsp;&ndash;&nbsp;7:30&nbsp;PM) or tropical-night UTCI&nbsp;&gt;&nbsp;26&nbsp;°C (7:30&nbsp;PM&nbsp;&ndash;&nbsp;7:30&nbsp;AM). Counts below each chart show the hours that crossed the threshold.</p>
 
@@ -1879,246 +2343,10 @@
       </div>
     </section>
 
-    <section class="insight" id="insight-03">
-      <div class="insight-number">Insight 03</div>
-      <h2>The hottest day has only become hotter</h2>
-      <p>Looking at one calendar date — June 12 — across 2000 to 2025 in Delhi, the air temperature (T2M) and the felt temperature (UTCI) tell two different stories. The dumbbell plot shows the gap year-by-year; the time series shows both lines climbing, but with the felt heat pulling consistently higher.</p>
-
-      <div class="chart-block">
-        <div class="table-title">Annual peak day · UTCI vs T2M maximum · 2000–2025</div>
-        <div class="panel-grid">
-          <div class="panel">
-            <div class="panel-title">Delhi <span class="panel-date">12 Jun</span></div>
-            <svg class="city-chart" data-city="delhi" viewBox="0 0 380 240" preserveAspectRatio="xMidYMid meet"></svg>
-          </div>
-          <div class="panel">
-            <div class="panel-title">Mumbai <span class="panel-date">23 May</span></div>
-            <svg class="city-chart" data-city="mumbai" viewBox="0 0 380 240" preserveAspectRatio="xMidYMid meet"></svg>
-          </div>
-          <div class="panel">
-            <div class="panel-title">Chennai <span class="panel-date">8 Jun</span></div>
-            <svg class="city-chart" data-city="chennai" viewBox="0 0 380 240" preserveAspectRatio="xMidYMid meet"></svg>
-          </div>
-          <div class="panel">
-            <div class="panel-title">Kolkata <span class="panel-date">11 May</span></div>
-            <svg class="city-chart" data-city="kolkata" viewBox="0 0 380 240" preserveAspectRatio="xMidYMid meet"></svg>
-          </div>
-        </div>
-        <div class="chart-legend">
-          <span><span class="legend-dot t2m"></span>T2M · air temperature</span>
-          <span><span class="legend-dot utci"></span>UTCI · felt temperature</span>
-          <span><span class="legend-swatch-fill"></span>Above 40°C heat threshold</span>
-        </div>
-      </div>
-      <div class="export-row">
-        <button class="export-btn" data-export="insight02">Export CSV</button>
-      </div>
-    </section>
-
     <section class="insight" id="insight-04">
       <div class="insight-number">Insight 04</div>
-      <h2>Counting the days — actual versus felt heat above 40°C</h2>
-      <p>For each city, year-by-year tallies of days where the air temperature crossed 40°C, set side-by-side against days where the felt temperature did. The two columns rarely tell the same story.</p>
-
-      <div class="chart-block">
-        <div class="table-title">Days above 40°C per year · 2000–2025</div>
-        <div class="panel-grid">
-          <div class="panel">
-            <div class="panel-title">Delhi</div>
-            <svg class="bars-chart" data-city="delhi" viewBox="0 0 380 240" preserveAspectRatio="xMidYMid meet"></svg>
-          </div>
-          <div class="panel">
-            <div class="panel-title">Mumbai</div>
-            <svg class="bars-chart" data-city="mumbai" viewBox="0 0 380 240" preserveAspectRatio="xMidYMid meet"></svg>
-          </div>
-          <div class="panel">
-            <div class="panel-title">Chennai</div>
-            <svg class="bars-chart" data-city="chennai" viewBox="0 0 380 240" preserveAspectRatio="xMidYMid meet"></svg>
-          </div>
-          <div class="panel">
-            <div class="panel-title">Kolkata</div>
-            <svg class="bars-chart" data-city="kolkata" viewBox="0 0 380 240" preserveAspectRatio="xMidYMid meet"></svg>
-          </div>
-        </div>
-        <div class="chart-legend">
-          <span><span class="legend-dot t2m"></span>Actual &gt; 40°C</span>
-          <span><span class="legend-dot utci"></span>Feels like &gt; 40°C</span>
-        </div>
-      </div>
-
-      <div class="calendar-wrap">
-        <div class="table-title">Calendar view · which days crossed 40°C</div>
-        <p style="font-size: 14px; color: #525252; margin: 8px 0 8px; max-width: 720px;">
-          The total number of highlighted days matches the counts in the bar chart above, drawn from the daily ERA5/UTCI CSVs for each city.
-        </p>
-        <p style="font-size: 13px; color: #c0382f; font-weight: 500; margin: 0 0 20px; max-width: 720px;">
-          Note: not real calendar dates — highlighted cells are placeholders showing the <em>count</em>, distributed plausibly across hot months. Real day-level mapping is available in Insight 06's click-to-inspect for 2000/2024.
-        </p>
-
-        <div class="calendar-controls">
-          <div class="control-group">
-            <span class="control-label">Metric</span>
-            <div class="toggle-row" data-cal-group="metric">
-              <button class="active" data-value="t2m">Actual &gt; 40°</button>
-              <button data-value="utci">Feels like &gt; 40°</button>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">Year</span>
-            <select id="calYearSelect"></select>
-          </div>
-        </div>
-
-        <div class="cal-cities-grid">
-          <div class="cal-city-panel">
-            <div class="cal-city-title">Delhi <span class="cal-city-count" data-count-for="delhi"></span></div>
-            <div class="calendar-grid cal-grid-mini" data-cal-for="delhi"></div>
-          </div>
-          <div class="cal-city-panel">
-            <div class="cal-city-title">Mumbai <span class="cal-city-count" data-count-for="mumbai"></span></div>
-            <div class="calendar-grid cal-grid-mini" data-cal-for="mumbai"></div>
-          </div>
-          <div class="cal-city-panel">
-            <div class="cal-city-title">Chennai <span class="cal-city-count" data-count-for="chennai"></span></div>
-            <div class="calendar-grid cal-grid-mini" data-cal-for="chennai"></div>
-          </div>
-          <div class="cal-city-panel">
-            <div class="cal-city-title">Kolkata <span class="cal-city-count" data-count-for="kolkata"></span></div>
-            <div class="calendar-grid cal-grid-mini" data-cal-for="kolkata"></div>
-          </div>
-        </div>
-      </div>
-      <div class="export-row">
-        <button class="export-btn" data-export="insight03-bars">Export bars CSV</button>
-        <button class="export-btn" data-export="insight03-cal" style="margin-left: 8px;">Export calendar CSV</button>
-      </div>
-    </section>
-
-    <section class="insight" id="insight-05">
-      <div class="insight-number">Insight 05</div>
-      <h2>Tropical nights in cold, elevated, hilly areas have become hotter</h2>
-      <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-    </section>
-
-    <section class="insight" id="insight-06">
-      <div class="insight-number">Insight 06</div>
-      <h2>Two points in time for different cities — No. of days, 4 cities × 2</h2>
-      <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt.</p>
-      <div class="chart-placeholder">[ Chart 03 ]</div>
-    </section>
-
-    <section class="insight" id="insight-07">
-      <div class="insight-number">Insight 07</div>
-      <h2>Hours too hot to step out by day, too hot to sleep at night</h2>
-      <p>Each window is one day of the year. As the clock advances one hour, every window updates to show the temperature for that hour of that day. The left facade is air temperature (T2M); the right is felt temperature (UTCI). The peak day for the selected city is outlined.</p>
-
-      <div class="sim-wrap-dual">
-        <div class="dual-buildings">
-          <div class="building-col">
-            <div class="building-label">Actual · T2M</div>
-            <div class="year-building wide" id="yearBuildingT2M"></div>
-          </div>
-          <div class="building-col">
-            <div class="building-label">Feels like · UTCI</div>
-            <div class="year-building wide" id="yearBuildingUTCI"></div>
-          </div>
-        </div>
-
-        <div class="sim-controls">
-          <div class="clock" id="clock">
-            <div class="clock-hand hour" id="hourHand"></div>
-            <div class="clock-hand minute" id="minuteHand"></div>
-            <div class="clock-center"></div>
-          </div>
-          <div class="clock-digital" id="clockDigital">12:30<span class="ampm">AM</span></div>
-          <div class="peak-date" id="peakDate"></div>
-          <div class="data-source" id="dataSource"></div>
-
-          <div class="control-group">
-            <span class="control-label">City</span>
-            <div class="toggle-row" data-group="city">
-              <button class="active" data-value="delhi">Delhi</button>
-              <button data-value="mumbai">Mumbai</button>
-              <button data-value="chennai">Chennai</button>
-              <button data-value="kolkata">Kolkata</button>
-              <button data-value="bangalore">Bangalore</button>
-              <button data-value="surat">Surat</button>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">Year</span>
-            <div class="toggle-row" data-group="year">
-              <button data-value="2000">2000</button>
-              <button class="active" data-value="2024">2024</button>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <button class="playpause" id="playPause">Pause</button>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">Speed</span>
-            <div class="toggle-row" data-group="speed">
-              <button data-value="slow">Slow</button>
-              <button class="active" data-value="medium">Medium</button>
-              <button data-value="fast">Fast</button>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">Color scale</span>
-            <div class="toggle-row" data-group="scale">
-              <button class="active" data-value="absolute">Absolute</button>
-              <button data-value="city">Per-city</button>
-            </div>
-          </div>
-
-          <div class="inspect-card" id="inspectCard">
-            <div class="control-label" style="margin-bottom: 6px;">Selected day</div>
-            <div class="inspect-empty">Click a window to inspect.</div>
-            <div class="inspect-content" style="display: none;">
-              <div class="inspect-date" id="inspectDate"></div>
-              <div class="inspect-hour" id="inspectHour"></div>
-              <div class="inspect-row">
-                <span class="inspect-label">Actual · T2M</span>
-                <span class="inspect-val t2m" id="inspectT2M">—</span>
-              </div>
-              <div class="inspect-row">
-                <span class="inspect-label">Feels · UTCI</span>
-                <span class="inspect-val utci" id="inspectUTCI">—</span>
-              </div>
-              <div class="inspect-row">
-                <span class="inspect-label">Gap</span>
-                <span class="inspect-val" id="inspectGap">—</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="heat-scale">
-        <div class="heat-scale-bar"></div>
-        <div class="heat-scale-labels" id="heatScaleLabels">
-          <span>&lt;20°</span>
-          <span>25°</span>
-          <span>30°</span>
-          <span>35°</span>
-          <span>40°</span>
-          <span>45°+</span>
-        </div>
-      </div>
-      <div class="export-row">
-        <button class="export-btn" data-export="insight06">Export current view CSV</button>
-      </div>
-
-      <!-- Same hour, 24 years apart — 2000 vs 2024 for a selectable city -->
-      <div style="margin-top: 72px; margin-bottom: 18px;">
-        <h3 style="font-family: 'IBM Plex Serif', serif; font-weight: 500; font-size: 22px; margin-bottom: 8px;">Same hour, 24 years apart</h3>
-        <p style="color: #525252; max-width: 680px;">The left facade is 2000, the right is 2024 — same hour of the day, every day of the year. Pick a city, toggle between actual air temperature (T2M) and felt temperature (UTCI), or filter by UTCI heat-stress band to see how each metric has shifted.</p>
-      </div>
+      <h2>Same hour, 24 years apart</h2>
+      <p>The left facade is 2000, the right is 2024 &mdash; same hour of the day, every day of the year. Pick a city, toggle between actual air temperature (T2M) and felt temperature (UTCI), or filter by UTCI heat-stress band to see how each metric has shifted.</p>
 
       <div class="sim-wrap-dual">
         <div class="dual-buildings">
@@ -2252,8 +2480,84 @@
       </div>
     </section>
 
-    <section class="insight" id="insight-08">
-      <div class="insight-number">Insight 08</div>
+    <section class="insight" id="insight-05">
+      <div class="insight-number">Insight 05</div>
+      <h2>City skylines &mdash; days of heat stress across India, 2024</h2>
+      <p>Twelve cities side by side. Each building is one city; each window is one day in 2024. As the clock ticks through the day, every window updates to show whether the temperature for <em>that hour</em> of <em>that day</em> fell into one of the heat-stress bands you've selected. Only days that match the current selection are shown &mdash; the number above each building is the count for that hour.</p>
+
+      <div class="sim-wrap-skyline">
+        <div class="skyline-controls">
+          <div class="clock" id="skyClock">
+            <div class="clock-hand hour" id="skyHourHand"></div>
+            <div class="clock-hand minute" id="skyMinuteHand"></div>
+            <div class="clock-center"></div>
+          </div>
+          <div class="clock-digital" id="skyClockDigital">12:30<span class="ampm">AM</span></div>
+
+          <div class="control-group">
+            <span class="control-label">Variable</span>
+            <div class="toggle-row" data-sky-group="variable">
+              <button class="active" data-value="t2m">Actual &middot; T2M</button>
+              <button data-value="utci">Feels &middot; UTCI</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">Heat-stress bands</span>
+            <div id="skyBandChecks" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #161616;">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" data-sky-band="tropical" checked>
+                <span style="display: inline-block; width: 14px; height: 14px; background: #f1c21b; border: 1px solid #0a0a0a;"></span>
+                Tropical nights (25&ndash;32&deg;)
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" data-sky-band="strong" checked>
+                <span style="display: inline-block; width: 14px; height: 14px; background: #ff832b; border: 1px solid #0a0a0a;"></span>
+                Strong (32&ndash;38&deg;)
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" data-sky-band="very" checked>
+                <span style="display: inline-block; width: 14px; height: 14px; background: #da1e28; border: 1px solid #0a0a0a;"></span>
+                Very strong (38&ndash;46&deg;)
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" data-sky-band="extreme" checked>
+                <span style="display: inline-block; width: 14px; height: 14px; background: #750e13; border: 1px solid #0a0a0a;"></span>
+                Extreme (46&deg;+)
+              </label>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">Color mode</span>
+            <div class="toggle-row" data-sky-group="colorMode">
+              <button class="active" data-value="single">Absolute</button>
+              <button data-value="scale">Scale</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <button class="playpause" id="skyPlayPause">Pause</button>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">Speed</span>
+            <div class="toggle-row" data-sky-group="speed">
+              <button data-value="slow">Slow</button>
+              <button class="active" data-value="medium">Medium</button>
+              <button data-value="fast">Fast</button>
+            </div>
+          </div>
+
+          <div class="skyline-note" id="skyDataNote"></div>
+        </div>
+
+        <div class="skyline-row" id="skylineRow"></div>
+      </div>
+    </section>
+
+    <section class="insight collapsible" id="insight-06">
+      <div class="insight-number">Insight 06</div>
       <h2>One day, two decades apart — how the felt heat shifted hour by hour</h2>
       <p>The peak day for each city — June 12 in Delhi, May 23 in Mumbai, June 8 in Chennai, May 11 in Kolkata — read hour by hour in IST, in 2000 and again in 2024. The solid line is air temperature (Actual); the dashed line is felt temperature (Feels-like). The orange band is the gap between them. Below each chart, the hours when stepping out would have been unsafe.</p>
 
@@ -2383,8 +2687,8 @@
       </div>
     </section>
 
-    <section class="insight" id="insight-08b">
-      <div class="insight-number">Insight 08B</div>
+    <section class="insight collapsible" id="insight-06b">
+      <div class="insight-number">Insight 06B</div>
       <h2>The typical day, two decades apart — month-average hour by hour</h2>
       <p>The same hour-by-hour read, but averaged across every day in the peak month — June for Delhi and Chennai, May for Mumbai and Kolkata — in 2000 and 2024. Single-day peaks get smoothed away; what's left is the <em>typical</em> shape of a day in that month.</p>
 
@@ -2514,8 +2818,8 @@
       </div>
     </section>
 
-    <section class="insight" id="insight-09">
-      <div class="insight-number">Insight 09</div>
+    <section class="insight collapsible" id="insight-07">
+      <div class="insight-number">Insight 07</div>
       <h2>Hour-by-hour heatmap — daytime danger versus tropical nights</h2>
       <p>Each row is a single peak day, hour-by-hour in IST. Toggle between <em>Day</em> (08:00–20:00, hours above 40 °C lit in red) and <em>Tropical Nights</em> (20:00–08:00, hours above 26 °C lit in orange). Switch the metric between felt temperature (UTCI) and air temperature (T2M).</p>
 
@@ -2584,9 +2888,10 @@
     });
   })();
 
-  // Insight 02 — UTCI vs T2M annual peak day, 4 cities (D3)
+  // Insight 04 (was 03) — UTCI vs T2M annual peak day, 4 cities (D3)
   (function () {
     if (typeof d3 === 'undefined') return;
+    if (!document.querySelector('.city-chart')) return;
 
     const cities = {
       delhi: {
@@ -2824,9 +3129,10 @@
     });
   })();
 
-  // Insight 03 — Grouped bars: days T2M>40 vs days UTCI>40 (D3)
+  // Insight 05 (was 04) — Grouped bars: days T2M>40 vs days UTCI>40 (D3)
   (function () {
     if (typeof d3 === 'undefined') return;
+    if (!document.querySelector('.bars-chart')) return;
 
     // [year, delhiT2M, delhiUTCI, mumbaiT2M, mumbaiUTCI, chennaiT2M, chennaiUTCI, kolkataT2M, kolkataUTCI]
     const raw = [
@@ -5723,6 +6029,451 @@
     selectCity(city);
   })();
 
+  // ============ Insight 02 (new): days/month > 32°C, 2000 vs 2024 grouped ============
+  (function () {
+    const svgNode = document.getElementById('i2newChart');
+    if (!svgNode) return;
+
+    const block = document.querySelector('.insight2-block');
+    const titleEl = document.getElementById('i2new-title');
+    const totalsEl = document.getElementById('i2new-totals');
+    let state = { city: 'delhi', metric: 'utci' };
+    let data = null;
+
+    const CITY_LABEL = {
+      delhi: 'Delhi', mumbai: 'Mumbai', chennai: 'Chennai',
+      ahmedabad: 'Ahmedabad', bangalore: 'Bangalore', guwahati: 'Guwahati',
+      ajmer: 'Ajmer', shimla: 'Shimla', darjeeling: 'Darjeeling',
+      ooty: 'Ooty', kodai: 'Kodaikanal', munnar: 'Munnar'
+    };
+
+    // Shared tooltip
+    const tip = d3.select(block).append('div').attr('class', 'chart-tooltip');
+    function moveTip(evt) {
+      const rect = block.getBoundingClientRect();
+      const tipW = tip.node().offsetWidth;
+      const tipH = tip.node().offsetHeight;
+      let left = evt.clientX - rect.left + 14;
+      let top = evt.clientY - rect.top - tipH - 10;
+      if (left + tipW > rect.width) left = evt.clientX - rect.left - tipW - 14;
+      if (top < 0) top = evt.clientY - rect.top + 14;
+      tip.style('left', left + 'px').style('top', top + 'px');
+    }
+    function showTip(html, evt) { tip.html(html).style('opacity', 1); moveTip(evt); }
+    function hideTip() { tip.style('opacity', 0); }
+
+    const COLOR_2000 = '#f4a361';
+    const COLOR_2024 = '#a30b0b';
+
+    function draw() {
+      const svg = d3.select(svgNode);
+      svg.selectAll('*').remove();
+
+      const months = data.months;
+      const s2000 = data.cities[state.city]['2000'][state.metric];
+      const s2024 = data.cities[state.city]['2024'][state.metric];
+
+      const W = 760, H = 320;
+      const margin = { top: 18, right: 16, bottom: 38, left: 44 };
+      const innerW = W - margin.left - margin.right;
+      const innerH = H - margin.top - margin.bottom;
+
+      const yMax = Math.max(10, Math.ceil(d3.max([...s2000, ...s2024]) / 5) * 5);
+      const x0 = d3.scaleBand()
+        .domain(d3.range(12))
+        .range([0, innerW])
+        .paddingInner(0.22)
+        .paddingOuter(0.06);
+      const x1 = d3.scaleBand()
+        .domain(['2000', '2024'])
+        .range([0, x0.bandwidth()])
+        .padding(0.08);
+      const y = d3.scaleLinear()
+        .domain([0, yMax])
+        .range([innerH, 0]);
+
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      // grid
+      g.append('g').attr('class', 'grid')
+        .selectAll('line')
+        .data(y.ticks(6))
+        .join('line')
+        .attr('x1', 0).attr('x2', innerW)
+        .attr('y1', d => y(d)).attr('y2', d => y(d));
+
+      // x axis — month labels
+      g.append('g').attr('class', 'axis')
+        .attr('transform', `translate(0,${innerH})`)
+        .call(
+          d3.axisBottom(x0)
+            .tickFormat(i => months[i])
+            .tickSize(0).tickPadding(8)
+        );
+
+      // y axis
+      g.append('g').attr('class', 'axis')
+        .call(d3.axisLeft(y).ticks(6).tickSize(0).tickPadding(6));
+
+      // y label
+      g.append('text')
+        .attr('class', 'label')
+        .attr('transform', `rotate(-90)`)
+        .attr('x', -innerH / 2).attr('y', -32)
+        .attr('text-anchor', 'middle')
+        .text('Days > 32°C');
+
+      // grouped bars
+      const groups = g.append('g').selectAll('g.month-group')
+        .data(d3.range(12))
+        .join('g')
+        .attr('class', 'month-group')
+        .attr('transform', m => `translate(${x0(m)},0)`);
+
+      groups.append('rect')
+        .attr('class', 'bar-2000')
+        .attr('x', x1('2000'))
+        .attr('width', x1.bandwidth())
+        .attr('y', m => y(s2000[m]))
+        .attr('height', m => innerH - y(s2000[m]))
+        .attr('fill', COLOR_2000)
+        .on('mouseenter', (e, m) => showTip(tipHtml(m, '2000', s2000[m]), e))
+        .on('mousemove', e => moveTip(e))
+        .on('mouseleave', hideTip);
+
+      groups.append('rect')
+        .attr('class', 'bar-2024')
+        .attr('x', x1('2024'))
+        .attr('width', x1.bandwidth())
+        .attr('y', m => y(s2024[m]))
+        .attr('height', m => innerH - y(s2024[m]))
+        .attr('fill', COLOR_2024)
+        .on('mouseenter', (e, m) => showTip(tipHtml(m, '2024', s2024[m]), e))
+        .on('mousemove', e => moveTip(e))
+        .on('mouseleave', hideTip);
+
+      function tipHtml(m, yr, v) {
+        const metricLabel = state.metric === 'utci' ? 'Feels-like (UTCI)' : 'Actual (T2M)';
+        return `<div class="tt-year">${CITY_LABEL[state.city]} · ${yr} · ${months[m]}</div>` +
+               `<div class="tt-row"><span>${metricLabel} &gt; 32°</span><span class="utci-val">${v} days</span></div>`;
+      }
+
+      // Title + totals line
+      const metricLabel = state.metric === 'utci' ? 'Feels-like' : 'Actual';
+      titleEl.textContent = `${CITY_LABEL[state.city]} — days per month > 32°C (${metricLabel})`;
+      const total00 = s2000.reduce((a, b) => a + b, 0);
+      const total24 = s2024.reduce((a, b) => a + b, 0);
+      const delta = total24 - total00;
+      const sign = delta > 0 ? '+' : '';
+      totalsEl.textContent = `2000: ${total00} d  ·  2024: ${total24} d  (${sign}${delta})`;
+    }
+
+    function wireToggles() {
+      document.querySelectorAll('[data-i2new-group]').forEach(group => {
+        const key = group.dataset.i2newGroup;
+        group.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', () => {
+            group.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state[key] = btn.dataset.value;
+            draw();
+          });
+        });
+      });
+    }
+
+    d3.json('data/monthly_strong_stress.json').then(json => {
+      if (!json) return;
+      data = json;
+      wireToggles();
+      draw();
+    }).catch(err => {
+      console.error('Insight 02 monthly data load failed', err);
+    });
+  })();
+
+  // ============ Insight 05: city skyline — heat-stress bands across 12 cities, 2024 ============
+  (function () {
+    const row = document.getElementById('skylineRow');
+    if (!row) return;
+
+    const CITIES = [
+      { key: 'delhi',      name: 'Delhi' },
+      { key: 'mumbai',     name: 'Mumbai' },
+      { key: 'chennai',    name: 'Chennai' },
+      { key: 'bangalore',  name: 'Bangalore' },
+      { key: 'ahmedabad',  name: 'Ahmedabad' },
+      { key: 'guwahati',   name: 'Guwahati' },
+      { key: 'ajmer',      name: 'Ajmer' },
+      { key: 'shimla',     name: 'Shimla' },
+      { key: 'darjeeling', name: 'Darjeeling' },
+      { key: 'ooty',       name: 'Ooty' },
+      { key: 'kodai',      name: 'Kodai' },
+      { key: 'munnar',     name: 'Munnar' }
+    ];
+    const YEAR = 2024;
+    const DAYS = 366; // 2024 is a leap year
+
+    // Band defs — identical conventions to Insight 04. Tropical is night-only.
+    const BANDS = {
+      tropical: { lo: 25, hi: 32,        color: '#f1c21b', light: '#fdf6b2', dark: '#a67c00', nightOnly: true  },
+      strong:   { lo: 32, hi: 38,        color: '#ff832b', light: '#ffd4b3', dark: '#a64500', nightOnly: false },
+      very:     { lo: 38, hi: 46,        color: '#da1e28', light: '#f6a5a9', dark: '#8a0000', nightOnly: false },
+      extreme:  { lo: 46, hi: Infinity, gradHi: 55, color: '#750e13', light: '#a72020', dark: '#3a0507', nightOnly: false }
+    };
+    const BAND_ORDER = ['tropical', 'strong', 'very', 'extreme'];
+
+    function isNightHour(h) { return h >= 19 || h <= 7; }
+
+    function hexToRgb(h) {
+      return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+    }
+    function lerpHex(a, b, t) {
+      t = Math.max(0, Math.min(1, t));
+      const A = hexToRgb(a), B = hexToRgb(b);
+      const r = Math.round(A[0] + (B[0]-A[0])*t);
+      const g = Math.round(A[1] + (B[1]-A[1])*t);
+      const bl = Math.round(A[2] + (B[2]-A[2])*t);
+      return `rgb(${r},${g},${bl})`;
+    }
+
+    // ----- State -----
+    const state = {
+      variable: 't2m',
+      bands: { tropical: true, strong: true, very: true, extreme: true },
+      colorMode: 'single',
+      hour: 14,    // 2:30 PM IST start — usually a hot hour to make the skyline interesting
+      playing: true,
+      speed: 'medium'
+    };
+    const SPEEDS = { slow: 3500, medium: 1800, fast: 800 };
+
+    // ----- Data cache: cache[city] = { t2m: [...8784 hourly values...], utci: [...] } -----
+    const cache = {};
+
+    // ----- DOM build: one .sky-city per city -----
+    const cityNodes = {};
+    CITIES.forEach(c => {
+      const wrap = document.createElement('div');
+      wrap.className = 'sky-city';
+      const count = document.createElement('div');
+      count.className = 'sky-count zero';
+      count.innerHTML = '0<span class="days-suffix">days</span>';
+      const bldg = document.createElement('div');
+      bldg.className = 'sky-building';
+      const ground = document.createElement('div');
+      ground.className = 'sky-ground';
+      const label = document.createElement('div');
+      label.className = 'sky-label';
+      label.textContent = c.name;
+      wrap.appendChild(count);
+      wrap.appendChild(bldg);
+      wrap.appendChild(ground);
+      wrap.appendChild(label);
+      row.appendChild(wrap);
+      cityNodes[c.key] = { wrap, count, building: bldg, label };
+    });
+
+    // ----- Clock & controls refs -----
+    const clock = document.getElementById('skyClock');
+    const hourHand = document.getElementById('skyHourHand');
+    const minuteHand = document.getElementById('skyMinuteHand');
+    const digital = document.getElementById('skyClockDigital');
+    const playBtn = document.getElementById('skyPlayPause');
+    const noteEl = document.getElementById('skyDataNote');
+
+    // Build clock tick marks/numerals (mirroring existing clocks)
+    for (let i = 0; i < 12; i++) {
+      const tick = document.createElement('div');
+      tick.className = 'clock-tick major';
+      tick.style.transform = `translateX(-50%) rotate(${i * 30}deg)`;
+      clock.appendChild(tick);
+    }
+    [{ n: '12', x: 50, y: 14 }, { n: '3', x: 86, y: 50 },
+     { n: '6', x: 50, y: 86 },  { n: '9', x: 14, y: 50 }].forEach(({ n, x, y }) => {
+      const el = document.createElement('div');
+      el.className = 'clock-numeral';
+      el.textContent = n;
+      el.style.left = x + '%';
+      el.style.top = y + '%';
+      clock.appendChild(el);
+    });
+
+    function setClockHour(h) {
+      hourHand.style.transform = `rotate(${((h + 0.5) / 12) * 360}deg)`;
+      minuteHand.style.transform = `rotate(180deg)`;
+      const ampm = h < 12 ? 'AM' : 'PM';
+      const h12 = ((h + 11) % 12) + 1;
+      digital.innerHTML = `${String(h12).padStart(2, '0')}:30<span class="ampm">${ampm}</span>`;
+    }
+
+    // ----- Data loading -----
+    function fetchCity(cityKey) {
+      if (cache[cityKey] || cache[cityKey] === 'loading') return Promise.resolve();
+      cache[cityKey] = 'loading';
+      noteEl.textContent = `Loading ${cityKey}…`;
+      return Promise.all([
+        fetch(`final-data/${cityKey}-${YEAR}-hourly-t2m.json`).then(r => r.ok ? r.json() : null),
+        fetch(`final-data/${cityKey}-${YEAR}-hourly-utci.json`).then(r => r.ok ? r.json() : null)
+      ]).then(([t2mDoc, utciDoc]) => {
+        if (!t2mDoc || !utciDoc) {
+          cache[cityKey] = null;
+          return;
+        }
+        cache[cityKey] = {
+          t2m: t2mDoc.values_max_daily,
+          utci: utciDoc.values_max_daily
+        };
+      }).catch(() => { cache[cityKey] = null; });
+    }
+
+    function loadAll() {
+      Promise.all(CITIES.map(c => fetchCity(c.key))).then(() => {
+        const ok = CITIES.filter(c => cache[c.key]).length;
+        noteEl.textContent = `${ok} of ${CITIES.length} cities · IST display`;
+        render();
+      });
+    }
+
+    // ----- Value lookup with IST shift (same convention as Insight 04) -----
+    function valueAt(cityKey, doy, hour, kind) {
+      const rec = cache[cityKey];
+      if (!rec || rec === 'loading') return null;
+      const istIdx = (doy - 1) * 24 + hour;
+      const utcIdx = istIdx - 5;
+      if (utcIdx < 0 || utcIdx >= rec[kind].length) return null;
+      const v = rec[kind][utcIdx];
+      return (v == null) ? null : v;
+    }
+
+    function matchBand(v, isNight) {
+      if (v == null) return null;
+      for (const key of BAND_ORDER) {
+        if (!state.bands[key]) continue;
+        const b = BANDS[key];
+        if (b.nightOnly && !isNight) continue;
+        if (v >= b.lo && v < b.hi) return key;
+      }
+      return null;
+    }
+
+    function bandColor(bandKey, v) {
+      const b = BANDS[bandKey];
+      if (state.colorMode === 'single') return b.color;
+      const hi = (b.hi === Infinity) ? b.gradHi : b.hi;
+      const t = (v - b.lo) / (hi - b.lo);
+      return lerpHex(b.light, b.dark, t);
+    }
+
+    function anyBandOn() {
+      return BAND_ORDER.some(k => state.bands[k]);
+    }
+
+    // ----- Render: for each city, build only as many windows as match the bands. -----
+    function render() {
+      const isNight = isNightHour(state.hour);
+      const hasBands = anyBandOn();
+      CITIES.forEach(c => {
+        const node = cityNodes[c.key];
+        node.building.innerHTML = '';
+        if (!hasBands || !cache[c.key] || cache[c.key] === 'loading') {
+          node.count.innerHTML = hasBands
+            ? '0<span class="days-suffix">days</span>'
+            : '—';
+          node.count.classList.toggle('zero', true);
+          return;
+        }
+        const frag = document.createDocumentFragment();
+        let n = 0;
+        for (let doy = 1; doy <= DAYS; doy++) {
+          const v = valueAt(c.key, doy, state.hour, state.variable);
+          const k = matchBand(v, isNight);
+          if (!k) continue;
+          const w = document.createElement('div');
+          w.className = 'window';
+          w.style.background = bandColor(k, v);
+          frag.appendChild(w);
+          n++;
+        }
+        node.building.appendChild(frag);
+        const dayWord = n === 1 ? 'day' : 'days';
+        node.count.innerHTML = `${n}<span class="days-suffix">${dayWord}</span>`;
+        node.count.classList.toggle('zero', n === 0);
+      });
+    }
+
+    // ----- Timer / playback -----
+    let timer = null;
+    function tickStep() {
+      state.hour = (state.hour + 1) % 24;
+      setClockHour(state.hour);
+      render();
+    }
+    function restartTimer() {
+      if (timer) clearInterval(timer);
+      if (state.playing) timer = setInterval(tickStep, SPEEDS[state.speed]);
+    }
+
+    // ----- Wire controls -----
+    setClockHour(state.hour);
+    restartTimer();
+
+    playBtn.addEventListener('click', () => {
+      state.playing = !state.playing;
+      playBtn.textContent = state.playing ? 'Pause' : 'Play';
+      playBtn.classList.toggle('paused', !state.playing);
+      restartTimer();
+    });
+
+    // Toggle groups: variable / colorMode / speed
+    document.querySelectorAll('[data-sky-group]').forEach(rowEl => {
+      rowEl.addEventListener('click', e => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        rowEl.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const group = rowEl.dataset.skyGroup;
+        const value = btn.dataset.value;
+        if (group === 'variable')      { state.variable = value;  render(); }
+        else if (group === 'colorMode'){ state.colorMode = value; render(); }
+        else if (group === 'speed')    { state.speed = value;     restartTimer(); }
+      });
+    });
+
+    // Band checkboxes
+    document.querySelectorAll('#skyBandChecks input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        state.bands[cb.dataset.skyBand] = cb.checked;
+        render();
+      });
+    });
+
+    loadAll();
+  })();
+
+  // ============ Collapsible insights ============
+  (function () {
+    const sections = document.querySelectorAll('.insight.collapsible');
+    sections.forEach(sec => {
+      sec.classList.add('is-collapsed');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'expand-toggle';
+      btn.textContent = 'Show charts';
+      // Insert after the first <p> (the intro paragraph).
+      const intro = sec.querySelector(':scope > p');
+      if (intro) {
+        intro.insertAdjacentElement('afterend', btn);
+      } else {
+        sec.prepend(btn);
+      }
+      btn.addEventListener('click', () => {
+        const collapsed = sec.classList.toggle('is-collapsed');
+        btn.textContent = collapsed ? 'Show charts' : 'Hide charts';
+      });
+    });
+  })();
+
   // ============ Left nav scrollspy ============
   (function () {
     const links = Array.from(document.querySelectorAll(".side-nav a[data-target]"));
@@ -5748,6 +6499,298 @@
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+  })();
+
+  // ============ Global warming bar chart ============
+  (function () {
+    const svg = d3.select('#warmingChart');
+    const tooltip = d3.select('#warmingTooltip');
+    if (svg.empty()) return;
+
+    const W = 900, H = 420;
+    const margin = { top: 24, right: 64, bottom: 50, left: 18 };
+    const innerW = W - margin.left - margin.right;
+    const innerH = H - margin.top - margin.bottom;
+
+    d3.text('build_min_xlsx.csv').then(text => {
+      if (!text) return;
+      // File has banner rows before "Year,ERA5" — parse manually to skip them.
+      const lines = text.split(/\r?\n/).filter(l => l.trim().length);
+      // Drop banner rows; find the header row "Year,ERA5"
+      const headerIdx = lines.findIndex(l => /^Year\s*,/i.test(l));
+      const dataLines = headerIdx >= 0 ? lines.slice(headerIdx + 1) : lines;
+      const rows = dataLines.map(l => {
+        const [y, v] = l.split(',');
+        return { year: +y, temp: +v };
+      }).filter(r => Number.isFinite(r.year) && Number.isFinite(r.temp));
+
+      if (!rows.length) return;
+
+      // Color ramp by absolute anomaly: pale yellow → yellow → orange → deep orange.
+      // If a year is cooler than the year before, nudge its hue back toward yellow
+      // (mixed with #fde047) so it still reads as warm, just a little cooler.
+      const tempExtent = d3.extent(rows, r => r.temp);
+      const tempScale = d3.scaleLinear()
+        .domain([Math.min(0, tempExtent[0]), tempExtent[1]])
+        .range([0, 1])
+        .clamp(true);
+      const hueScale = d3.scaleLinear()
+        .domain([0, 0.33, 0.66, 1])
+        .range(['#fff2b0', '#fde047', '#f59e0b', '#c2410c'])
+        .interpolate(d3.interpolateRgb)
+        .clamp(true);
+      const yellowMix = '#fde047';
+
+      rows.forEach((r, i) => {
+        const baseColor = hueScale(tempScale(r.temp));
+        if (i === 0) {
+          r.delta = 0;
+          r.color = baseColor;
+        } else {
+          r.delta = r.temp - rows[i - 1].temp;
+          if (r.delta < 0) {
+            r.color = d3.interpolateRgb(baseColor, yellowMix)(0.28);
+          } else {
+            r.color = baseColor;
+          }
+        }
+      });
+
+      const x = d3.scaleBand()
+        .domain(rows.map(r => r.year))
+        .range([0, innerW])
+        .padding(0.18);
+
+      const tempMin = Math.min(0, d3.min(rows, r => r.temp));
+      const tempMax = Math.max(1.6, d3.max(rows, r => r.temp));
+      const y = d3.scaleLinear()
+        .domain([tempMin, tempMax * 1.05])
+        .nice()
+        .range([innerH, 0]);
+
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      // Gridlines
+      const yTicks = y.ticks(6);
+      g.append('g').selectAll('line')
+        .data(yTicks).enter().append('line')
+        .attr('class', 'gridline')
+        .attr('x1', 0).attr('x2', innerW)
+        .attr('y1', d => y(d)).attr('y2', d => y(d));
+
+      // Y axis ticks — right side
+      g.append('g').selectAll('text')
+        .data(yTicks).enter().append('text')
+        .attr('class', 'axis-tick')
+        .attr('x', innerW + 10).attr('y', d => y(d))
+        .attr('text-anchor', 'start')
+        .attr('dy', '0.32em')
+        .text(d => d.toFixed(1) + '°');
+
+      // X axis ticks — every 5 years for legibility
+      const xTickYears = rows
+        .map(r => r.year)
+        .filter(yr => yr % 5 === 0 || yr === rows[rows.length - 1].year);
+      g.append('g').selectAll('text')
+        .data(xTickYears).enter().append('text')
+        .attr('class', 'axis-tick')
+        .attr('x', d => x(d) + x.bandwidth() / 2)
+        .attr('y', innerH + 16)
+        .attr('text-anchor', 'middle')
+        .text(d => d);
+
+      // Axis labels
+      g.append('text')
+        .attr('class', 'axis-label')
+        .attr('transform', `translate(${innerW + 50}, ${innerH / 2}) rotate(90)`)
+        .attr('text-anchor', 'middle')
+        .text('°C above 1850–1900');
+
+      g.append('text')
+        .attr('class', 'axis-label')
+        .attr('x', innerW / 2)
+        .attr('y', innerH + 40)
+        .attr('text-anchor', 'middle')
+        .text('Year');
+
+      // Zero baseline
+      g.append('line')
+        .attr('x1', 0).attr('x2', innerW)
+        .attr('y1', y(0)).attr('y2', y(0))
+        .attr('stroke', '#9ca3af')
+        .attr('stroke-width', 1)
+        .attr('shape-rendering', 'crispEdges');
+
+      // 1.5°C threshold — thick dashed red
+      g.append('line')
+        .attr('x1', 0).attr('x2', innerW)
+        .attr('y1', y(1.5)).attr('y2', y(1.5))
+        .attr('stroke', '#c0382f')
+        .attr('stroke-width', 2.5)
+        .attr('stroke-dasharray', '8 5');
+      g.append('text')
+        .attr('class', 'axis-tick')
+        .attr('x', 4)
+        .attr('y', y(1.5) - 6)
+        .attr('fill', '#c0382f')
+        .style('font-weight', '600')
+        .text('1.5 °C threshold');
+
+      // Bars
+      const wrapNode = document.getElementById('warmingChartWrap');
+      g.selectAll('rect.bar')
+        .data(rows).enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', r => x(r.year))
+        .attr('y', r => y(Math.max(0, r.temp)))
+        .attr('width', x.bandwidth())
+        .attr('height', r => Math.abs(y(r.temp) - y(0)))
+        .attr('fill', r => r.color)
+        .attr('stroke', '#0000000d')
+        .attr('stroke-width', 0.3)
+        .on('mousemove', function (event, r) {
+          const rect = wrapNode.getBoundingClientRect();
+          const px = event.clientX - rect.left + 12;
+          const py = event.clientY - rect.top + 12;
+          const deltaTxt = r.delta === 0 ? '—' :
+            (r.delta > 0 ? '+' : '') + r.delta.toFixed(3) + '°';
+          tooltip
+            .style('left', px + 'px')
+            .style('top', py + 'px')
+            .style('opacity', 1)
+            .html(`${r.year} · ${r.temp.toFixed(3)}°C<br/>Δ vs prev: ${deltaTxt}`);
+        })
+        .on('mouseleave', function () {
+          tooltip.style('opacity', 0);
+        });
+    });
+  })();
+
+  // ============ India map — 50 hottest cities, April 26 2026 (Leaflet) ============
+  (function () {
+    const mapEl = document.getElementById('indiaMap');
+    if (!mapEl || typeof L === 'undefined') return;
+
+    // City coordinates (lat, lng) for the 50 cities in april27.csv.
+    // Names match the CSV's "City" field exactly.
+    const cityCoords = {
+      'Banda':        [25.4760, 80.3360],
+      'Amravati':     [20.9374, 77.7796],
+      'Kanpur':       [26.4499, 80.3319],
+      'Yavatmal':     [20.3888, 78.1204],
+      'Akola':        [20.7090, 77.0026],
+      'Fatehpur':     [25.9300, 80.8000],
+      'Etawah':       [26.7855, 79.0150],
+      'Noida':        [28.5355, 77.3910],
+      'Orchha':       [25.3519, 78.6402],
+      'Jhansi':       [25.4484, 78.5685],
+      'Nagpur':       [21.1458, 79.0882],
+      'Nanded':       [19.1383, 77.3210],
+      'Faridabad':    [28.4089, 77.3178],
+      'Parbhani':     [19.2704, 76.7611],
+      'New Delhi':    [28.6139, 77.2090],
+      'Chandrapur':   [19.9615, 79.2961],
+      'Burhanpur':    [21.3009, 76.2294],
+      'Bhusawal':     [21.0436, 75.7851],
+      'Gurgaon':      [28.4595, 77.0266],
+      'Jalgaon':      [21.0077, 75.5626],
+      'Agra':         [27.1767, 78.0081],
+      'Kota':         [25.2138, 75.8648],
+      'Firozabad':    [27.1591, 78.3958],
+      'Palwal':       [28.1473, 77.3260],
+      'Adilabad':     [19.6640, 78.5320],
+      'Greater Noida':[28.4744, 77.5040],
+      'Ghaziabad':    [28.6692, 77.4538],
+      'Bhiwadi':      [28.2103, 76.8606],
+      'Bikaner':      [28.0229, 73.3119],
+      'Prayagraj':    [25.4358, 81.8463],
+      'Gwalior':      [26.2183, 78.1828],
+      'Khurja':       [28.2521, 77.8500],
+      'Khajuraho':    [24.8318, 79.9199],
+      'Vrindavan':    [27.5806, 77.7006],
+      'Mathura':      [27.4924, 77.6737],
+      'Phalodi':      [27.1300, 72.3600],
+      'Hathras':      [27.6000, 78.0500],
+      'Satna':        [24.5852, 80.8245],
+      'Tonk':         [26.1656, 75.7906],
+      'Aligarh':      [27.8974, 78.0880],
+      'Bulandshahr':  [28.4069, 77.8498],
+      'Maihar':       [24.2666, 80.7600],
+      'Barehra':      [27.2000, 80.2000],
+      'Bahadurgarh':  [28.6929, 76.9269],
+      'Raipur':       [21.2514, 81.6296],
+      'Lucknow':      [26.8467, 80.9462],
+      'Budaun':       [28.0380, 79.1265],
+      'Solapur':      [17.6599, 75.9064],
+      'Sambhal':      [28.5839, 78.5664],
+      'Jaisalmer':    [26.9157, 70.9083]
+    };
+
+    // Build the Leaflet map first, then load CSV and place circles.
+    const map = L.map('indiaMap', {
+      center: [23.5, 80],
+      zoom: 5,
+      minZoom: 4,
+      maxZoom: 10,
+      scrollWheelZoom: true,
+      zoomControl: true
+    });
+
+    // Carto's light basemap — clean, monochrome, lets the red circles dominate.
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd',
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+    }).addTo(map);
+
+    d3.text('april27.csv').then(csvText => {
+      if (!csvText) return;
+      const lines = csvText.split(/\r?\n/).filter(l => l.trim().length);
+      const headerIdx = lines.findIndex(l => /^Rank\s*,/i.test(l));
+      const dataLines = headerIdx >= 0 ? lines.slice(headerIdx + 1) : lines;
+      const cities = dataLines.map(l => {
+        const c = l.split(',');
+        return {
+          rank: +c[0],
+          city: (c[1] || '').trim(),
+          state: (c[2] || '').trim(),
+          avg: +c[3],
+          max: +c[4],
+          min: +c[5]
+        };
+      }).filter(d => d.city && Number.isFinite(d.max) && cityCoords[d.city]);
+
+      // Single circle per city, sized by max temperature.
+      const maxExtent = d3.extent(cities, d => d.max);
+      const rMax = d3.scaleLinear().domain(maxExtent).range([8, 22]).clamp(true);
+
+      const maxLayer = L.layerGroup().addTo(map);
+
+      cities.forEach(d => {
+        const [lat, lng] = cityCoords[d.city];
+        const popupHtml =
+          `<div class="city-popup">` +
+            `<div class="cp-rank">#${d.rank}</div>` +
+            `<div class="cp-name">${d.city}, ${d.state}</div>` +
+            `<div class="cp-temp">Max ${d.max.toFixed(1)}°C</div>` +
+          `</div>`;
+
+        L.circleMarker([lat, lng], {
+          radius: rMax(d.max),
+          color: '#7f1010',
+          weight: 0.8,
+          fillColor: '#c0392b',
+          fillOpacity: 0.78,
+          interactive: true
+        }).bindPopup(popupHtml).addTo(maxLayer);
+      });
+
+      // Fit to the cluster of plotted cities, with a touch of padding
+      const bounds = L.latLngBounds(cities.map(d => cityCoords[d.city]));
+      map.fitBounds(bounds, { padding: [30, 30] });
+    }).catch(err => {
+      console.error('India map load failed', err);
+    });
   })();
 </script>
 </body>
