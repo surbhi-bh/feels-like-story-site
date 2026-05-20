@@ -188,8 +188,8 @@
   .chart-block .axis text,
   .chart-block .label {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    fill: #6f6f6f;
+    font-size: 12px;
+    fill: #161616;
     letter-spacing: 0.04em;
   }
 
@@ -662,6 +662,264 @@
     grid-template-columns: 1fr 1fr;
     gap: 24px 28px;
     margin-top: 12px;
+  }
+
+  /* Insight 02 timeline — 4-panel grid of month-stacked yearly bars. */
+  .i2-timeline {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #ececec;
+  }
+  .i2-timeline-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #161616;
+    margin: 0 0 6px;
+  }
+  .i2-timeline-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #6f6f6f;
+    font-weight: 400;
+    margin-left: 10px;
+    letter-spacing: 0.04em;
+  }
+  .i2-timeline-lede {
+    font-size: 14px;
+    color: #525252;
+    line-height: 1.55;
+    max-width: 760px;
+    margin: 0 0 18px;
+  }
+  .i2-timeline-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 22px;
+  }
+  @media (max-width: 880px) {
+    .i2-timeline-grid { grid-template-columns: 1fr; }
+  }
+  .i2-tpanel { min-width: 0; }
+  .i2-tpanel-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #393939;
+    margin-bottom: 6px;
+  }
+  .i2-tchart { width: 100%; height: auto; display: block; overflow: visible; }
+  .i2-tchart .axis-tick {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    fill: #161616;
+  }
+  .i2-tchart .gridline {
+    stroke: #ececec;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+  }
+  .i2-tchart .month-seg {
+    shape-rendering: crispEdges;
+  }
+  .i2-timeline-legend {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #393939;
+  }
+  .i2-timeline-legend .lswatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  .i2-legend-item {
+    cursor: pointer;
+    user-select: none;
+    transition: color .12s;
+  }
+  .i2-legend-item:hover { color: #161616; font-weight: 600; }
+
+  /* Calendar view (Insight 02 timeline) */
+  .i2-cal-wrap {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #ececec;
+  }
+  .i2-cal-toggle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #161616;
+    background: transparent;
+    border: 1px solid #161616;
+    padding: 8px 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background .12s, color .12s;
+  }
+  .i2-cal-toggle:hover { background: #161616; color: #fff; }
+  .i2-cal-toggle-icon {
+    display: inline-block;
+    transition: transform .15s;
+  }
+  .i2-cal-toggle[aria-expanded="true"] .i2-cal-toggle-icon {
+    transform: rotate(90deg);
+  }
+  .i2-cal-body { margin-top: 16px; }
+  .i2-cal-help {
+    font-size: 13px;
+    color: #525252;
+    line-height: 1.55;
+    max-width: 760px;
+    margin: 0 0 14px;
+  }
+  .i2-cal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  @media (max-width: 880px) {
+    .i2-cal-grid { grid-template-columns: 1fr; }
+  }
+  .i2-cal-panel-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #393939;
+    margin-bottom: 4px;
+  }
+  .i2-cal-panel-summary {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #161616;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .i2-cal-panel-summary .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .i2-cal-panel-summary .swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+  }
+  .i2-cal-panel-summary .swatch.day   { background: #dc2626; border: 1px solid #7f1d1d; }
+  .i2-cal-panel-summary .swatch.night { background: #fff;    border: 1px solid #c6c6c6; position: relative; }
+  .i2-cal-panel-summary .swatch.night::after {
+    content: '';
+    position: absolute;
+    right: 1px; bottom: 1px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #3b82f6;
+  }
+  .i2-cal-panel-summary .swatch.night-solid { background: #3b82f6; border: 1px solid #1d4ed8; }
+  .i2-cal-panel-summary .num { font-weight: 600; color: #161616; }
+
+  /* Split mode: 4 panels in two rows. Combined: 2 panels side-by-side. */
+  .i2-cal-grid.combined {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  .i2-cal-grid.split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  @media (max-width: 880px) {
+    .i2-cal-grid.combined,
+    .i2-cal-grid.split { grid-template-columns: 1fr; }
+  }
+
+  /* Night-only cell variant for split view. */
+  .i2-cal-cell.night-solid {
+    background: #3b82f6;
+    border-color: #1d4ed8;
+  }
+  .i2-cal-cell.night-solid.med  { background: #2563eb; }
+  .i2-cal-cell.night-solid.high { background: #1d4ed8; }
+  .i2-cal-months {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 520px) {
+    .i2-cal-months { grid-template-columns: repeat(2, 1fr); }
+  }
+  .i2-cal-month {
+    border: 1px solid #ececec;
+    padding: 6px;
+    background: #fafafa;
+    border-radius: 2px;
+  }
+  .i2-cal-month-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #161616;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .i2-cal-cells {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .i2-cal-cell {
+    aspect-ratio: 1 / 1;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 1px;
+    position: relative;
+  }
+  .i2-cal-cell.hot {
+    background: #dc2626;
+    border-color: #7f1d1d;
+  }
+  .i2-cal-cell.hot.med  { background: #b91c1c; }
+  .i2-cal-cell.hot.high { background: #7f1d1d; }
+  .i2-cal-cell.night::after {
+    content: '';
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #3b82f6;
+  }
+  .i2-cal-cell.placeholder {
+    background: transparent;
+    border-color: transparent;
+  }
+  .i2-tlt {
+    position: absolute;
+    pointer-events: none;
+    background: #161616;
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 6px 8px;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity .12s;
+    white-space: nowrap;
+    z-index: 10;
   }
 
   .panel {
@@ -2053,14 +2311,14 @@
     overflow: visible;
   }
   .exp-panel .y-tick {
-    font-family: 'Poppins', sans-serif;
-    font-size: 11px;
-    fill: #525252;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    fill: #161616;
   }
   .exp-panel .x-tick {
-    font-family: 'Poppins', sans-serif;
-    font-size: 11px;
-    fill: #525252;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    fill: #161616;
   }
   .exp-panel .gridline {
     stroke: #e8e8e8;
@@ -2306,6 +2564,10 @@
           <input type="checkbox" id="altTrop20">
           Use T2M&nbsp;&gt;&nbsp;20&nbsp;°C in tropical-nights panel
         </label>
+        <label class="t2m-overlay-toggle">
+          <input type="checkbox" id="expFrom2015">
+          2015 onwards
+        </label>
       </div>
 
       <div id="expStatus" class="exp-status"></div>
@@ -2393,12 +2655,112 @@
           <span><span class="legend-dot" style="background:#a30b0b"></span>2024</span>
         </div>
       </div>
+
+      <!-- 4-panel monthly stacked timeline, 1950-2025 -->
+      <div class="i2-timeline" id="i2Timeline">
+        <h3 class="i2-timeline-title">
+          Days per year &middot; stacked by month
+          <span class="i2-timeline-sub" id="i2TimelineSub">Delhi &middot; 1950&ndash;2025</span>
+        </h3>
+        <p class="i2-timeline-lede">
+          Top row: <strong>hot days</strong> (any IST daytime hour above the day threshold).
+          Bottom row: <strong>tropical nights</strong> (any IST night hour above the night threshold).
+          Each year's bar stacks the contributing months bottom-up.
+        </p>
+
+        <div class="heatmap-controls i2-timeline-controls" style="margin-bottom: 14px;">
+          <div class="control-group">
+            <span class="control-label">City</span>
+            <div class="toggle-row" data-i2t-group="city">
+              <button class="active" data-value="delhi">Delhi</button>
+              <button data-value="mumbai">Mumbai</button>
+              <button data-value="chennai">Chennai</button>
+              <button data-value="ahmedabad">Ahmedabad</button>
+              <button data-value="bangalore">Bangalore</button>
+              <button data-value="guwahati">Guwahati</button>
+              <button data-value="ajmer">Ajmer</button>
+              <button data-value="shimla">Shimla</button>
+              <button data-value="darjeeling">Darjeeling</button>
+              <button data-value="ooty">Ooty</button>
+              <button data-value="kodai">Kodaikanal</button>
+              <button data-value="munnar">Munnar</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <span class="control-label">Day threshold (&deg;C)</span>
+            <input type="number" id="i2TDayThreshold" value="32" step="1" min="18" max="50"
+                   style="font-family:'IBM Plex Mono',monospace; font-size:13px; padding:5px 8px;
+                          border:1px solid #c6c6c6; background:#fff; width:78px;">
+          </div>
+          <div class="control-group">
+            <span class="control-label">Night threshold (&deg;C)</span>
+            <input type="number" id="i2TNightThreshold" value="25" step="1" min="18" max="50"
+                   style="font-family:'IBM Plex Mono',monospace; font-size:13px; padding:5px 8px;
+                          border:1px solid #c6c6c6; background:#fff; width:78px;">
+          </div>
+        </div>
+
+        <div class="i2-timeline-grid">
+          <div class="i2-tpanel">
+            <div class="i2-tpanel-title" data-i2t-title="hot_t2m">Hot days &middot; Actual (T2M)</div>
+            <svg class="i2-tchart" data-i2t="hot_t2m" viewBox="0 0 760 260" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+          <div class="i2-tpanel">
+            <div class="i2-tpanel-title" data-i2t-title="hot_utci">Hot days &middot; Feels-like (UTCI)</div>
+            <svg class="i2-tchart" data-i2t="hot_utci" viewBox="0 0 760 260" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+          <div class="i2-tpanel">
+            <div class="i2-tpanel-title" data-i2t-title="trop_t2m">Tropical nights &middot; Actual (T2M)</div>
+            <svg class="i2-tchart" data-i2t="trop_t2m" viewBox="0 0 760 260" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+          <div class="i2-tpanel">
+            <div class="i2-tpanel-title" data-i2t-title="trop_utci">Tropical nights &middot; Feels-like (UTCI)</div>
+            <svg class="i2-tchart" data-i2t="trop_utci" viewBox="0 0 760 260" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+        </div>
+
+        <div class="i2-timeline-legend" id="i2TimelineLegend"></div>
+
+        <!-- Calendar view (collapsed by default) -->
+        <div class="i2-cal-wrap" id="i2CalWrap">
+          <button type="button" class="i2-cal-toggle" id="i2CalToggle" aria-expanded="false">
+            <span class="i2-cal-toggle-icon">&#9656;</span>
+            Show calendar view
+          </button>
+          <div class="i2-cal-body" hidden>
+            <p class="i2-cal-help">
+              Each cell is one day of the selected year. In <em>combined</em> view, a cell glows
+              <span style="color:#dc2626; font-weight:600">red</span> when its daytime max passed
+              the day threshold, and shows a <span style="color:#3b82f6; font-weight:600">blue dot</span>
+              when the IST night starting on that day passed the night threshold.
+              In <em>split</em> view, days and nights live in separate panels.
+            </p>
+            <div class="heatmap-controls" style="margin-bottom: 12px;">
+              <div class="control-group">
+                <span class="control-label">Year</span>
+                <select id="i2CalYear" style="font-family:'IBM Plex Mono',monospace; font-size:13px; padding:5px 8px; border:1px solid #c6c6c6; background:#fff;"></select>
+              </div>
+              <div class="control-group">
+                <span class="control-label">View</span>
+                <div class="toggle-row" data-i2cal-group="view">
+                  <button class="active" data-value="combined">Combined</button>
+                  <button data-value="split">Split (days &middot; nights)</button>
+                </div>
+              </div>
+              <div class="control-group">
+                <span id="i2CalStatus" class="exp-status" style="margin:0; padding:0;"></span>
+              </div>
+            </div>
+            <div class="i2-cal-grid" id="i2CalGrid"></div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="insight" id="insight-03">
       <div class="insight-number">Insight 03</div>
       <h2>No. of hours too hot to step out at day, too hot to sleep at night</h2>
-      <p>The peak-month average day, hour by hour in IST, in 2000 and again in 2024. The solid line is air temperature (Actual); the dashed line is felt temperature (Feels-like). The dotted line marks the period threshold &mdash; daytime UTCI&nbsp;&gt;&nbsp;40&nbsp;°C (7:30&nbsp;AM&nbsp;&ndash;&nbsp;7:30&nbsp;PM) or tropical-night UTCI&nbsp;&gt;&nbsp;26&nbsp;°C (7:30&nbsp;PM&nbsp;&ndash;&nbsp;7:30&nbsp;AM). Counts below each chart show the hours that crossed the threshold.</p>
+      <p>The peak-month average day, hour by hour in IST, in 2000 and again in 2024. The solid line is air temperature (Actual); the dashed line is felt temperature (Feels-like). The dotted line marks the threshold you've set &mdash; daytime uses the <em>felt</em> (UTCI) value, tropical-night uses the <em>actual</em> air temperature (T2M). Counts below each chart show how many of the peak-month average hours crossed the line.</p>
 
       <div class="chart-block">
         <div class="exposure-controls" style="margin-bottom: 14px;">
@@ -2409,9 +2771,22 @@
           <div class="control-group">
             <span class="control-label">Period</span>
             <div class="toggle-row" data-i2-group="period">
-              <button class="active" data-value="day">Day · UTCI &gt; 40 °C (7:30 AM &ndash; 7:30 PM)</button>
-              <button data-value="night">Tropical Night · UTCI &gt; 26 °C (7:30 PM &ndash; 7:30 AM)</button>
+              <button class="active" data-value="day">Day · UTCI threshold (7:30 AM &ndash; 7:30 PM)</button>
+              <button data-value="night">Tropical Night · T2M threshold (7:30 PM &ndash; 7:30 AM)</button>
             </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">Day threshold (UTCI, &deg;C)</span>
+            <input type="number" id="i2DayThreshold" value="40" step="0.5" min="20" max="60"
+                   style="font-family:'IBM Plex Mono',monospace; font-size:13px; padding:5px 8px;
+                          border:1px solid #c6c6c6; background:#fff; width:78px;">
+          </div>
+          <div class="control-group">
+            <span class="control-label">Night threshold (T2M, &deg;C)</span>
+            <input type="number" id="i2NightThreshold" value="25" step="0.5" min="10" max="45"
+                   style="font-family:'IBM Plex Mono',monospace; font-size:13px; padding:5px 8px;
+                          border:1px solid #c6c6c6; background:#fff; width:78px;">
           </div>
         </div>
 
@@ -5310,6 +5685,7 @@
     let showT2m = true;
     let altExtreme40 = false;
     let altTrop20 = false;
+    let from2015 = false;
 
     const pillsEl = document.getElementById("expCityPills");
     const statusEl = document.getElementById("expStatus");
@@ -5379,8 +5755,10 @@
     function render(rows) {
       panelsEl.innerHTML = "";
       if (!rows.length) { setStatus("No data."); return; }
+      const view = from2015 ? rows.filter(r => r.year >= 2015) : rows;
+      if (!view.length) { setStatus("No data in selected range."); return; }
       const panels = buildPanelSpec();
-      panels.forEach(p => panelsEl.appendChild(buildPanel(p, rows)));
+      panels.forEach(p => panelsEl.appendChild(buildPanel(p, view)));
       panelsEl.appendChild(tooltipEl);
     }
 
@@ -5595,6 +5973,10 @@
       altTrop20 = e.target.checked;
       if (cache[currentCity]) render(cache[currentCity]);
     });
+    document.getElementById("expFrom2015").addEventListener("change", e => {
+      from2015 = e.target.checked;
+      if (cache[currentCity]) render(cache[currentCity]);
+    });
 
     exportBtn.addEventListener("click", () => {
       const rows = cache[currentCity];
@@ -5631,10 +6013,14 @@
       ahmedabad:"Ahmedabad", ajmer:"Ajmer", guwahati:"Guwahati",
       shimla:"Shimla", ooty:"Ooty", kodai:"Kodai", munnar:"Munnar", darjeeling:"Darjeeling"
     };
+    // Day uses the felt (UTCI) curve; tropical-night uses the actual (T2M)
+    // curve per the user's spec. Thresholds are mutable via the two inputs.
     const PERIOD = {
       day:   { threshold: 40, color: "#e85a4f", label: "too hot to step out",
+               metric: "utci", metricLabel: "UTCI",
                inWindow: h => h >= 8 && h < 20 },
-      night: { threshold: 26, color: "#3b6e9c", label: "too hot to sleep",
+      night: { threshold: 25, color: "#3b6e9c", label: "too hot to sleep",
+               metric: "t2m", metricLabel: "T2M",
                inWindow: h => h >= 20 || h < 8 },
     };
     // IST clock hour positions: 7:30 AM is "morning start"; the line in this
@@ -5758,8 +6144,8 @@
         lbl.setAttribute("x", M.left - 6); lbl.setAttribute("y", y(v) + 3);
         lbl.setAttribute("text-anchor", "end");
         lbl.setAttribute("font-family", "'IBM Plex Mono', monospace");
-        lbl.setAttribute("font-size", "10");
-        lbl.setAttribute("fill", "#8d8d8d");
+        lbl.setAttribute("font-size", "12");
+        lbl.setAttribute("fill", "#161616");
         lbl.textContent = v;
         svgNode.appendChild(lbl);
       });
@@ -5768,11 +6154,11 @@
       TICK_HOURS.forEach((p, i) => {
         const t = document.createElementNS(ns, "text");
         t.setAttribute("x", x(p));
-        t.setAttribute("y", H - M.bottom + 14);
+        t.setAttribute("y", H - M.bottom + 16);
         t.setAttribute("text-anchor", "middle");
         t.setAttribute("font-family", "'IBM Plex Mono', monospace");
-        t.setAttribute("font-size", "10");
-        t.setAttribute("fill", "#8d8d8d");
+        t.setAttribute("font-size", "12");
+        t.setAttribute("fill", "#161616");
         t.textContent = TICK_LABELS[i];
         svgNode.appendChild(t);
       });
@@ -5915,9 +6301,9 @@
     function updateTooHot(rows) {
       const cfg = PERIOD[period];
       ["2000","2024"].forEach(yr => {
-        const utciKey = `utci_${yr}`;
+        const valKey = `${cfg.metric}_${yr}`;  // utci_2000 for day, t2m_2000 for night, etc.
         const hot = rows.filter(r =>
-          cfg.inWindow(r.hour) && r[utciKey] != null && r[utciKey] > cfg.threshold
+          cfg.inWindow(r.hour) && r[valKey] != null && r[valKey] > cfg.threshold
         );
         const labelEl = document.getElementById(`i2TooHotLabel${yr}`);
         const countEl = document.getElementById(`i2TooHotCount${yr}`);
@@ -5927,8 +6313,8 @@
         countEl.innerHTML = `${hot.length}<span class="toohot-count-suffix">hour${hot.length===1?"":"s"}</span>`;
         if (hot.length === 0) {
           const emptyMsg = period === "day"
-            ? "no average daytime hours above 40 °C UTCI"
-            : "no average nighttime hours above 26 °C UTCI";
+            ? `no average daytime hours above ${cfg.threshold} °C ${cfg.metricLabel}`
+            : `no average nighttime hours above ${cfg.threshold} °C ${cfg.metricLabel}`;
           hoursEl.innerHTML = `<span class="toohot-empty">${emptyMsg}</span>`;
         } else {
           hoursEl.textContent = hot.map(r => fmtHourRange(r.hour)).join(" · ");
@@ -5945,6 +6331,21 @@
       const rec = cache[city];
       if (rec) drawAll(rec);
     });
+
+    // Threshold inputs — update PERIOD config live and redraw.
+    function wireThresholdInput(id, periodKey) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener("input", () => {
+        const v = parseFloat(el.value);
+        if (!Number.isFinite(v)) return;
+        PERIOD[periodKey].threshold = v;
+        const rec = cache[city];
+        if (rec) drawAll(rec);
+      });
+    }
+    wireThresholdInput("i2DayThreshold", "day");
+    wireThresholdInput("i2NightThreshold", "night");
 
     renderPills();
     selectCity(city);
@@ -5977,6 +6378,7 @@
     let city = 'delhi';
     let altExtreme40 = false;
     let altTrop20 = false;
+    let from2015 = false;
     const cache = {};
 
     const pillsHost = d3.select('#sumCityPills');
@@ -6051,13 +6453,14 @@
 
     function render(rows) {
       root.selectAll('.sum-panel').remove();
+      const view = from2015 ? rows.filter(r => r.year >= 2015) : rows;
 
       // LEFT — stacked
       const panelL = root.append('div').attr('class','sum-panel');
       panelL.append('div').attr('class','sum-panel-title').html(leftTitle());
       const svgL = panelL.append('svg').attr('viewBox','0 0 720 280').attr('preserveAspectRatio','xMidYMid meet');
       panelL.append('div').attr('class','sum-legend').html(leftLegend());
-      drawStacked(svgL, rows);
+      drawStacked(svgL, view);
 
       // RIGHT — tropical
       const panelR = root.append('div').attr('class','sum-panel');
@@ -6065,7 +6468,7 @@
       const svgR = panelR.append('svg').attr('viewBox','0 0 720 280').attr('preserveAspectRatio','xMidYMid meet');
       panelR.append('div').attr('class','sum-legend')
         .html(`<span><span class="sw" style="background:${BAND.trop}"></span>Tropical-night days</span>`);
-      drawSingle(svgR, rows);
+      drawSingle(svgR, view);
 
       tip.raise();
     }
@@ -6240,6 +6643,14 @@
       altTrop20 = e.target.checked;
       if (cache[city]) render(cache[city]);
     });
+    // The "2015 onwards" toggle is shared with the upper exposure charts.
+    const from2015El = document.getElementById('expFrom2015');
+    if (from2015El) {
+      from2015El.addEventListener('change', e => {
+        from2015 = e.target.checked;
+        if (cache[city]) render(cache[city]);
+      });
+    }
 
     renderPills();
     selectCity(city);
@@ -6406,6 +6817,521 @@
     }).catch(err => {
       console.error('Insight 02 monthly data load failed', err);
     });
+  })();
+
+  // ============ Insight 02 timeline: 4-panel month-stacked yearly bars ============
+  (function () {
+    const root = document.getElementById('i2Timeline');
+    if (!root) return;
+
+    const CITY_LABEL = {
+      delhi:'Delhi', mumbai:'Mumbai', chennai:'Chennai', bangalore:'Bangalore',
+      ahmedabad:'Ahmedabad', guwahati:'Guwahati', ajmer:'Ajmer',
+      shimla:'Shimla', darjeeling:'Darjeeling', ooty:'Ooty',
+      kodai:'Kodaikanal', munnar:'Munnar'
+    };
+    const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const MONTH_COLORS = [
+      '#1d4ed8','#3b82f6','#06b6d4','#10b981','#84cc16','#facc15',
+      '#fb923c','#dc2626','#7f1d1d','#c2410c','#7c3aed','#4338ca'
+    ];
+    const THRESH_MIN = 18, THRESH_MAX = 50;
+    function clampInt(v, lo, hi) {
+      v = Math.round(v);
+      if (!Number.isFinite(v)) return lo;
+      return Math.max(lo, Math.min(hi, v));
+    }
+
+    const subEl = document.getElementById('i2TimelineSub');
+    const legendEl = document.getElementById('i2TimelineLegend');
+    const cache = {};
+
+    const state = {
+      city: 'delhi',
+      dayThreshold: 32,
+      nightThreshold: 25,
+    };
+
+    legendEl.innerHTML = MONTH_NAMES.map((m, i) =>
+      `<span class="i2-legend-item" data-month="${i}"><span class="lswatch" style="background:${MONTH_COLORS[i]}"></span>${m}</span>`
+    ).join('');
+    legendEl.addEventListener('mouseover', e => {
+      const item = e.target.closest('.i2-legend-item');
+      if (!item) return;
+      const m = item.dataset.month;
+      root.querySelectorAll('.i2-tchart .month-seg').forEach(seg => {
+        seg.style.opacity = (seg.dataset.month === m) ? 1 : 0.15;
+      });
+    });
+    legendEl.addEventListener('mouseout', e => {
+      if (e.relatedTarget && legendEl.contains(e.relatedTarget)) return;
+      root.querySelectorAll('.i2-tchart .month-seg').forEach(seg => {
+        seg.style.opacity = '';
+      });
+    });
+
+    root.style.position = 'relative';
+    const tip = document.createElement('div');
+    tip.className = 'i2-tlt';
+    root.appendChild(tip);
+    function showTip(html, evt) {
+      const r = root.getBoundingClientRect();
+      tip.innerHTML = html;
+      tip.style.left = (evt.clientX - r.left + 12) + 'px';
+      tip.style.top  = (evt.clientY - r.top + 12)  + 'px';
+      tip.style.opacity = 1;
+    }
+    function hideTip() { tip.style.opacity = 0; }
+
+    function parseCSV(text) {
+      const lines = text.trim().split(/\r?\n/);
+      const header = lines.shift().split(',');
+      return { header, rows: lines.map(line => line.split(',').map(Number)) };
+    }
+
+    function loadCity(city) {
+      if (cache[city]) return Promise.resolve(cache[city]);
+      return fetch(`data/per-city/${city}-tropical-hot-1950-2025.csv`)
+        .then(r => r.ok ? r.text() : null)
+        .then(text => {
+          if (!text) return null;
+          const parsed = parseCSV(text);
+          // index columns once per file: { metricBase -> { threshold -> colIdx } }
+          const colIdx = {};
+          parsed.header.forEach((h, i) => {
+            const m = h.match(/^(hot_t2m|hot_utci|trop_t2m|trop_utci)_(\d+)$/);
+            if (m) {
+              const base = m[1], t = +m[2];
+              if (!colIdx[base]) colIdx[base] = {};
+              colIdx[base][t] = i;
+            }
+          });
+          parsed.yearCol  = parsed.header.indexOf('year');
+          parsed.monthCol = parsed.header.indexOf('month');
+          parsed.colIdx = colIdx;
+          cache[city] = parsed;
+          return parsed;
+        });
+    }
+
+    function metricThreshold(metric) {
+      // hot panels use the day threshold; trop panels use the night threshold.
+      return metric.startsWith('hot_') ? state.dayThreshold : state.nightThreshold;
+    }
+
+    // Pivot rows for a given metric+threshold into per-year month arrays.
+    function pivot(parsed, metric) {
+      const X = clampInt(metricThreshold(metric), THRESH_MIN, THRESH_MAX);
+      const ci = (parsed.colIdx[metric] || {})[X];
+      if (ci == null) return [];
+      const byYear = new Map();
+      parsed.rows.forEach(cols => {
+        const y = cols[parsed.yearCol];
+        const mo = cols[parsed.monthCol];
+        if (!Number.isFinite(y) || !Number.isFinite(mo)) return;
+        if (!byYear.has(y)) byYear.set(y, new Array(12).fill(0));
+        byYear.get(y)[mo - 1] = cols[ci] || 0;
+      });
+      return Array.from(byYear.entries())
+        .sort((a, b) => a[0] - b[0])
+        .map(([year, months]) => ({ year, months, total: months.reduce((a,b)=>a+b,0) }));
+    }
+
+    function metricLabelFor(metric) {
+      const X = clampInt(metricThreshold(metric), THRESH_MIN, THRESH_MAX);
+      switch (metric) {
+        case 'hot_t2m':   return `Hot days · Actual (T2M > ${X}°)`;
+        case 'hot_utci':  return `Hot days · Feels-like (UTCI > ${X}°)`;
+        case 'trop_t2m':  return `Tropical nights · Actual (T2M > ${X}°)`;
+        case 'trop_utci': return `Tropical nights · Feels-like (UTCI > ${X}°)`;
+        default:          return metric;
+      }
+    }
+
+    function drawPanel(svg, parsed, metric) {
+      const d3svg = d3.select(svg);
+      d3svg.selectAll('*').remove();
+      const W = 760, H = 260;
+      const M = { top: 12, right: 14, bottom: 32, left: 44 };
+      const innerW = W - M.left - M.right;
+      const innerH = H - M.top - M.bottom;
+
+      const data = pivot(parsed, metric);
+      if (!data.length) return;
+
+      const yMax = Math.max(10, Math.ceil(d3.max(data, d => d.total) / 10) * 10);
+
+      const x = d3.scaleBand()
+        .domain(data.map(d => d.year))
+        .range([0, innerW])
+        .paddingInner(0.12)
+        .paddingOuter(0.04);
+      const y = d3.scaleLinear()
+        .domain([0, yMax])
+        .range([innerH, 0]);
+
+      const g = d3svg.append('g').attr('transform', `translate(${M.left},${M.top})`);
+
+      g.append('g').selectAll('line')
+        .data(y.ticks(5)).enter().append('line')
+        .attr('class', 'gridline')
+        .attr('x1', 0).attr('x2', innerW)
+        .attr('y1', d => y(d)).attr('y2', d => y(d));
+
+      g.append('g').selectAll('text')
+        .data(y.ticks(5)).enter().append('text')
+        .attr('class', 'axis-tick')
+        .attr('x', -8).attr('y', d => y(d))
+        .attr('text-anchor', 'end').attr('dy', '0.32em')
+        .text(d => d);
+
+      const xTickYears = data
+        .map(d => d.year)
+        .filter(yr => yr % 10 === 0 || yr === data[0].year || yr === data[data.length - 1].year);
+      g.append('g').selectAll('text')
+        .data(xTickYears).enter().append('text')
+        .attr('class', 'axis-tick')
+        .attr('x', d => x(d) + x.bandwidth() / 2)
+        .attr('y', innerH + 18)
+        .attr('text-anchor', 'middle')
+        .text(d => d);
+
+      const yearGroups = g.append('g').selectAll('g.yr')
+        .data(data).enter().append('g')
+        .attr('class', 'yr')
+        .attr('transform', d => `translate(${x(d.year)},0)`);
+
+      const lbl = metricLabelFor(metric);
+      yearGroups.each(function (d) {
+        const grp = d3.select(this);
+        let cum = 0;
+        for (let m = 0; m < 12; m++) {
+          const v = d.months[m] || 0;
+          if (v <= 0) continue;
+          const yTop = y(cum + v);
+          grp.append('rect')
+            .attr('class', 'month-seg')
+            .attr('data-month', m)
+            .attr('x', 0)
+            .attr('y', yTop)
+            .attr('width', x.bandwidth())
+            .attr('height', y(cum) - y(cum + v))
+            .attr('fill', MONTH_COLORS[m])
+            .style('transition', 'opacity .15s')
+            .on('mouseenter', e => showTip(
+              `<div>${CITY_LABEL[state.city]} &middot; ${d.year}</div>` +
+              `<div>${MONTH_NAMES[m]}: ${v} day${v === 1 ? '' : 's'}</div>` +
+              `<div>Year total: ${d.total}</div>` +
+              `<div style="opacity:.7;margin-top:2px">${lbl}</div>`,
+              e
+            ))
+            .on('mousemove', e => showTip(tip.innerHTML, e))
+            .on('mouseleave', hideTip);
+          cum += v;
+        }
+      });
+    }
+
+    function renderAll(parsed) {
+      const years = parsed.rows.map(r => r[parsed.yearCol]).filter(Number.isFinite);
+      const yMin = Math.min(...years), yMax = Math.max(...years);
+      subEl.textContent = `${CITY_LABEL[state.city]} · ${yMin}–${yMax}`;
+      // Update titles to reflect current thresholds.
+      root.querySelectorAll('[data-i2t-title]').forEach(el => {
+        el.textContent = metricLabelFor(el.dataset.i2tTitle);
+      });
+      const panels = root.querySelectorAll('.i2-tchart');
+      panels.forEach(svg => drawPanel(svg, parsed, svg.dataset.i2t));
+    }
+
+    function rerender() {
+      const parsed = cache[state.city];
+      if (parsed) renderAll(parsed);
+      else loadCity(state.city).then(p => { if (p) renderAll(p); });
+      // Notify any siblings (calendar) of the current state.
+      document.dispatchEvent(new CustomEvent('i2-timeline-state', { detail: { ...state } }));
+    }
+
+    // Own city pills.
+    const cityToggle = root.querySelector('[data-i2t-group="city"]');
+    if (cityToggle) {
+      cityToggle.addEventListener('click', e => {
+        const btn = e.target.closest('button');
+        if (!btn || !btn.dataset.value) return;
+        cityToggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.city = btn.dataset.value;
+        rerender();
+      });
+    }
+
+    function wireInput(id, key) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', () => {
+        const v = parseFloat(el.value);
+        if (!Number.isFinite(v)) return;
+        state[key] = clampInt(v, THRESH_MIN, THRESH_MAX);
+        rerender();
+      });
+    }
+    wireInput('i2TDayThreshold', 'dayThreshold');
+    wireInput('i2TNightThreshold', 'nightThreshold');
+
+    rerender();
+  })();
+
+  // ============ Insight 02 calendar view — collapsible, day/night flags per cell ============
+  (function () {
+    const wrap = document.getElementById('i2CalWrap');
+    if (!wrap) return;
+    const toggleBtn = document.getElementById('i2CalToggle');
+    const body = wrap.querySelector('.i2-cal-body');
+    const yearSel = document.getElementById('i2CalYear');
+    const statusEl = document.getElementById('i2CalStatus');
+    const gridEl  = document.getElementById('i2CalGrid');
+    const viewToggle = wrap.querySelector('[data-i2cal-group="view"]');
+
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const IST_OFFSET_HOURS = 5.5;
+
+    // Build the year dropdown 1950..2025.
+    for (let y = 2025; y >= 1950; y--) {
+      const opt = document.createElement('option');
+      opt.value = String(y); opt.textContent = String(y);
+      yearSel.appendChild(opt);
+    }
+    yearSel.value = '2024';
+
+    // Per-city + year cache of computed { dayMax: Map(YYYY-MM-DD -> {t2m, utci}),
+    //                                      nightMax: Map(YYYY-MM-DD -> {t2m, utci}) }
+    const cache = {};
+    function cacheKey(city, year) { return `${city}-${year}`; }
+
+    const state = { city: 'delhi', dayThreshold: 32, nightThreshold: 25, year: 2024, view: 'combined' };
+
+    if (viewToggle) {
+      viewToggle.addEventListener('click', e => {
+        const btn = e.target.closest('button');
+        if (!btn || !btn.dataset.value) return;
+        viewToggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.view = btn.dataset.value;
+        renderIfReady();
+      });
+    }
+
+    // Sync with the timeline's state.
+    document.addEventListener('i2-timeline-state', e => {
+      Object.assign(state, e.detail);
+      if (toggleBtn.getAttribute('aria-expanded') === 'true') renderIfReady();
+    });
+
+    toggleBtn.addEventListener('click', () => {
+      const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', String(!expanded));
+      body.hidden = expanded;
+      toggleBtn.firstElementChild.nextSibling.textContent =
+        expanded ? ' Show calendar view' : ' Hide calendar view';
+      if (!expanded) renderIfReady();
+    });
+
+    yearSel.addEventListener('change', () => {
+      state.year = +yearSel.value;
+      renderIfReady();
+    });
+
+    function setStatus(msg) { statusEl.textContent = msg || ''; }
+
+    async function loadCityYear(city, year) {
+      const key = cacheKey(city, year);
+      if (cache[key]) return cache[key];
+      setStatus(`Loading ${city} ${year}…`);
+      try {
+        const resp = await fetch(`data/calendar-per-city-year/${city}-${year}.csv`);
+        if (!resp.ok) {
+          cache[key] = null;
+          setStatus(`Calendar data missing for ${city} ${year}.`);
+          return null;
+        }
+        const text = await resp.text();
+        const dayMax = new Map();
+        const nightMax = new Map();
+        const lines = text.split(/\r?\n/);
+        // header: date,day_t2m,day_utci,night_t2m,night_utci
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i];
+          if (!line) continue;
+          const [date, dt, du, nt, nu] = line.split(',');
+          if (!date) continue;
+          if (dt !== '' || du !== '') {
+            dayMax.set(date, {
+              t2m:  dt !== '' ? +dt : null,
+              utci: du !== '' ? +du : null,
+            });
+          }
+          if (nt !== '' || nu !== '') {
+            nightMax.set(date, {
+              t2m:  nt !== '' ? +nt : null,
+              utci: nu !== '' ? +nu : null,
+            });
+          }
+        }
+        cache[key] = { dayMax, nightMax };
+        setStatus('');
+        return cache[key];
+      } catch (err) {
+        cache[key] = null;
+        setStatus(`Load failed for ${city} ${year}.`);
+        return null;
+      }
+    }
+
+    // mode: 'combined' | 'day-only' | 'night-only'
+    function buildMonthGrid(year, month0, dayMax, nightMax, metric, dayThr, nightThr, mode) {
+      const wrap = document.createElement('div');
+      wrap.className = 'i2-cal-month';
+      const name = document.createElement('div');
+      name.className = 'i2-cal-month-name';
+      name.textContent = MONTHS[month0];
+      wrap.appendChild(name);
+      const grid = document.createElement('div');
+      grid.className = 'i2-cal-cells';
+
+      const firstDay = new Date(Date.UTC(year, month0, 1));
+      const startDow = firstDay.getUTCDay();
+      const daysInMonth = new Date(Date.UTC(year, month0 + 1, 0)).getUTCDate();
+      for (let i = 0; i < startDow; i++) {
+        const ph = document.createElement('div');
+        ph.className = 'i2-cal-cell placeholder';
+        grid.appendChild(ph);
+      }
+      for (let d = 1; d <= daysInMonth; d++) {
+        const k = `${year}-${String(month0+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const cell = document.createElement('div');
+        cell.className = 'i2-cal-cell';
+        const dm = dayMax.get(k);
+        const nm = nightMax.get(k);
+        const dayVal   = dm ? dm[metric] : null;
+        const nightVal = nm ? nm[metric] : null;
+        const dayHot   = dayVal   != null && dayVal   > dayThr;
+        const nightHot = nightVal != null && nightVal > nightThr;
+
+        if (mode === 'combined') {
+          if (dayHot) {
+            cell.classList.add('hot');
+            if (dayVal > dayThr + 6) cell.classList.add('high');
+            else if (dayVal > dayThr + 3) cell.classList.add('med');
+          }
+          if (nightHot) cell.classList.add('night');
+        } else if (mode === 'day-only') {
+          if (dayHot) {
+            cell.classList.add('hot');
+            if (dayVal > dayThr + 6) cell.classList.add('high');
+            else if (dayVal > dayThr + 3) cell.classList.add('med');
+          }
+        } else if (mode === 'night-only') {
+          if (nightHot) {
+            cell.classList.add('night-solid');
+            if (nightVal > nightThr + 4) cell.classList.add('high');
+            else if (nightVal > nightThr + 2) cell.classList.add('med');
+          }
+        }
+
+        const parts = [];
+        if (dayVal != null) parts.push(`day max ${dayVal.toFixed(1)}°`);
+        if (nightVal != null) parts.push(`night max ${nightVal.toFixed(1)}°`);
+        cell.title = `${k}` + (parts.length ? ` — ${parts.join(', ')}` : '');
+        grid.appendChild(cell);
+      }
+      wrap.appendChild(grid);
+      return wrap;
+    }
+
+    function countHot(map, metric, threshold) {
+      let n = 0;
+      map.forEach(v => { if (v[metric] != null && v[metric] > threshold) n++; });
+      return n;
+    }
+
+    // Build one panel: title + summary + 12-month grid.
+    function buildPanel({ label, metric, dayMax, nightMax, mode, dayThr, nightThr }) {
+      const panel = document.createElement('div');
+      panel.className = 'i2-cal-panel';
+      const title = document.createElement('div');
+      title.className = 'i2-cal-panel-title';
+      title.textContent = label;
+      panel.appendChild(title);
+
+      const summary = document.createElement('div');
+      summary.className = 'i2-cal-panel-summary';
+      const dayCount   = countHot(dayMax,   metric, dayThr);
+      const nightCount = countHot(nightMax, metric, nightThr);
+      const showDay   = (mode === 'combined' || mode === 'day-only');
+      const showNight = (mode === 'combined' || mode === 'night-only');
+      const pills = [];
+      if (showDay) {
+        pills.push(`<span class="pill"><span class="swatch day"></span>
+          <span class="num">${dayCount}</span> day${dayCount === 1 ? '' : 's'}
+          &gt; ${dayThr}°</span>`);
+      }
+      if (showNight) {
+        const cls = mode === 'night-only' ? 'night-solid' : 'night';
+        pills.push(`<span class="pill"><span class="swatch ${cls}"></span>
+          <span class="num">${nightCount}</span> night${nightCount === 1 ? '' : 's'}
+          &gt; ${nightThr}°</span>`);
+      }
+      summary.innerHTML = pills.join('');
+      panel.appendChild(summary);
+
+      const months = document.createElement('div');
+      months.className = 'i2-cal-months';
+      for (let m = 0; m < 12; m++) {
+        months.appendChild(
+          buildMonthGrid(state.year, m, dayMax, nightMax, metric, dayThr, nightThr, mode)
+        );
+      }
+      panel.appendChild(months);
+      return panel;
+    }
+
+    async function renderIfReady() {
+      if (toggleBtn.getAttribute('aria-expanded') !== 'true') return;
+      const rec = await loadCityYear(state.city, state.year);
+      gridEl.className = 'i2-cal-grid ' + state.view;
+      gridEl.innerHTML = '';
+      if (!rec) return;
+      const { dayMax, nightMax } = rec;
+      const dayThr = state.dayThreshold, nightThr = state.nightThreshold;
+      if (state.view === 'combined') {
+        gridEl.appendChild(buildPanel({
+          label: 'Actual · T2M', metric: 't2m',
+          dayMax, nightMax, mode: 'combined', dayThr, nightThr,
+        }));
+        gridEl.appendChild(buildPanel({
+          label: 'Feels-like · UTCI', metric: 'utci',
+          dayMax, nightMax, mode: 'combined', dayThr, nightThr,
+        }));
+      } else {
+        // split — two rows: top = T2M day | UTCI day, bottom = T2M night | UTCI night
+        gridEl.appendChild(buildPanel({
+          label: 'Actual · T2M — extreme days', metric: 't2m',
+          dayMax, nightMax, mode: 'day-only', dayThr, nightThr,
+        }));
+        gridEl.appendChild(buildPanel({
+          label: 'Feels-like · UTCI — extreme days', metric: 'utci',
+          dayMax, nightMax, mode: 'day-only', dayThr, nightThr,
+        }));
+        gridEl.appendChild(buildPanel({
+          label: 'Actual · T2M — tropical nights', metric: 't2m',
+          dayMax, nightMax, mode: 'night-only', dayThr, nightThr,
+        }));
+        gridEl.appendChild(buildPanel({
+          label: 'Feels-like · UTCI — tropical nights', metric: 'utci',
+          dayMax, nightMax, mode: 'night-only', dayThr, nightThr,
+        }));
+      }
+    }
   })();
 
   // ============ Insight 05: city skyline — heat-stress bands across 12 cities, 2024 ============
