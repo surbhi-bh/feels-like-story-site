@@ -8270,7 +8270,10 @@ Headers:
     }
 
     const subEl = document.getElementById('i2TimelineSub');
-    const legendEl = document.getElementById('i2TimelineLegend');
+    // Insight 1 hosts the original legend; Insight 2 is a deep-clone of the
+    // timeline, so a second .i2-timeline-legend exists in the DOM with a
+    // suffixed id. Populate and wire hover on every legend container.
+    const legendEls = Array.from(document.querySelectorAll('.i2-timeline-legend'));
     const cache = {};
 
     // City-specific defaults — mirror the methodology table.
@@ -8295,21 +8298,28 @@ Headers:
       nightThreshold: defaults0.night,
     };
 
-    legendEl.innerHTML = MONTH_NAMES.map((m, i) =>
+    const legendHTML = MONTH_NAMES.map((m, i) =>
       `<span class="i2-legend-item" data-month="${i}"><span class="lswatch" style="background:${MONTH_COLORS[i]}"></span>${m}</span>`
     ).join('');
-    legendEl.addEventListener('mouseover', e => {
-      const item = e.target.closest('.i2-legend-item');
-      if (!item) return;
-      const m = item.dataset.month;
-      document.querySelectorAll('.i2-tchart .month-seg').forEach(seg => {
-        seg.style.opacity = (seg.dataset.month === m) ? 1 : 0.15;
+    legendEls.forEach(legendEl => {
+      legendEl.innerHTML = legendHTML;
+      legendEl.addEventListener('mouseover', e => {
+        const item = e.target.closest('.i2-legend-item');
+        if (!item) return;
+        const m = item.dataset.month;
+        // Only dim segments inside the timeline that owns this legend, so
+        // hovering Insight 2's legend doesn't affect Insight 1 and vice versa.
+        const scope = legendEl.closest('.i2-timeline') || document;
+        scope.querySelectorAll('.i2-tchart .month-seg').forEach(seg => {
+          seg.style.opacity = (seg.dataset.month === m) ? 1 : 0.15;
+        });
       });
-    });
-    legendEl.addEventListener('mouseout', e => {
-      if (e.relatedTarget && legendEl.contains(e.relatedTarget)) return;
-      document.querySelectorAll('.i2-tchart .month-seg').forEach(seg => {
-        seg.style.opacity = '';
+      legendEl.addEventListener('mouseout', e => {
+        if (e.relatedTarget && legendEl.contains(e.relatedTarget)) return;
+        const scope = legendEl.closest('.i2-timeline') || document;
+        scope.querySelectorAll('.i2-tchart .month-seg').forEach(seg => {
+          seg.style.opacity = '';
+        });
       });
     });
 
